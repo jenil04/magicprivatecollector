@@ -41,6 +41,7 @@ export default function Index() {
 
   useEffect(() => {
     function handleNewAccounts(newAccounts: any) {
+     
       setAccounts(newAccounts);
     }
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
@@ -59,7 +60,10 @@ export default function Index() {
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
-        .then((newAccounts: any) => setAccounts(newAccounts));
+        .then((newAccounts: any) => {
+          
+          setAccounts(newAccounts);
+        })
     } else {
       if (onboarding.current) {
         onboarding.current.startOnboarding();
@@ -70,16 +74,19 @@ export default function Index() {
 
   return (
     <div className="bg-white">
-      <div className="bg-gray-900">
+      
         <main>
-          <p className="text-white">Hello World!</p>
+          <p>Hello World!</p>
 
-          <button disabled={isDisabled} onClick={onClick}>
-            {buttonText}
+          <button  disabled={isDisabled} onClick={onClick}>
+           <p> {buttonText}</p>
           </button>
+
+          <p>Connected Address:</p>
+          <p>{accounts[0]}</p>
         </main>
 
       </div>
-    </div>
+
   )
 }
