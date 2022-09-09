@@ -47,8 +47,9 @@ export default function Index() {
     async function handleNewAccounts(newAccounts: any) {
 
 
-      const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
-      console.log(chainId);
+      // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
+      // console.log(chainId);
+      
 
       const url = 'https://deep-index.moralis.io/api/v2/0xea33CCCd251792a8eb25674009922F4F8c5aBCf6/nft?chain=eth&format=decimal';
       const options = { method: 'GET', headers: { Accept: 'application/json', 'X-API-Key': 'h9U7pEVDckfIrOATb5iUnzCuSekKSkpTHqSdrl2ST5WVuN02PI3zA7oVbwtSmPMP' } };
