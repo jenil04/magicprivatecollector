@@ -14,11 +14,14 @@ const NFTGallery = (props: any) => {
         >
           <div className="aspect-w-3 aspect-h-4 bg-gray-200 group-hover:opacity-75 sm:aspect-none sm:h-96">
             <a href="">
-            <img
-              src={nft.metadataObj.image}
-              alt={nft.metadataObj.name}
-              className="h-full w-full object-cover object-center sm:h-full sm:w-full"
-            />
+              <Image
+                src={nft.metadataObj.image}
+                alt={nft.metadataObj.name}
+                className="h-full w-full object-fill object-center sm:h-full sm:w-full"
+                layout='responsive'
+                height={100}
+                width={100}
+              />
             </a>
           </div>
           <div className="flex flex-1 flex-col space-y-2 p-4">
