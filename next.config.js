@@ -15,7 +15,7 @@ module.exports = {
 
 
 // @TODO 
-// This is the more useful implementation but I believe we are a version behind.
+// This is the more useful implementation as it takes wildcards and is more global but I believe we are a version behind or something
 // module.exports = {
 //   reactStrictMode: true,
 //   images: {
