@@ -1,6 +1,16 @@
 module.exports = {
   reactStrictMode: true,
   images: {
-    domains: ['storage.googleapis.com'],
+    dangerouslyAllowSVG: true, //@TODO we need to check on this
+    remotePatterns: [
+      {
+        protocol: 'https',
+        hostname: '*'
+      },
+      {
+        protocol: 'http',
+        hostname: '*'
+      },
+    ],
   },
 }
