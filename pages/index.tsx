@@ -3,6 +3,10 @@ import { MetaMaskInpageProvider } from "@metamask/providers";
 import { useState, useEffect, useRef } from 'react';
 import { ethers } from "ethers";
 
+import CustomHeader from "../components/CustomHeader";
+import FooterMWT from "../components/FooterMWT";
+import NFTGallery from '../components/NFTGallery';
+
 // polygon quicknode
 const provider = new ethers.providers.JsonRpcProvider('https://multi-necessary-morning.matic.quiknode.pro/9cebc8e52d41fb7a7cf25167b7f92f740a892623/');
 
@@ -44,41 +48,40 @@ export default function Index() {
   useEffect(() => {
     async function handleNewAccounts(newAccounts: any) {
 
-      
-      const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
-      console.log(chainId);
+
+      // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
+      // console.log(chainId);
+
 
       const url = 'https://deep-index.moralis.io/api/v2/0xea33CCCd251792a8eb25674009922F4F8c5aBCf6/nft?chain=eth&format=decimal';
-const options = {method: 'GET', headers: {Accept: 'application/json', 'X-API-Key': 'h9U7pEVDckfIrOATb5iUnzCuSekKSkpTHqSdrl2ST5WVuN02PI3zA7oVbwtSmPMP'}};
+      const options = { method: 'GET', headers: { Accept: 'application/json', 'X-API-Key': 'h9U7pEVDckfIrOATb5iUnzCuSekKSkpTHqSdrl2ST5WVuN02PI3zA7oVbwtSmPMP' } };
 
-fetch(url, options)
-  .then(res => res.json())
-  .then(json => {
-    
-    const nftArray = [] as Array<any>;
-    let obj = {} as any;
+      fetch(url, options)
+        .then(res => res.json())
+        .then(json => {
 
-    console.log(json);
+          const nftArray = [] as Array<any>;
+          let obj = {} as any;
 
-    for (let index = 0; index < json.result.length; index++) {
-      obj = JSON.parse(json.result[index].metadata);
+          console.log(json);
 
-      if(obj.image && obj.image.includes('ipfs://')) {
-        obj.image = obj.image.replace('ipfs://','https://ipfs.io/ipfs/');
-      }
-      if(obj.image_url) {
-        obj.image = obj.image_url;
-      }
-      nftArray.push({...json.result[index], metadataObj:obj});
+          for (let index = 0; index < json.result.length; index++) {
+            obj = JSON.parse(json.result[index].metadata);
 
-    }
-    console.log(nftArray);
-    setNFTs(nftArray);
-  })
-  .catch(err => console.error('error:' + err));
+            if (obj.image && obj.image.includes('ipfs://')) {
+              obj.image = obj.image.replace('ipfs://', 'https://ipfs.io/ipfs/');
+            }
+            if (obj.image_url) {
+              obj.image = obj.image_url;
+            }
+            nftArray.push({ ...json.result[index], metadataObj: obj });
 
+          }
+          console.log(nftArray);
+          setNFTs(nftArray);
+        })
+        .catch(err => console.error('error:' + err));
 
-    
       setAccounts(newAccounts);
     }
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
@@ -98,7 +101,7 @@ fetch(url, options)
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then((newAccounts: any) => {
-          
+
           setAccounts(newAccounts);
         })
     } else {
@@ -110,30 +113,29 @@ fetch(url, options)
 
 
   return (
-    <div className="bg-white">
-      
-        <main>
-          <p>Hello World!</p>
+    <div className="bg-gray-900">
+      {/* Section: Header w/ Nav */}
+      <CustomHeader />
+      <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8">
+        <h1 className="text-4xl text-white font-bold pb-4">
+          <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
+        </h1>
+        <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
+          <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-50">{buttonText}</p>
+        </button>
+        <h2 className="text-xl font-semibold text-white pb-4">Connected Address: <span>{accounts[0]}</span></h2>
+        <button className="rounded-md shadow pb-4">
+        <p className="inline-flex items-center justify-center px-5 py-3 border border-gray-500 text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">
+          Mint your private NFT
+          </p>
+        </button>
 
-          <button  disabled={isDisabled} onClick={onClick}>
-           <p> {buttonText}</p>
-          </button>
-
-          <p>Connected Address:</p>
-          <p>{accounts[0]}</p>
-<ul>
-          {nfts.map((nft: any, index) => (
-            <li key={index} className="pt-8">
-              <p>{index}</p>
-            <p>{nft.metadataObj.image}</p>
-              <img src={nft.metadataObj && nft.metadataObj.image ? nft.metadataObj.image : ''} />
-              
-              </li>
-))}
-</ul>
-        </main>
-
-      </div>
+        <NFTGallery nfts={nfts} />
+        
+      </main>
+      {/* Section: Footer */}
+      <FooterMWT />
+    </div>
 
   )
 }
