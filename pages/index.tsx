@@ -3,6 +3,8 @@ import { MetaMaskInpageProvider } from "@metamask/providers";
 import { useState, useEffect, useRef } from 'react';
 import { ethers } from "ethers";
 
+import CustomHeader from "../components/CustomHeader";
+import FooterMWT from "../components/FooterMWT";
 import NFTGallery from '../components/NFTGallery';
 
 // polygon quicknode
@@ -47,8 +49,9 @@ export default function Index() {
     async function handleNewAccounts(newAccounts: any) {
 
 
-      const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
-      console.log(chainId);
+      // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
+      // console.log(chainId);
+
 
       const url = 'https://deep-index.moralis.io/api/v2/0xea33CCCd251792a8eb25674009922F4F8c5aBCf6/nft?chain=eth&format=decimal';
       const options = { method: 'GET', headers: { Accept: 'application/json', 'X-API-Key': 'h9U7pEVDckfIrOATb5iUnzCuSekKSkpTHqSdrl2ST5WVuN02PI3zA7oVbwtSmPMP' } };
@@ -110,16 +113,28 @@ export default function Index() {
 
 
   return (
-    <div className="bg-white">
-
-      <main className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
+    <div className="bg-gray-900">
+      {/* Section: Header w/ Nav */}
+      <CustomHeader />
+      <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8">
+        <h1 className="text-4xl text-white font-bold pb-4">
+          <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
+        </h1>
         <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
-          <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50">{buttonText}</p>
+          <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-50">{buttonText}</p>
         </button>
-        <h2 className="text-xl font-semibold">Connected Address: <span>{accounts[0]}</span></h2>
-        <NFTGallery nfts={nfts} />
-      </main>
+        <h2 className="text-xl font-semibold text-white pb-4">Connected Address: <span>{accounts[0]}</span></h2>
+        <button className="rounded-md shadow pb-4">
+        <p className="inline-flex items-center justify-center px-5 py-3 border border-gray-500 text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">
+          Mint your private NFT
+          </p>
+        </button>
 
+        <NFTGallery nfts={nfts} />
+        
+      </main>
+      {/* Section: Footer */}
+      <FooterMWT />
     </div>
 
   )
