@@ -121,11 +121,13 @@ export default function Index() {
           <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
         </h1>
         <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
-          <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-50">{buttonText}</p>
+          <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{buttonText}</p>
         </button>
-        <h2 className="text-xl font-semibold text-white pb-4">Connected Address: <span>{accounts[0]}</span></h2>
+        <h2 className={isDisabled ? "text-xl font-semibold text-white pb-4" : "text-xl font-semibold text-white pb-4 hidden"}>
+          Connected Address: <span>{accounts[0]}</span>
+        </h2>
         <button className="rounded-md shadow pb-4">
-        <p className="inline-flex items-center justify-center px-5 py-3 border border-gray-500 text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">
+        <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">
           Mint your private NFT
           </p>
         </button>
