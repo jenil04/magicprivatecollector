@@ -38,8 +38,4 @@ yarn-error.log*
 # vercel
 .vercel
 
-# for now
-pages/api
-pages/loginbase.tsx
-pages/private.tsx
 

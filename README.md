@@ -1,5 +1,13 @@
 # magicprivatecollector
 
+# Configure image upload
+Make sure to create this file on your local:
+.env.local
+and put these variables in:
+S3_UPLOAD_KEY=AAAAAAAAAAAAAAAAAAAA
+S3_UPLOAD_SECRET=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
+S3_UPLOAD_BUCKET=name-of-s3-bucket
+S3_UPLOAD_REGION=bucket-region-us-east-1
 
 ## Smart contract folders
 We would prefer to move all the smart contract development files to it's own repository but for this hackathon we will keep it all in here.
