@@ -6,6 +6,8 @@ import { ethers } from "ethers";
 import CustomHeader from "../components/CustomHeader";
 import FooterMWT from "../components/FooterMWT";
 import NFTGallery from '../components/NFTGallery';
+import Button from '../components/Button';
+
 
 // polygon quicknode
 const provider = new ethers.providers.JsonRpcProvider('https://multi-necessary-morning.matic.quiknode.pro/9cebc8e52d41fb7a7cf25167b7f92f740a892623/');
@@ -131,6 +133,9 @@ export default function Index() {
           Mint your private NFT
           </p>
         </button>
+
+        {/* @TODO button component test         */}
+        <Button message={"THIS IS A TEST"} />
 
         <NFTGallery nfts={nfts} />
         
