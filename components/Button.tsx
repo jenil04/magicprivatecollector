@@ -1,4 +1,4 @@
-function Button({ message = "text here" }) {
+export default function Button({ message = "text here" }) {
   return (
     <button
       className="rounded-md shadow pb-4">
@@ -9,5 +9,3 @@ function Button({ message = "text here" }) {
     </button>
   )
 }
-
-export default Button;

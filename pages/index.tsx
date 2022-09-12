@@ -128,14 +128,8 @@ export default function Index() {
         <h2 className={isDisabled ? "text-xl font-semibold text-white pb-4" : "text-xl font-semibold text-white pb-4 hidden"}>
           Connected Address: <span>{accounts[0]}</span>
         </h2>
-        <button className="rounded-md shadow pb-4">
-        <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">
-          Mint your private NFT
-          </p>
-        </button>
-
-        {/* @TODO button component test         */}
-        <Button message={"THIS IS A TEST"} />
+        
+        <Button message={"Mint your private NFT"} />
 
         <NFTGallery nfts={nfts} />
         
