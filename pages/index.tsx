@@ -6,6 +6,8 @@ import { ethers } from "ethers";
 import CustomHeader from "../components/CustomHeader";
 import FooterMWT from "../components/FooterMWT";
 import NFTGallery from '../components/NFTGallery';
+import Button from '../components/Button';
+
 
 // polygon quicknode
 const provider = new ethers.providers.JsonRpcProvider('https://multi-necessary-morning.matic.quiknode.pro/9cebc8e52d41fb7a7cf25167b7f92f740a892623/');
@@ -113,29 +115,20 @@ export default function Index() {
 
 
   return (
-    <div className="bg-gray-900">
-      {/* Section: Header w/ Nav */}
-      <CustomHeader />
-      <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8">
-        <h1 className="text-4xl text-white font-bold pb-4">
-          <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
-        </h1>
-        <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
-          <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-900 hover:bg-gray-50">{buttonText}</p>
-        </button>
-        <h2 className="text-xl font-semibold text-white pb-4">Connected Address: <span>{accounts[0]}</span></h2>
-        <button className="rounded-md shadow pb-4">
-        <p className="inline-flex items-center justify-center px-5 py-3 border border-gray-500 text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">
-          Mint your private NFT
-          </p>
-        </button>
+    <>
+      <h1 className="text-4xl text-white font-bold pb-4">
+        <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
+      </h1>
+      <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
+        <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{buttonText}</p>
+      </button>
+      <h2 className={isDisabled ? "text-xl font-semibold text-white pb-4" : "text-xl font-semibold text-white pb-4 hidden"}>
+        Connected Address: <span>{accounts[0]}</span>
+      </h2>
 
-        <NFTGallery nfts={nfts} />
-        
-      </main>
-      {/* Section: Footer */}
-      <FooterMWT />
-    </div>
+      <Button message={"Mint your private NFT"} />
 
+      <NFTGallery nfts={nfts} />
+    </>
   )
 }
