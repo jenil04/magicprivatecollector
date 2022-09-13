@@ -33,9 +33,6 @@ const Mint = () => {
     }
 
     return (
-        <div className="bg-white">
-
-            <main className="mx-auto max-w-2xl py-16 px-4 sm:py-24 sm:px-6 lg:max-w-7xl lg:px-8">
 
                 <form onSubmit={handleSubmit}>
                     <label htmlFor='name'>
@@ -89,10 +86,6 @@ const Mint = () => {
                 </form>
 
 
-
-            </main>
-
-        </div>
 
     )
 }
