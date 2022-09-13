@@ -11,20 +11,20 @@ import Image from "next/image";
 
 const features = [
   {
-    name: "About",
-    href: "#about",
-    description: "About Magic Wizard Tech",
+    name: "Link Uno",
+    href: "#",
+    description: "Link Uno",
     icon: InformationCircleIcon,
   },
   {
-    name: "Contact",
-    href: "#contact",
-    description: "Contact Magic Wizard Tech",
+    name: "Link Dos",
+    href: "#",
+    description: "Link Dos",
     icon: AtSymbolIcon,
   }
 ];
 
-const CustomHeader = () => {
+export default function CustomHeader() {
   return (
     <Popover className="relative">
       <div className="max-w-7xl mx-auto px-6">
@@ -112,5 +112,3 @@ const CustomHeader = () => {
     </Popover>
   );
 };
-
-export default CustomHeader;

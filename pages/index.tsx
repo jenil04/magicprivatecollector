@@ -115,28 +115,20 @@ export default function Index() {
 
 
   return (
-    <div className="bg-gray-900">
-      {/* Section: Header w/ Nav */}
-      <CustomHeader />
-      <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8">
-        <h1 className="text-4xl text-white font-bold pb-4">
-          <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
-        </h1>
-        <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
-          <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{buttonText}</p>
-        </button>
-        <h2 className={isDisabled ? "text-xl font-semibold text-white pb-4" : "text-xl font-semibold text-white pb-4 hidden"}>
-          Connected Address: <span>{accounts[0]}</span>
-        </h2>
-        
-        <Button message={"Mint your private NFT"} />
+    <>
+      <h1 className="text-4xl text-white font-bold pb-4">
+        <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
+      </h1>
+      <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
+        <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{buttonText}</p>
+      </button>
+      <h2 className={isDisabled ? "text-xl font-semibold text-white pb-4" : "text-xl font-semibold text-white pb-4 hidden"}>
+        Connected Address: <span>{accounts[0]}</span>
+      </h2>
 
-        <NFTGallery nfts={nfts} />
-        
-      </main>
-      {/* Section: Footer */}
-      <FooterMWT />
-    </div>
+      <Button message={"Mint your private NFT"} />
 
+      <NFTGallery nfts={nfts} />
+    </>
   )
 }
