@@ -40,7 +40,8 @@ const features = [
   }
 ];
 
-export default function CustomHeader() {
+export default function CustomHeader(props: any) {
+  
   return (
     <Popover className="relative">
       <div className="max-w-7xl mx-auto px-6">
