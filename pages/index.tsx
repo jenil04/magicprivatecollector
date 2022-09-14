@@ -72,15 +72,17 @@ export default function Index(props: any) {
       <h1 className="text-4xl text-white font-bold pb-4">
         <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
       </h1>
-      <button onClick={props.connectWallet} className={props.isConnected ? "hidden" : "rounded-md shadow pr-5"}>
-        <p className="inline-flex items-center justify-center px-5 py-3 pr-5 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{props.isConnected ? "Connected" : "Connect"}</p>
-      </button>
-      <h2 className={props.isConnected ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white pb-4 hidden"}>
+      <div className='mb-4'>
+        <button onClick={props.connectWallet} className={props.isConnected ? "hidden" : "rounded-md shadow pr-5"}>
+          <p className="inline-flex items-center justify-center px-5 py-3 pr-5 border border-mwt text-base font-medium rounded-md text-white bg-gray-700 hover:bg-gray-500">{props.isConnected ? "Connected" : "Connect Wallet"}</p>
+        </button>
+        <Button buttonText={"Create Private NFTs"} />
+      </div>  
+
+      <h2 className={props.isConnected ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white mb-4 hidden"}>
         Connected Wallet Address: <span className="font-normal">{props.accounts[0]}</span>
       </h2>
-      <div className='mb-6'>
-        <Button buttonText={"Create Private NFTs"} />
-      </div>
+      
       
       <NFTGallery nfts={nfts} />
 
