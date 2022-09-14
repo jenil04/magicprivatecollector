@@ -19,8 +19,8 @@ declare global {
 export default function Index() {
 
   const [buttonText, setButtonText] = useState('Click here to install MetaMask!');
-  const [isDisabled, setDisabled] = useState(false);
-  const [accounts, setAccounts] = useState([]);
+  const [isConnected, setIsConnected] = useState(false);
+  const [accounts, setAccounts] = useState([] as Array<any>);
   const onboarding = useRef<MetaMaskOnboarding>();
 
   const [nfts, setNFTs] = useState([] as Array<any>);
@@ -34,21 +34,22 @@ export default function Index() {
 
   useEffect(() => {
     if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-      if (accounts.length > 0 && onboarding.current) {
+      if (accounts.length > 0 && accounts[0] != null && onboarding.current) {
+        
         setButtonText('Connected');
-        setDisabled(true);
+        setIsConnected(true);
         onboarding.current.stopOnboarding();
       } else {
+        
         setButtonText("Connect Wallet");
-        setDisabled(false);
+        setIsConnected(false);
       }
     }
   }, [accounts]);
 
-  useEffect(() => {
-    async function handleNewAccounts(newAccounts: any) {
 
-
+  async function handleNewAccounts(accounts: Array<any>) {
+    if (accounts[0]) {
       // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
       // console.log(chainId);
 
@@ -81,18 +82,16 @@ export default function Index() {
           setNFTs(nftArray);
         })
         .catch(err => console.error('error:' + err));
-
-      setAccounts(newAccounts);
     }
+
+  }
+
+  useEffect(() => {
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
-      const ethereum = window.ethereum;
-      ethereum
-        .request({ method: 'eth_requestAccounts' })
-        .then(handleNewAccounts);
-      ethereum.on('accountsChanged', handleNewAccounts);
-      return () => {
-        ethereum.removeListener('accountsChanged', handleNewAccounts);
-      };
+      const accounts = [window.ethereum.selectedAddress];
+      setAccounts(accounts);
+      handleNewAccounts(accounts);
+      setIsConnected(true);
     }
   }, []);
 
@@ -100,10 +99,14 @@ export default function Index() {
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
-        .then((newAccounts: any) => {
+        .then(async (newAccounts: any) => {
+
 
           setAccounts(newAccounts);
-        })
+          await handleNewAccounts(newAccounts);
+
+        });
+
     } else {
       if (onboarding.current) {
         onboarding.current.startOnboarding();
@@ -117,13 +120,13 @@ export default function Index() {
       <h1 className="text-4xl text-white font-bold pb-4">
         <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
       </h1>
-      <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "hidden" : "rounded-md shadow pr-5"}>
+      <button onClick={onClick} className={isConnected ? "hidden" : "rounded-md shadow pr-5"}>
         <p className="inline-flex items-center justify-center px-5 py-3 pr-5 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{buttonText}</p>
       </button>
-      <h2 className={isDisabled ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white pb-4 hidden"}>
+      <h2 className={isConnected ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white pb-4 hidden"}>
         Connected Wallet Address: <span className="font-normal">{accounts[0]}</span>
       </h2>
-      
+
       <Button buttonText={"Create Private NFTs"} />
       <NFTGallery nfts={nfts} />
 
@@ -139,7 +142,7 @@ export default function Index() {
       <p>
         MWT builds tools to democratize access to Blockchains and power the future of Web3. We are a team of engineers and product developers based in New York City dedicated to creating easy access for everyone to the Web3 ecosystem.
       </p>
-      
+
     </>
   )
 }
