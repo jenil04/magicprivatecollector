@@ -2,6 +2,10 @@ import Link from "next/link";
 import React from "react";
 import { Popover } from "@headlessui/react";
 import {
+  //WalletIcon, @TODO there are more and better icons in v2.0.0 (if we wish)
+  BriefcaseIcon, //Stand in for Wallet (until we decide to use "cash" or upgrade)
+  ShoppingBagIcon,
+  SparklesIcon,
   AtSymbolIcon,
   InformationCircleIcon,
   MenuIcon,
@@ -11,16 +15,28 @@ import Image from "next/image";
 
 const features = [
   {
-    name: "Link Uno",
+    name: "Connect Wallet",
+    href: "#", // @TODO need the link to pop the wallet hereS
+    description: "Connect Wallet",
+    icon: BriefcaseIcon,
+  },
+  {
+    name: "View Private Collection",
     href: "#",
-    description: "Link Uno",
+    description: "View Private Collection",
     icon: InformationCircleIcon,
   },
   {
-    name: "Link Dos",
+    name: "Buy Private NFTs",
     href: "#",
-    description: "Link Dos",
-    icon: AtSymbolIcon,
+    description: "Buy Private NFTs",
+    icon: ShoppingBagIcon,
+  },
+  {
+    name: "Create Private NFTs",
+    href: "#",
+    description: "Create Private NFTs",
+    icon: SparklesIcon,
   }
 ];
 

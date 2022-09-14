@@ -3,8 +3,6 @@ import { MetaMaskInpageProvider } from "@metamask/providers";
 import { useState, useEffect, useRef } from 'react';
 import { ethers } from "ethers";
 
-import CustomHeader from "../components/CustomHeader";
-import FooterMWT from "../components/FooterMWT";
 import NFTGallery from '../components/NFTGallery';
 import Button from '../components/Button';
 
@@ -41,7 +39,7 @@ export default function Index() {
         setDisabled(true);
         onboarding.current.stopOnboarding();
       } else {
-        setButtonText('Connect');
+        setButtonText('Connect Wallet');
         setDisabled(false);
       }
     }
@@ -122,12 +120,24 @@ export default function Index() {
       <button disabled={isDisabled} onClick={onClick} className={isDisabled ? "rounded-md shadow hidden" : "rounded-md shadow"}>
         <p className="inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{buttonText}</p>
       </button>
-      <h2 className={isDisabled ? "text-xl font-semibold text-white pb-4" : "text-xl font-semibold text-white pb-4 hidden"}>
-        Connected Address: <span>{accounts[0]}</span>
+      <h2 className={isDisabled ? "text-lg font-semibold text-white pb-4" : "text-xl font-semibold text-white pb-4 hidden"}>
+        Connected Address: <span className="font-medium">{accounts[0]}</span>
       </h2>
+      
+      <Button buttonText={"Create Your Private NFT"} />
 
-      <Button message={"Mint your private NFT"} />
-
+      <h3 className="text-lg text-mwt">
+        About Magic Wizard Collector
+      </h3>
+      <p>
+        Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempor velit dolor, non ornare eros posuere non. Pellentesque vitae sodales enim. Donec nec tellus lacinia, dapibus ligula id, tempor dui. Cras dapibus nisi at gravida venenatis. Sed augue ante, accumsan sit amet placerat quis, feugiat et diam. Praesent feugiat lorem dignissim imperdiet lacinia. Aliquam libero tortor, hendrerit nec dapibus quis, sollicitudin id eros.
+      </p>
+      <h3 className='text-lg text-mwt'>
+        About Magic Wizard Tech
+      </h3>
+      <p>
+        MWT builds tools to democratize access to Blockchains and power the future of Web3. We are a team of engineers and product developers based in New York City dedicated to creating easy access for everyone to the Web3 ecosystem.
+      </p>
       <NFTGallery nfts={nfts} />
     </>
   )
