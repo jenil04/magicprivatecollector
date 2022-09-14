@@ -32,62 +32,54 @@ const Mint = () => {
         event.preventDefault();
     }
 
-    return (
+  return (
+    <div>
+      <form onSubmit={handleSubmit}>
+        <label htmlFor='name'>
+          Name: </label>
+        <input
+          type="text" name="name" id="name"
+          value={name}
+          onChange={ev => setName(ev.target.value)}
+        />
 
-                <form onSubmit={handleSubmit}>
-                    <label htmlFor='name'>
-                        Name: </label>
-                    <input
-                        type="text" name="name" id="name"
-                        value={name}
-                        onChange={ev => setName(ev.target.value)} 
-                    />
+        <label htmlFor='description'>
+          Description: </label>
+        <input
+          type="text" name="description" id="description"
+          value={description}
+          onChange={ev => setDescription(ev.target.value)}
+        />
 
-                    <label htmlFor='description'>
-                        Description: </label>
-                    <input
-                        type="text" name="description" id="description"
-                        value={description}
-                        onChange={ev => setDescription(ev.target.value)} 
-                    />
+        <label htmlFor='image'>
+          Image: </label>
+        <input type="file" onChange={handleFileChange} />
 
-                    <label htmlFor='image'>
-                        Image: </label>
-                        <input type="file" onChange={handleFileChange} />
+        <label htmlFor='privateContentTitle'>
+          Private Content Title: </label>
+        <input
+          type="text" name="privateContentTitle" id="privateContentTitle"
+          value={privateContentTitle}
+          onChange={ev => setPrivateContentTitle(ev.target.value)}
+        />
 
+        <label htmlFor='privateContentDescription'>
+          Private Content Description: </label>
+        <input
+          type="text" name="privateContentDescription" id="privateContentDescription"
+          value={privateContentDescription}
+          onChange={ev => setPrivateContentDescription(ev.target.value)}
+        />
 
+        <label htmlFor='privateContentFile'>
+          privateContentFile: </label>
+        <input type="file" onChange={handlePrivateContentFile} />
 
+        <input type="submit" value="Submit" />
+      </form>
+    </div>
 
-                    <label htmlFor='privateContentTitle'>
-                       Private Content Title: </label>
-                    <input
-                        type="text" name="privateContentTitle" id="privateContentTitle"
-                        value={privateContentTitle}
-                        onChange={ev => setPrivateContentTitle(ev.target.value)} 
-                    />
-
-                    <label htmlFor='privateContentDescription'>
-                       Private Content Description: </label>
-                    <input
-                        type="text" name="privateContentDescription" id="privateContentDescription"
-                        value={privateContentDescription}
-                        onChange={ev => setPrivateContentDescription(ev.target.value)} 
-                    />
-
-                    <label htmlFor='privateContentFile'>
-                    privateContentFile: </label>
-                        <input type="file" onChange={handlePrivateContentFile} />
-
-
-                    
-
-                    <br /><br /><br />
-                    <input type="submit" value="Submit" />
-                </form>
-
-
-
-    )
+  )
 }
 
 export default Mint;
