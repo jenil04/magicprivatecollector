@@ -1,5 +1,4 @@
-import MetaMaskOnboarding from '@metamask/onboarding';
-import { MetaMaskInpageProvider } from "@metamask/providers";
+
 import { useState, useEffect, useRef } from 'react';
 import { ethers } from "ethers";
 
@@ -7,52 +6,29 @@ import NFTGallery from '../components/NFTGallery';
 import Button from '../components/Button';
 
 
+
 // polygon quicknode
 const provider = new ethers.providers.JsonRpcProvider('https://multi-necessary-morning.matic.quiknode.pro/9cebc8e52d41fb7a7cf25167b7f92f740a892623/');
 
-declare global {
-  interface Window {
-    ethereum?: MetaMaskInpageProvider
-  }
-}
 
-export default function Index() {
+export default function Index(props: any) {
 
-  const [buttonText, setButtonText] = useState('Click here to install MetaMask!');
-  const [isConnected, setIsConnected] = useState(false);
-  const [accounts, setAccounts] = useState([] as Array<any>);
-  const onboarding = useRef<MetaMaskOnboarding>();
-
+  console.log(props);
   const [nfts, setNFTs] = useState([] as Array<any>);
-
-
+  
   useEffect(() => {
-    if (!onboarding.current) {
-      onboarding.current = new MetaMaskOnboarding();
+    if (props && props.accounts && props.accounts.length > 0 && props.accounts[0] != null) {
+     handleNewAccounts(props.accounts);
     }
-  }, []);
-
-  useEffect(() => {
-    if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-      if (accounts.length > 0 && accounts[0] != null && onboarding.current) {
-        
-        setButtonText('Connected');
-        setIsConnected(true);
-        onboarding.current.stopOnboarding();
-      } else {
-        
-        setButtonText("Connect Wallet");
-        setIsConnected(false);
-      }
-    }
-  }, [accounts]);
-
+  });
 
   async function handleNewAccounts(accounts: Array<any>) {
-    if (accounts[0]) {
+    if (accounts && accounts.length && accounts[0]) {
       // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
       // console.log(chainId);
 
+
+      
 
       const url = 'https://deep-index.moralis.io/api/v2/0xea33CCCd251792a8eb25674009922F4F8c5aBCf6/nft?chain=eth&format=decimal';
       const options = { method: 'GET', headers: { Accept: 'application/json', 'X-API-Key': 'h9U7pEVDckfIrOATb5iUnzCuSekKSkpTHqSdrl2ST5WVuN02PI3zA7oVbwtSmPMP' } };
@@ -86,33 +62,9 @@ export default function Index() {
 
   }
 
-  useEffect(() => {
-    if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
-      const accounts = [window.ethereum.selectedAddress];
-      setAccounts(accounts);
-      handleNewAccounts(accounts);
-      setIsConnected(true);
-    }
-  }, []);
+  
 
-  const onClick = () => {
-    if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
-      window.ethereum
-        .request({ method: 'eth_requestAccounts' })
-        .then(async (newAccounts: any) => {
-
-
-          setAccounts(newAccounts);
-          await handleNewAccounts(newAccounts);
-
-        });
-
-    } else {
-      if (onboarding.current) {
-        onboarding.current.startOnboarding();
-      }
-    }
-  };
+  
 
 
   return (
@@ -120,11 +72,11 @@ export default function Index() {
       <h1 className="text-4xl text-white font-bold pb-4">
         <span>Magic Wizard Tech&apos;s</span> <span className="text-mwt">Magic Private Collector</span>
       </h1>
-      <button onClick={onClick} className={isConnected ? "hidden" : "rounded-md shadow pr-5"}>
-        <p className="inline-flex items-center justify-center px-5 py-3 pr-5 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{buttonText}</p>
+      <button onClick={props.connectWallet} className={props.isConnected ? "hidden" : "rounded-md shadow pr-5"}>
+        <p className="inline-flex items-center justify-center px-5 py-3 pr-5 border border-mwt text-base font-medium rounded-md text-white bg-gray-800 hover:bg-gray-600">{props.isConnected ? "Connected" : "Connect"}</p>
       </button>
-      <h2 className={isConnected ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white pb-4 hidden"}>
-        Connected Wallet Address: <span className="font-normal">{accounts[0]}</span>
+      <h2 className={props.isConnected ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white pb-4 hidden"}>
+        Connected Wallet Address: <span className="font-normal">{props.accounts[0]}</span>
       </h2>
 
       <Button buttonText={"Create Private NFTs"} />
