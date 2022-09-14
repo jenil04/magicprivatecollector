@@ -127,7 +127,7 @@ const Mint = () => {
               name="privateContentDescription"
               className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
               rows={3}
-              value={description}
+              value={privateContentDescription}
               onChange={ev => setPrivateContentDescription(ev.target.value)}
             />
           </div>
