@@ -10,7 +10,7 @@ export default function handler(req: any, res: any) {
         'private_content':
             {
                 'type': 'mov',
-                'url': 'https//magicprivatecollector.com/img/ramen.mov',
+                'url': 'https//magicprivatecollector.com/content/ramen.mov',
                 'title': 'Everything you ever wanted to see in a Tonkotsu Ramen and MORE!',
                 'description': 'Look at this beautiful bowl of soup in all it\'s glory. Aren\'t you getting hungry and excited? Call up your local ramen supplier now and get your fix!'
             },

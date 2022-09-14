@@ -7,7 +7,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 
 
 contract PrivateNFT is ERC1155Supply, Ownable {
-    string private _privateTokenURILocation;
+    // string private _privateTokenURILocation;
 
     constructor() ERC1155("https://magicprivatecollector.com/metadata/polygon/mpc/{id}.json") {}
 
@@ -25,17 +25,17 @@ contract PrivateNFT is ERC1155Supply, Ownable {
         _mintBatch(to, ids, amounts, data);
     }
 
-    // Emitted when the stored value changes
-    // event privateTokenURIChanged(string privateTokenURILocation);
+//     // Emitted when the stored value changes
+//     event privateTokenURIChanged(string privateTokenURILocation);
 
-    // Set a new metadata location in the contract
-    // function setPrivateTokenURI(string memory privateTokenURILocation) public onlyOwner{
-    //     _privateTokenURILocation = privateTokenURILocation;
-    //     emit privateTokenURIChanged(privateTokenURILocation);
-    // }
+//    // Set a new metadata location in the contract
+//     function setPrivateTokenURI(string memory privateTokenURILocation) public onlyOwner{
+//         _privateTokenURILocation = privateTokenURILocation;
+//         emit privateTokenURIChanged(privateTokenURILocation);
+//     }
 
-    // Reads the last stored string
-    // function privateTokenURI() public view returns (string memory) {
-    //     return _privateTokenURILocation;
-    // }
+//     // Reads the last stored string
+//     function privateTokenURI() public view returns (string memory) {
+//         return _privateTokenURILocation;
+//     }
 }
