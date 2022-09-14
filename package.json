@@ -11,7 +11,7 @@
   },
   "dependencies": {
     "@headlessui/react": "^1.4.1",
-    "@heroicons/react": "^1.0.4",
+    "@heroicons/react": "2.0.11",
     "@metamask/onboarding": "^1.0.1",
     "@metamask/providers": "^9.1.0",
     "aws-lambda": "^1.0.7",
