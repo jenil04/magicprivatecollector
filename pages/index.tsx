@@ -5,7 +5,6 @@ import { ethers } from "ethers";
 
 import NFTGallery from '../components/NFTGallery';
 import Button from '../components/Button';
-import { SparklesIcon } from '@heroicons/react/outline';
 
 
 // polygon quicknode
