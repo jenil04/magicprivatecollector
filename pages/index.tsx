@@ -78,8 +78,10 @@ export default function Index(props: any) {
       <h2 className={props.isConnected ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white pb-4 hidden"}>
         Connected Wallet Address: <span className="font-normal">{props.accounts[0]}</span>
       </h2>
-
-      <Button buttonText={"Create Private NFTs"} />
+      <div className='mb-6'>
+        <Button buttonText={"Create Private NFTs"} />
+      </div>
+      
       <NFTGallery nfts={nfts} />
 
       <h3 className="text-lg text-mwt font-medium">
