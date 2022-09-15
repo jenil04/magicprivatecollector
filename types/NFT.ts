@@ -3,6 +3,8 @@
  * NFT
  */
 export interface NFT {
+    // unique identifier for dynamoDB, gets generated on our lambda
+    tokenAddressTokenId?: string;
     tokenAddress: string;
     tokenId: string;
     totalSupply: number;

@@ -66,12 +66,12 @@ resources:
       Properties:
         TableName: ${self:provider.environment.MPC_TABLE}
         AttributeDefinitions:
-          - AttributeName: contractTokenId
+          - AttributeName: tokenAddressTokenId
             AttributeType: S
           - AttributeName: chainId
             AttributeType: S
         KeySchema: # create a primary key
-          - AttributeName: contractTokenId
+          - AttributeName: tokenAddressTokenId
             KeyType: HASH
           - AttributeName: chainId
             KeyType: RANGE
