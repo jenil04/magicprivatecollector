@@ -13,6 +13,8 @@ import {
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
+import { Account } from "../types/Account";
+
 const features = [
   {
     name: "Connect Wallet",
@@ -40,8 +42,14 @@ const features = [
   }
 ];
 
-export default function CustomHeader(props: any) {
-  
+
+
+
+export default function CustomHeader(account: Account) {
+  const {isConnected, address} = account;
+  console.log(isConnected);
+  console.log(address);
+
   return (
     <Popover className="relative">
       <div className="max-w-7xl mx-auto px-6">
