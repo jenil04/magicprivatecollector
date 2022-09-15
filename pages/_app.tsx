@@ -15,10 +15,11 @@ declare global {
   }
 }
 
+
 export default function MyApp({ Component, pageProps }: AppProps) {
 
   const [isConnected, setIsConnected] = useState(false);
-  const [accounts, setAccounts] = useState([] as Array<any>);
+  const [account, setAccount] = useState('');
   const onboarding = useRef<MetaMaskOnboarding>();
 
 
@@ -31,7 +32,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-      if (accounts && accounts.length > 0 && accounts[0] != null && onboarding.current) {
+      if (account !== '' && onboarding.current) {
         
         
         setIsConnected(true);
@@ -42,14 +43,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         setIsConnected(false);
       }
     }
-  }, [accounts]);
+  }, [account]);
 
   useEffect(() => {
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
-      const accounts = [window.ethereum.selectedAddress];
-      setAccounts(accounts);
-      //handleNewAccounts(accounts);
-      setIsConnected(true);
+     
+      if(window.ethereum.selectedAddress && window.ethereum.selectedAddress !== '' ) {
+        setAccount(window.ethereum.selectedAddress);
+      
+        setIsConnected(true);
+      }
     }
   }, []);
 
@@ -58,9 +61,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then(async (newAccounts: any) => {
-          setAccounts(newAccounts);
-         // await handleNewAccounts(newAccounts);
-
+          if(newAccounts && newAccounts.length > 0 && newAccounts[0] !== '' ) {
+          setAccount(newAccounts[0]);
+        
+          }
         });
 
     } else {
@@ -70,7 +74,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-
+const obj = {isConnected, address: account};
   return (
     <>
       <Head>
@@ -86,15 +90,16 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
       <div className="bg-gray-900">
         {/* Section: Header w/ Nav */}
-        <CustomHeader isConnected={isConnected} accounts={accounts} />
+        <CustomHeader isConnected={isConnected} address={account} />
+        
 
         <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8 text-gray-100">
 
-          <Component {...pageProps} isConnected={isConnected} accounts={accounts} connectWallet={connectWallet} />
+          <Component {...pageProps} isConnected={isConnected} account={account} connectWallet={connectWallet} />
 
         </main>
         {/* Section: Footer */}
-        <FooterMWT isConnected={isConnected} accounts={accounts} />
+        <FooterMWT isConnected={isConnected} address={account} />
       </div>
     </>
   );

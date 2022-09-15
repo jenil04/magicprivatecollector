@@ -1,0 +1,28 @@
+
+/**
+ * NFT
+ */
+export interface NFT {
+    tokenAddress: string;
+    tokenId: string;
+    totalSupply: number;
+    availableSupply: number;
+    price: number;
+    chainId: number;
+    chainName: string;
+    owner: string;
+    contractType: string;
+    name: string;
+    uri: string;
+    metadata: {
+        image: string;
+        name: string;
+        description: string;
+        externalUrl: string;
+        private: {
+            url: string;
+            name: string;
+            description: string;
+        }
+    }
+}
