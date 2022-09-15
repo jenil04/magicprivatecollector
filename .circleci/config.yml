@@ -1,4 +1,6 @@
 version: 2.1
+orbs: 
+  slack: circleci/slack@4.10.1
 jobs:
   deploy-service:
     docker:
@@ -31,6 +33,13 @@ jobs:
           paths:
             - node_modules
           key: dependencies-cache
+      
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
 
 workflows:
   build-deploy:

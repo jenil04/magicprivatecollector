@@ -19,14 +19,14 @@ export const mintApi = async (
 
     console.log(mintObj);
 
-    const item: NFT = {...mintObj, tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`};
+    const item: NFT = {
+      ...mintObj, 
+      metadata: JSON.stringify(mintObj.metadata),
+      tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`
+    };
 
     console.log(item);
-
-    // if (!mintObj.nickname) {
-    //   return apiReturn(500, "nickname is missing");
-    // }
-
+    
     const params: DynamoDB.DocumentClient.PutItemInput = {
       TableName: process.env.MPC_TABLE as string,
       Item: item,
