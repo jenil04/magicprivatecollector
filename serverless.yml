@@ -69,7 +69,7 @@ resources:
           - AttributeName: tokenAddressTokenId
             AttributeType: S
           - AttributeName: chainId
-            AttributeType: N
+            AttributeType: S
         KeySchema: # create a primary key
           - AttributeName: tokenAddressTokenId
             KeyType: HASH

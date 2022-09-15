@@ -21,12 +21,13 @@ export const mintApi = async (
 
     const item: NFT = {
       ...mintObj, 
+      chainId: mintObj.chainId.toString(),
       metadata: JSON.stringify(mintObj.metadata),
       tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`
     };
 
     console.log(item);
-    
+
     const params: DynamoDB.DocumentClient.PutItemInput = {
       TableName: process.env.MPC_TABLE as string,
       Item: item,
