@@ -1,0 +1,71 @@
+import { APIGatewayProxyResult, APIGatewayProxyEvent } from "aws-lambda";
+import apiReturn from "../utils/apiReturn";
+import { DynamoDB } from "aws-sdk";
+import { dynamodbQueryCall, dynamodbScanCall } from "../utils/dynamodb";
+import { NFT } from "../../types/NFT";
+
+/**
+ * Get a list of NFTs minted on our platform
+ * Returns two arrays (all NFTs minted and all NFTs belonging to a user)
+ */
+export const mintApi = async (
+  event: APIGatewayProxyEvent,
+): Promise<APIGatewayProxyResult> => {
+  try {
+
+    console.log(event);
+
+    // get all nfts and remove the ones this user owns
+    const scanInput: DynamoDB.DocumentClient.ScanInput = {
+      TableName: process.env.MPC_NFT_TABLE as string
+    };
+
+    const allNFTs = await dynamodbScanCall(scanInput);
+
+    const allNFTsArray = allNFTs && allNFTs.Items ? (allNFTs.Items as Array<NFT>) : [];
+
+    
+    // get all nfts this user owns
+    if (event.queryStringParameters?.address) {
+      const address = event.queryStringParameters?.address;
+
+      const queryInput: DynamoDB.DocumentClient.QueryInput = {
+        TableName: process.env.MPC_ADDRESS_TABLE as string,
+        KeyConditionExpression: "address = :address",
+        ExpressionAttributeValues: {
+            ":address": address,
+          },
+      };
+
+      const ownedNFTs = await dynamodbQueryCall(queryInput);
+
+      const ownedNFTsArray = ownedNFTs && ownedNFTs.Items ? (ownedNFTs.Items as Array<any>) : [];
+
+      // filter out
+      const nfts = {
+        notOwned: [],
+        owned: [],
+      };
+  
+      // for (let index = 0; index < allNFTsArray.length; index+1) {
+      //   if(allNFTsArray[index].)
+
+      // }
+      return apiReturn(200, {
+        notOwned: allNFTsArray,
+        owned: ownedNFTsArray,
+      });
+      
+    } else {
+
+      return apiReturn(200, {
+        notOwned: allNFTsArray,
+        owned: [],
+      });
+    }
+
+    
+  } catch (error) {
+    return apiReturn(500, error);
+  }
+};
