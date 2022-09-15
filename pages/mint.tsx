@@ -4,35 +4,41 @@ import { useS3Upload } from "next-s3-upload";
 import Button from '../components/Button';
 
 const Mint = () => {
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [privateContentTitle, setPrivateContentTitle] = useState('');
-    const [privateContentDescription, setPrivateContentDescription] = useState('');
+  const [name, setName] = useState('');
+  const [description, setDescription] = useState('');
+  const [privateContentTitle, setPrivateContentTitle] = useState('');
+  const [privateContentDescription, setPrivateContentDescription] = useState('');
 
-    let { uploadToS3 } = useS3Upload();
+  // preview content files
+  const [imageUrl, setImageUrl] = useState('');
+  const [privateContentUrl, setPrivateContentUrl] = useState('');
+
+  let { uploadToS3 } = useS3Upload();
 
 
-    // these two functions need to be combined into one!
-    async function handleFileChange(event: any) {
-        let file = event.target.files[0];
-        let { url } = await uploadToS3(file);
-    
-        console.log("Successfully uploaded to S3 Image!", url);
-      };
+  // these two functions need to be combined into one!
+  async function handleFileChange(event: any) {
+    let file = event.target.files[0];
+    let { url } = await uploadToS3(file);
 
-      
-      async function handlePrivateContentFile(event: any) {
-        let file = event.target.files[0];
-        let { url } = await uploadToS3(file);
-    
-        console.log("Successfully uploaded to S3 Private!", url);
-      };
-      
+    setImageUrl(url);
+    console.log("Successfully uploaded to S3 Image!", url);
+  };
 
-    function handleSubmit(event: any) {
-        console.log(name)
-        event.preventDefault();
-    }
+
+  async function handlePrivateContentFile(event: any) {
+    let file = event.target.files[0];
+    let { url } = await uploadToS3(file);
+
+    setPrivateContentUrl(url);
+    console.log("Successfully uploaded to S3 Private!", url);
+  };
+
+
+  function handleSubmit(event: any) {
+    console.log(event)
+    event.preventDefault();
+  }
 
   return (
 
@@ -81,6 +87,8 @@ const Mint = () => {
           <label htmlFor="image" className="block font-medium">
             Image
           </label>
+
+          <img src={imageUrl} />
           <div className="mt-1">
             <div className="flex text-sm text-gray-600">
               <label
@@ -100,7 +108,7 @@ const Mint = () => {
             <p className="text-xs text-gray-300 mt-1">GUIDELINES?!?!? PNG, JPG, GIF up to 10MB</p>
           </div>
         </div>
-        
+
         <div className="mt-4">
           <label htmlFor="privateContentTitle" className="block font-medium">
             Private Content Title
@@ -136,6 +144,15 @@ const Mint = () => {
           <label htmlFor="image" className="block font-medium">
             Private Content File
           </label>
+
+          {privateContentUrl.includes('.mov') ?
+            <video controls>
+              <source src={privateContentUrl} type="video/mov" />
+            </video>
+            :
+            <img src={privateContentUrl} />
+          }
+
           <div className="mt-1">
             <div className="flex text-sm text-gray-600">
               <label
