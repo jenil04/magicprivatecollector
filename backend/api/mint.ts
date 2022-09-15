@@ -28,14 +28,27 @@ export const mintApi = async (
 
     console.log(item);
 
-    const params: DynamoDB.DocumentClient.PutItemInput = {
-      TableName: process.env.MPC_TABLE as string,
+    const nftParams: DynamoDB.DocumentClient.PutItemInput = {
+      TableName: process.env.MPC_NFT_TABLE as string,
       Item: item,
     };
   
-    const newNFT = await dynamodbPut(params);
+    await dynamodbPut(nftParams);
 
-    return apiReturn(200, newNFT);
+    const addressItem = {
+      tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`,
+      address: mintObj.owner,
+      amount: mintObj.amount
+    }
+
+    const addressParams: DynamoDB.DocumentClient.PutItemInput = {
+      TableName: process.env.MPC_ADDRESS_TABLE as string,
+      Item: addressItem,
+    };
+  
+    dynamodbPut(addressParams);
+
+    return apiReturn(200, 'done');
   } catch (error) {
     return apiReturn(500, error);
   }
