@@ -1,6 +1,6 @@
 # magicprivatecollector
 
-# Configure image upload
+## Configure image upload
 Make sure to create this file on your local:
 .env.local
 and put these variables in:
