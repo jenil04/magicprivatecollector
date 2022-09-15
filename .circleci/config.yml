@@ -2,7 +2,7 @@ version: 2.1
 jobs:
   deploy-service:
     docker:
-      - image: circleci/node:14
+      - image: circleci/node:16
     parameters:
       stage_name:
         type: string
