@@ -27,7 +27,8 @@ provider:
     REGION: ${self:provider.region}
     STAGE: ${self:provider.stage}
     LOG_LEVEL: debug
-    MPC_TABLE: ${env:MPC_TABLE}-${opt:stage, self:provider.stage}
+    MPC_NFT_TABLE: ${env:MPC_NFT_TABLE}-${opt:stage, self:provider.stage}
+    MPC_ADDRESS_TABLE: ${env:MPC_ADDRESS_TABLE}-${opt:stage, self:provider.stage}
     APIKEY: ${env:APIKEY}-${opt:stage, self:provider.stage}
 
   apiGateway:
@@ -58,13 +59,37 @@ functions:
       - httpApi:
           method: post
           path: /api/mint
+  nfts:
+    handler: backend/api/nfts.nftsApi
+    description: Get all private NFTs minted on our platform and if they belong to an address
+    timeout: 10
+    events:
+      - httpApi:
+          method: get
+          path: /api/nfts
 resources:
   Resources:
-    MPCTable:
+    MPCAddressTABLE:
       Type: AWS::DynamoDB::Table
       DeletionPolicy: Retain
       Properties:
-        TableName: ${self:provider.environment.MPC_TABLE}
+        TableName: ${self:provider.environment.MPC_ADDRESS_TABLE}
+        AttributeDefinitions:
+          - AttributeName: address
+            AttributeType: S
+          - AttributeName: tokenAddressTokenId
+            AttributeType: S
+        KeySchema: # create a primary key
+          - AttributeName: address
+            KeyType: HASH
+          - AttributeName: tokenAddressTokenId
+            KeyType: RANGE
+        BillingMode: PAY_PER_REQUEST
+    MPCNFTTABLE:
+      Type: AWS::DynamoDB::Table
+      DeletionPolicy: Retain
+      Properties:
+        TableName: ${self:provider.environment.MPC_NFT_TABLE}
         AttributeDefinitions:
           - AttributeName: tokenAddressTokenId
             AttributeType: S
