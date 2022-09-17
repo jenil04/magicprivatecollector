@@ -2,14 +2,12 @@ import Link from "next/link";
 import React from "react";
 import { Popover } from "@headlessui/react";
 import {
-  //WalletIcon, @TODO there are more and better icons in v2.0.0 (if we wish)
-  BriefcaseIcon, //Stand in for Wallet (until we decide to use "cash" or upgrade)
+  WalletIcon,
   ShoppingBagIcon,
   SparklesIcon,
-  InformationCircleIcon,
-  // @TODO these icons are not available in v2
-  // MenuIcon,
-  // XIcon,
+  EyeIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
@@ -20,13 +18,13 @@ const features = [
     name: "Connect Wallet",
     href: "#", // @TODO need the link to pop the wallet hereS
     description: "Connect Wallet",
-    icon: BriefcaseIcon,
+    icon: WalletIcon,
   },
   {
     name: "View Private Collection",
     href: "#",
     description: "View Private Collection",
-    icon: InformationCircleIcon,
+    icon: EyeIcon,
   },
   {
     name: "Buy Private NFTs",
@@ -73,8 +71,7 @@ export default function CustomHeader(account: Account) {
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
               <span className="sr-only">Open menu</span>
-              {/* @TODO icon is not available */}
-              {/* <MenuIcon className="h-6 w-6" aria-hidden="true" /> */}
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </Popover.Button>
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
@@ -107,10 +104,9 @@ export default function CustomHeader(account: Account) {
 
               </div>
               <div className="-mr-2">
-                <Popover.Button className="bg-gray-900 ring-gray-400 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400">
+                <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
                   <span className="sr-only">Close menu</span>
-                  {/* @TODO icon is not available */}
-                  {/* <XIcon className="h-6 w-6" aria-hidden="true" /> */}
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                 </Popover.Button>
               </div>
             </div>
