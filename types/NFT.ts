@@ -1,4 +1,17 @@
 
+export interface Metadata {
+    image: string;
+    name: string;
+    description: string;
+    externalUrl: string;
+    private: {
+        url: string;
+        name: string;
+        description: string;
+    }
+}
+
+
 /**
  * NFT
  */
@@ -16,15 +29,7 @@ export interface NFT {
     contractType: string;
     name: string;
     uri: string;
-    metadata: {
-        image: string;
-        name: string;
-        description: string;
-        externalUrl: string;
-        private: {
-            url: string;
-            name: string;
-            description: string;
-        }
-    }
+    metadata: Metadata | string;
 }
+
+

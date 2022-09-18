@@ -11,16 +11,16 @@ module.exports = {
   ],
   testTimeout: 10000,
   moduleFileExtensions: ["ts", "tsx", "js", "jsx", "json", "node"],
-  collectCoverage: true,
-  coverageThreshold: {
-    global: {
-      branches: 1,
-      functions: 1,
-      lines: 1,
-      statements: 1,
-    },
-  },
-  collectCoverageFrom: [
-    "backend/utils/*.ts",
-  ],
+  collectCoverage: false,
+  // coverageThreshold: {
+  //   global: {
+  //     branches: 1,
+  //     functions: 1,
+  //     lines: 1,
+  //     statements: 1,
+  //   },
+  // },
+  // collectCoverageFrom: [
+  //   "backend/utils/*.ts",
+  // ],
 };
