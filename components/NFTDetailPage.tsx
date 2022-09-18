@@ -27,18 +27,14 @@ const NFTDetailPage = (props: {nft: NFT}) => {
           </p>
         </div>
       </div>
-      <div className="rounded-lg border border-gray-200">
-        <div className="">
+      <div className="relative rounded-lg border border-gray-200 h-screen">
           <Image
             src={metadata.image}
             alt={metadata.name}
             className="rounded-lg"
-            layout='responsive'
-            height={100}
-            width={100}
+            layout='fill'
+            objectFit="contain"
           />
-        </div>
-
       </div>
     </>
   );
