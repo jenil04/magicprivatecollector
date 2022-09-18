@@ -46,7 +46,7 @@ export const mintApi = async (
       Item: addressItem,
     };
   
-    dynamodbPut(addressParams);
+    await dynamodbPut(addressParams);
 
     return apiReturn(200, 'done');
   } catch (error) {
