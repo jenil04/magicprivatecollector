@@ -13,11 +13,9 @@ export const mintApi = async (
 ): Promise<APIGatewayProxyResult> => {
   try {
 
-    console.log(event);
+    
     const eventBody = event.body as string;
     const mintObj = JSON.parse(eventBody);
-
-    console.log(mintObj);
 
     const item: NFT = {
       ...mintObj, 
@@ -26,19 +24,18 @@ export const mintApi = async (
       tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`
     };
 
-    console.log(item);
-
     const nftParams: DynamoDB.DocumentClient.PutItemInput = {
       TableName: process.env.MPC_NFT_TABLE as string,
       Item: item,
     };
   
+    // insert new NFT
     await dynamodbPut(nftParams);
 
     const addressItem = {
       tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`,
       address: mintObj.owner,
-      amount: mintObj.amount
+      amount: mintObj.totalSupply
     }
 
     const addressParams: DynamoDB.DocumentClient.PutItemInput = {
@@ -46,6 +43,7 @@ export const mintApi = async (
       Item: addressItem,
     };
   
+    // insert owner and amount
     await dynamodbPut(addressParams);
 
     return apiReturn(200, 'done');

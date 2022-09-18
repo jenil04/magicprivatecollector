@@ -8,7 +8,7 @@ import { NFT } from "../../types/NFT";
  * Get a list of NFTs minted on our platform
  * Returns two arrays (all NFTs minted and all NFTs belonging to a user)
  */
-export const mintApi = async (
+export const nftsApi = async (
   event: APIGatewayProxyEvent,
 ): Promise<APIGatewayProxyResult> => {
   try {
@@ -41,16 +41,7 @@ export const mintApi = async (
 
       const ownedNFTsArray = ownedNFTs && ownedNFTs.Items ? (ownedNFTs.Items as Array<any>) : [];
 
-      // filter out
-      const nfts = {
-        notOwned: [],
-        owned: [],
-      };
-  
-      // for (let index = 0; index < allNFTsArray.length; index+1) {
-      //   if(allNFTsArray[index].)
-
-      // }
+      
       return apiReturn(200, {
         notOwned: allNFTsArray,
         owned: ownedNFTsArray,
