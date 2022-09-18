@@ -1,0 +1,52 @@
+[
+    {
+        "tokenAddress": "0x2",
+        "tokenId": "1",
+        "tokenAddressTokenId": "0x2_1",
+        "totalSupply": 10000,
+        "availableSupply": 100,
+        "price": 0.002,
+        "chainId": 37,
+        "chainName": "Polygon",
+        "owner": "0x1",
+        "contractType": "ERC1155",
+        "name": "MagicPrivateCollector - Secret NFTs",
+        "uri": "url1",
+        "metadata": {
+            "image": "image1",
+            "name": "name1",
+            "description": "desc1",
+            "externalUrl": "externalurl1",
+            "private": {
+                "url": "url1",
+                "name": "name1",
+                "description": "desc1"
+            }
+        }
+    },
+    {
+        "tokenAddress": "0x2",
+        "tokenId": "2",
+        "tokenAddressTokenId": "0x2_2",
+        "totalSupply": 10000,
+        "availableSupply": 100,
+        "price": 0.002,
+        "chainId": 37,
+        "chainName": "Polygon",
+        "owner": "0x1",
+        "contractType": "ERC1155",
+        "name": "MagicPrivateCollector - Secret NFTs",
+        "uri": "url2",
+        "metadata": {
+            "image": "image2",
+            "name": "name2",
+            "description": "desc2",
+            "externalUrl": "externalurl2",
+            "private": {
+                "url": "url2",
+                "name": "name2",
+                "description": "desc2"
+            }
+        }
+    }
+]

@@ -14,16 +14,26 @@ export const orderByOwned = (allNFTs: Array<NFT>, ownedNFTs: Array<Ownership>):
         owned: [] as Array<NFT>,
         notOwned: [] as Array<NFT>,
     };
-    for (let i = 0; i < allNFTs.length; i + 1) {
-        for (let k = 0; k < ownedNFTs.length; k + 1) {
-            if (ownedNFTs[k].tokenAddressTokenId === allNFTs[i].tokenAddress && ownedNFTs[k].amount > 0) {
-                nfts.owned.push(allNFTs[i]);
-            }
-            else {
-                nfts.notOwned.push(allNFTs[i]);
-            }
+    let owned = false;
 
+    for (let index = 0; index < allNFTs.length; index++) {
+        for (let inner = 0; inner < ownedNFTs.length; inner++) {
+            
+            if (ownedNFTs[inner].tokenAddressTokenId === allNFTs[index].tokenAddressTokenId && ownedNFTs[inner].amount > 0) {
+                owned = true;
+
+            }
         }
+
+        if (owned === true) {
+            nfts.owned.push(allNFTs[index]);
+        }
+
+        else {
+            nfts.notOwned.push(allNFTs[index]);
+        }
+        owned = false;
+
     }
     return nfts;
 }
