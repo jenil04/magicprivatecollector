@@ -6,9 +6,9 @@ Array<NFT> => {
 
     const parsedNFTs = [] as Array<NFT>;
 
-    for (let i = 0; i < nfts.length; i + 1) {
+    for (let index = 0; index < nfts.length; index++) {
         
-        parsedNFTs.push({...nfts[i], metadata: JSON.parse(nfts[i].metadata as string)});
+        parsedNFTs.push({...nfts[index], metadata: JSON.parse(nfts[index].metadata as string)});
     }
-    return nfts;
+    return parsedNFTs;
 }
