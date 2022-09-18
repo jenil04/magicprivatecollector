@@ -20,10 +20,10 @@ const NFTDetailPage = (props: {nft: NFT}) => {
             <span className="font-light uppercase">Description:</span> {metadata.description}
           </p>
           <p>
-            <span className="font-light uppercase">Other metadata:</span> what metadata?
+            <span className="font-light uppercase">Blockchain:</span> {nft.chainName}
           </p>
           <p>
-            <span className="font-light uppercase">Price:</span> do we want price? (what price?)
+            <span className="font-light uppercase">Price:</span> {nft.price} ETH
           </p>
         </div>
       </div>
@@ -32,7 +32,7 @@ const NFTDetailPage = (props: {nft: NFT}) => {
           <Image
             src={metadata.image}
             alt={metadata.name}
-            className="h-full w-full object-fill object-center sm:h-full sm:w-full rounded-lg"
+            className="rounded-lg"
             layout='responsive'
             height={100}
             width={100}
