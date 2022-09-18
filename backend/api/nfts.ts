@@ -5,7 +5,7 @@ import { orderByOwned } from "../utils/orderByOwned";
 import { DynamoDB } from "aws-sdk";
 import { dynamodbQueryCall, dynamodbScanCall } from "../utils/dynamodb";
 import { NFT } from "../../types/NFT";
-
+import { Ownership } from "../../types/Ownership";
 /**
  * Get a list of NFTs minted on our platform
  * Returns two arrays (all NFTs minted and all NFTs belonging to a user)
@@ -23,7 +23,8 @@ export const nftsApi = async (
     const allNFTs = await dynamodbScanCall(scanInput);
 
     const allNFTsArray = allNFTs && allNFTs.Items ? (allNFTs.Items as Array<NFT>) : [];
-
+    console.log(allNFTsArray);
+    
     // parse metadata
     const parsedNFTs = parseMetadata(allNFTsArray);
     
@@ -41,8 +42,9 @@ export const nftsApi = async (
 
       const ownedNFTs = await dynamodbQueryCall(queryInput);
 
-      const ownedNFTsArray = ownedNFTs && ownedNFTs.Items ? (ownedNFTs.Items as Array<any>) : [];
-      
+      const ownedNFTsArray = ownedNFTs && ownedNFTs.Items ? (ownedNFTs.Items as Array<Ownership>) : [];
+      console.log(ownedNFTsArray);
+      console.log(parsedNFTs);
       return apiReturn(200, orderByOwned(parsedNFTs, ownedNFTsArray));
       
     } else {
