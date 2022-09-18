@@ -48,14 +48,18 @@ workflows:
       - deploy-service:
           name: MAIN Deploy MagicPrivateCollector
           stage_name: main
-          context: MPCProduction
+          context: 
+            - MPCProduction
+            - Slack
           filters:
             branches:
               only: main
       - deploy-service:
           name: QA Deploy MagicPrivateCollector
           stage_name: qa
-          context: MPCDevelopment
+          context: 
+            - MPCDevelopment
+            - Slack
           filters:
             branches:
               only: qa
