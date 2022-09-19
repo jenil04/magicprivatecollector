@@ -32,4 +32,10 @@ export interface NFT {
     metadata: Metadata | string;
 }
 
+export interface NFTLIST {
+    owned: Array<NFT>;
+    notOwned: Array<NFT>;
+}
+
+
 
