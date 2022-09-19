@@ -44,7 +44,7 @@ const features = [
 
 
 export default function CustomHeader(account: Account) {
-  const {isConnected, address} = account;
+  const {isConnected, address, connectWallet} = account;
   console.log(isConnected);
   console.log(address);
 
@@ -76,8 +76,8 @@ export default function CustomHeader(account: Account) {
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
             {features.map((item) => (
-              <Link href={item.href} key={item.name}>
-                <a title={item.description} className="font-medium text-white hover:text-mwt">
+              <Link href={item.href} key={item.name} >
+                <a onClick={connectWallet} title={item.description} className="font-medium text-white hover:text-mwt">
                   {item.name}
                 </a>
               </Link>

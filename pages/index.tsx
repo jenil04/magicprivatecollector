@@ -78,13 +78,13 @@ export default function Index(
       
       <h3>OWNED</h3>
       {nfts.owned && nfts.owned.length > 0 ?
-        <NFTGallery nfts={nfts.owned} chainId="37" />
+        <NFTGallery nfts={nfts.owned} chainId="37" isOwned={true} />
       : '' }
 
         <br /><br /><br /><br /><br /><br />
       <h3>NOT OWNED</h3>
       {nfts.notOwned && nfts.notOwned.length > 0 ?
-        <NFTGallery nfts={nfts.notOwned} chainId="37" />
+        <NFTGallery nfts={nfts.notOwned} chainId="37" isOwned={false} />
       : '' }
 
       <h3 className="text-lg text-mwt font-medium">

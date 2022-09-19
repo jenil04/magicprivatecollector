@@ -14,16 +14,13 @@ const NFTDetailPage = (props: {nft: NFT}) => {
       <div className="rounded-lg border border-gray-200 bg-gray-800 mb-5">
         <div className="font-medium space-y-2 p-4">
           <p>
-            <span className="font-light uppercase">Collection:</span> {nft.name}
-          </p>
-          <p>
             <span className="font-light uppercase">Description:</span> {metadata.description}
           </p>
           <p>
             <span className="font-light uppercase">Blockchain:</span> {nft.chainName}
           </p>
           <p>
-            <span className="font-light uppercase">Price:</span> {nft.price} ETH
+            <span className="font-light uppercase">Price:</span> {nft.price} MATIC
           </p>
         </div>
       </div>

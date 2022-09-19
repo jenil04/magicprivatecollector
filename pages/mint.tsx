@@ -17,7 +17,7 @@ export default function Mint(
     connectWallet: any;
   }) {
   
-  const [totalSupply, setTotalSupply] = useState('1');
+  const [totalSupply, setTotalSupply] = useState('1000');
   const [price, setPrice] = useState('0.001');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
@@ -196,7 +196,7 @@ export default function Mint(
                 />
               </label>
             </div>
-            <p className="text-xs text-gray-300 mt-1">GUIDELINES?!?!? PNG, JPG, GIF up to 10MB</p>
+            <p className="text-xs text-gray-300 mt-1">Please upload your teaser image as a PNG, JPG, or GIF</p>
           </div>
         </div>
 
@@ -260,7 +260,7 @@ export default function Mint(
                 />
               </label>
             </div>
-            <p className="text-xs text-gray-300 mt-1">GUIDELINES?!?!?</p>
+            <p className="text-xs text-gray-300 mt-1">Upload your private file in one of the following formats: </p>
           </div>
         </div>
         <div className="text-right">
