@@ -1,10 +1,6 @@
-import { NFT } from "../../types/NFT";
+import { NFT, NFTLIST } from "../../types/NFT";
 import { Ownership } from "../../types/Ownership";
 
-interface NFTLIST {
-    owned: Array<NFT>;
-    notOwned: Array<NFT>;
-}
 
 // order NFTs by owned  / not owned
 export const orderByOwned = (allNFTs: Array<NFT>, ownedNFTs: Array<Ownership>):

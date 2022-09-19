@@ -43,8 +43,7 @@ export const nftsApi = async (
       const ownedNFTs = await dynamodbQueryCall(queryInput);
 
       const ownedNFTsArray = ownedNFTs && ownedNFTs.Items ? (ownedNFTs.Items as Array<Ownership>) : [];
-      console.log(ownedNFTsArray);
-      console.log(parsedNFTs);
+     
       return apiReturn(200, orderByOwned(parsedNFTs, ownedNFTsArray));
       
     } else {
