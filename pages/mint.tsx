@@ -1,9 +1,24 @@
 import { useState } from 'react';
 import { useS3Upload } from "next-s3-upload";
+import axios from "axios";
+import { v4 as uuidv4 } from 'uuid';
+
+import { NFT, Metadata } from '../types/NFT';
 
 import Button from '../components/Button';
+import { ethers } from 'ethers';
 
-const Mint = () => {
+//const Mint = () => {
+
+export default function Mint(
+    { isConnected, account, connectWallet }: {
+    isConnected: boolean;
+    account: string;
+    connectWallet: any;
+  }) {
+  
+  const [totalSupply, setTotalSupply] = useState('1');
+  const [price, setPrice] = useState('0.001');
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [privateContentTitle, setPrivateContentTitle] = useState('');
@@ -35,9 +50,53 @@ const Mint = () => {
   };
 
 
-  function handleSubmit(event: any) {
-    console.log(event)
+  async function handleSubmit(event: any) {
     event.preventDefault();
+
+    const tokenId = Date.now() + uuidv4();
+
+    const tokenAddress = '0x495f947276749ce646f68ac8c248420045cb7b5e';
+
+    // create the form data
+    const nft: NFT = {  
+      // this needs to be reconfigured when the mint actually happens
+        tokenAddress,
+        owner: account,
+        chainId: 37,
+        chainName: "Polygon",
+        
+        contractType: "ERC1155",
+        name: "MagicPrivateCollector - Secret NFTs",
+        uri: `https://magicprivatecollector.com/nft/37/${tokenAddress}/${tokenId}`,
+
+        tokenId,
+        totalSupply: Number(totalSupply),
+        availableSupply: Number(totalSupply),
+        price: Number(price),
+        metadata:  {
+            "image": imageUrl,
+            "name": name,
+            "description": description,
+            "private": {
+                "url": privateContentUrl,
+                "name": privateContentTitle,
+                "description": privateContentDescription
+            }
+        } as Metadata
+    };
+
+    console.log(nft);
+
+    const result = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/mint', 
+    nft,
+    {
+      headers: {
+        'Accept': 'application/json',
+      }
+    });
+
+    console.log(result);
+    
   }
 
   return (
@@ -49,6 +108,38 @@ const Mint = () => {
           <p className="mt-1 text-sm text-gray-200">
             Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempor velit dolor, non ornare eros posuere non. Pellentesque vitae sodales enim.
           </p>
+        </div>
+
+        <div className="mt-4">
+          <label htmlFor="totalSupply" className="block font-medium">
+            Total Supply
+          </label>
+          <div className="mt-1">
+            <input
+              type="text"
+              id="totalSupply"
+              name="totalSupply"
+              className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+              value={totalSupply}
+              onChange={ev => setTotalSupply(ev.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="mt-4">
+          <label htmlFor="price" className="block font-medium">
+           price
+          </label>
+          <div className="mt-1">
+            <input
+              type="text"
+              id="price"
+              name="price"
+              className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+              value={price}
+              onChange={ev => setPrice(ev.target.value)}
+            />
+          </div>
         </div>
 
         <div className="mt-4">
@@ -180,6 +271,4 @@ const Mint = () => {
 
   )
 }
-
-export default Mint;
 

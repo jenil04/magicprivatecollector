@@ -67,6 +67,14 @@ functions:
       - httpApi:
           method: get
           path: /api/nfts
+  nft:
+    handler: backend/api/nft.nftApi
+    description: Get NFT by chainId, tokenAddress and tokenId
+    timeout: 10
+    events:
+      - httpApi:
+          method: get
+          path: /api/nft
 resources:
   Resources:
     MPCAddressTABLE:
