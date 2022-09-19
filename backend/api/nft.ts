@@ -17,7 +17,7 @@ export const nftApi = async (
     if (event.queryStringParameters?.tokenId && event.queryStringParameters?.tokenAddress && event.queryStringParameters?.chainId) {
 
       const tokenAddressTokenId = `${event.queryStringParameters?.tokenAddress}_${event.queryStringParameters?.tokenId}`;
-      const chainId = Number(event.queryStringParameters.chainId);
+      const chainId = event.queryStringParameters.chainId;
 
       const queryInput: DynamoDB.DocumentClient.QueryInput = {
         TableName: process.env.MPC_NFT_TABLE as string,

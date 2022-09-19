@@ -90,16 +90,15 @@ const obj = {isConnected, address: account};
 
       <div className="bg-gray-900">
         {/* Section: Header w/ Nav */}
-        <CustomHeader isConnected={isConnected} address={account} />
+        <CustomHeader isConnected={isConnected} address={account} connectWallet={connectWallet} />
         
-
         <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8 text-gray-100">
 
           <Component {...pageProps} isConnected={isConnected} account={account} connectWallet={connectWallet} />
 
         </main>
         {/* Section: Footer */}
-        <FooterMWT isConnected={isConnected} address={account} />
+        <FooterMWT isConnected={isConnected} address={account} connectWallet={connectWallet} />
       </div>
     </>
   );
