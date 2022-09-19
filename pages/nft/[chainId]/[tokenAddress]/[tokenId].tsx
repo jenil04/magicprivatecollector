@@ -17,7 +17,7 @@ export const getServerSideProps = async (context: any) => {
 
   const { chainId, tokenAddress, tokenId } = context.query;
 
-  const url = `https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nft?chainId=${chainId}&${tokenAddress}=tokenAddress&tokenId=${tokenId}`;
+  const url = `https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nft?chainId=37&tokenAddress=${tokenAddress}&tokenId=${tokenId}`;
 
 
   const result = await axios.get(url, {
