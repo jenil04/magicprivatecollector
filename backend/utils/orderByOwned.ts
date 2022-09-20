@@ -12,8 +12,7 @@ export const orderByOwned = (allNFTs: Array<NFT>, ownedNFTs: Array<Ownership>):
     };
     let owned = false;
 
-    console.log(allNFTs.length);
-    console.log(ownedNFTs.length);
+    
 
     for (let index = 0; index < allNFTs.length; index++) {
         for (let inner = 0; inner < ownedNFTs.length; inner++) {

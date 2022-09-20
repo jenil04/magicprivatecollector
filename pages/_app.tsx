@@ -2,12 +2,13 @@ import Head from "next/head";
 import "../styles/globals.css";
 import CustomHeader from "../components/CustomHeader";
 import FooterMWT from "../components/FooterMWT";
+import axios from "axios";
 
 import type { AppProps } from "next/app";
 import { useState, useEffect, useRef } from 'react';
 import MetaMaskOnboarding from '@metamask/onboarding';
 import { MetaMaskInpageProvider } from "@metamask/providers";
-
+import { NFTLIST } from "../types/NFT";
 
 declare global {
   interface Window {
@@ -21,7 +22,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const [isConnected, setIsConnected] = useState(false);
   const [account, setAccount] = useState('');
   const onboarding = useRef<MetaMaskOnboarding>();
-
+  const [nfts, setNFTs] = useState({} as NFTLIST);
 
 
   useEffect(() => {
@@ -39,7 +40,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         onboarding.current.stopOnboarding();
       } else {
         
-        
+        handleNewAccounts('');
         setIsConnected(false);
       }
     }
@@ -52,6 +53,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         setAccount(window.ethereum.selectedAddress);
       
         setIsConnected(true);
+        handleNewAccounts(window.ethereum.selectedAddress);
       }
     }
   }, []);
@@ -63,6 +65,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         .then(async (newAccounts: any) => {
           if(newAccounts && newAccounts.length > 0 && newAccounts[0] !== '' ) {
           setAccount(newAccounts[0]);
+          handleNewAccounts(newAccounts[0]);
         
           }
         });
@@ -74,7 +77,32 @@ export default function MyApp({ Component, pageProps }: AppProps) {
     }
   };
 
-const obj = {isConnected, address: account};
+
+
+
+  async function handleNewAccounts(account: string ) {
+    
+      // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
+
+      let url = 'https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nfts';
+
+      if(account && account !== '') {
+        url = `${url}?address=${account}`;
+      }
+
+      const result = await axios.get(url, {
+        headers: {
+          'Accept': 'application/json',
+        }
+      });
+
+      setNFTs(result.data);
+
+  }
+
+
+
+
   return (
     <>
       <Head>
@@ -94,7 +122,7 @@ const obj = {isConnected, address: account};
         
         <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8 text-gray-100">
 
-          <Component {...pageProps} isConnected={isConnected} account={account} connectWallet={connectWallet} />
+          <Component {...pageProps} nfts={nfts} isConnected={isConnected} account={account} connectWallet={connectWallet} />
 
         </main>
         {/* Section: Footer */}

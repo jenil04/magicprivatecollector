@@ -6,10 +6,7 @@ import { NFT } from "../types/NFT";
 
 const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean }) => {
   const { nfts, chainId, isOwned } = props;
-  // console.log(chainId);
-  // console.log(nfts);
-
-  console.log(isOwned);
+  
 
   return (
 

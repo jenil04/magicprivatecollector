@@ -26,7 +26,7 @@ export const getServerSideProps = async (context: any) => {
     }
   });
 
-  console.log(result);
+  
   const nft = result.data;
 
   return {
