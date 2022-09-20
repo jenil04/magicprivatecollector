@@ -16,6 +16,7 @@ export default function Footer(account: Account) {
           href="mailto:info@magicwizardtech.com"
           className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50"
           target="_blank"
+          rel="noreferrer"
         >
           info@magicwizardtech.com
           <ArrowTopRightOnSquareIcon className="-mr-1 ml-3 h-5 w-5 text-gray-400" aria-hidden="true" />
