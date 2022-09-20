@@ -6,8 +6,6 @@ import {
 export default function Footer(account: Account) {
   const { isConnected, address } = account;
 
-  console.log(isConnected);
-  console.log(address);
   return (
     <footer className="bg-gray-900 text-gray-400" aria-labelledby="footer-heading">
       <div className="text-center">

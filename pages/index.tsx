@@ -1,59 +1,24 @@
-
-import { useState, useEffect, useRef } from 'react';
-import { ethers } from "ethers";
-import axios from "axios";
-
 import NFTGallery from '../components/NFTGallery';
 import Button from '../components/Button';
-import nftList from '../data/nftList.json';
+import { NFTLIST } from "../types/NFT";
 
-// NFT type
-import { NFT, NFTLIST } from "../types/NFT";
+
+
 import Link from 'next/link';
 
 // polygon quicknode
 // const provider = new ethers.providers.JsonRpcProvider('https://multi-necessary-morning.matic.quiknode.pro/9cebc8e52d41fb7a7cf25167b7f92f740a892623/');
 
 export default function Index(
-  { isConnected, account, connectWallet }: {
+  { isConnected, account, connectWallet, nfts }: {
   isConnected: boolean;
   account: string;
   connectWallet: any;
+  nfts: NFTLIST;
 }) {
 
   
-  const [nfts, setNFTs] = useState({} as NFTLIST);
-
   
-  useEffect(() => {
-   // if (account !== '') {
-     handleNewAccounts(account);
-   // }
-  }, []);
-
-  async function handleNewAccounts(account: string) {
-    
-      // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
-      // console.log(chainId);
-
-      
-      
-      let url = 'https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nfts';
-
-      if(account && account !== '') {
-        url = `${url}?address=${account}`;
-      }
-
-      const result = await axios.get(url, {
-        headers: {
-          'Accept': 'application/json',
-        }
-      });
-
-     
-      setNFTs(result.data);
-
-  }
 
   
   return (
