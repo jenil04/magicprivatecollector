@@ -2,46 +2,37 @@ import Link from "next/link";
 import React from "react";
 import { Popover } from "@headlessui/react";
 import {
-  //WalletIcon, @TODO there are more and better icons in v2.0.0 (if we wish)
-  BriefcaseIcon, //Stand in for Wallet (until we decide to use "cash" or upgrade)
-  ShoppingBagIcon,
-  SparklesIcon,
+  WalletIcon,
   InformationCircleIcon,
-  // @TODO these icons are not available in v2
-  // MenuIcon,
-  // XIcon,
+  SparklesIcon,
+  Bars3Icon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import Image from "next/image";
 
+import { Account } from "../types/Account";
+
 const features = [
   {
-    name: "Connect Wallet",
-    href: "#", // @TODO need the link to pop the wallet hereS
-    description: "Connect Wallet",
-    icon: BriefcaseIcon,
-  },
-  {
-    name: "View Private Collection",
-    href: "#",
-    description: "View Private Collection",
+    name: "About",
+    href: "/about",
+    description: "About Magic Wizard Tech",
     icon: InformationCircleIcon,
   },
   {
-    name: "Buy Private NFTs",
-    href: "#",
-    description: "Buy Private NFTs",
-    icon: ShoppingBagIcon,
-  },
-  {
     name: "Create Private NFTs",
-    href: "#",
+    href: "/mint",
     description: "Create Private NFTs",
     icon: SparklesIcon,
   }
 ];
 
-export default function CustomHeader(props: any) {
-  
+
+
+
+export default function CustomHeader(account: Account) {
+  const {isConnected, address, connectWallet} = account;
+
   return (
     <Popover className="relative">
       <div className="max-w-7xl mx-auto px-6">
@@ -65,14 +56,13 @@ export default function CustomHeader(props: any) {
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
               <span className="sr-only">Open menu</span>
-              {/* @TODO icon is not available */}
-              {/* <MenuIcon className="h-6 w-6" aria-hidden="true" /> */}
+              <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </Popover.Button>
           </div>
           <Popover.Group as="nav" className="hidden md:flex space-x-10">
             {features.map((item) => (
-              <Link href={item.href} key={item.name}>
-                <a title={item.description} className="font-medium text-white hover:text-mwt">
+              <Link href={item.href} key={item.name} >
+                <a onClick={connectWallet} title={item.description} className="font-medium text-white hover:text-mwt">
                   {item.name}
                 </a>
               </Link>
@@ -99,10 +89,9 @@ export default function CustomHeader(props: any) {
 
               </div>
               <div className="-mr-2">
-                <Popover.Button className="bg-gray-900 ring-gray-400 rounded-md p-2 inline-flex items-center justify-center text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-gray-400">
+                <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
                   <span className="sr-only">Close menu</span>
-                  {/* @TODO icon is not available */}
-                  {/* <XIcon className="h-6 w-6" aria-hidden="true" /> */}
+                  <XMarkIcon className="h-6 w-6" aria-hidden="true" />
                 </Popover.Button>
               </div>
             </div>

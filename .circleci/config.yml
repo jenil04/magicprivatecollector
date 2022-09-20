@@ -1,0 +1,66 @@
+version: 2.1
+orbs: 
+  slack: circleci/slack@4.10.1
+jobs:
+  deploy-service:
+    docker:
+      - image: circleci/node:16
+    parameters:
+      stage_name:
+        type: string
+    steps:
+      - checkout
+
+      - restore_cache:
+          keys:
+            - dependencies-cache
+
+      - run:
+          name: Install Serverless CLI
+          command: sudo npm i -g serverless
+            
+      - run:
+          name: Install dependencies
+          command: |
+            npm install
+
+      - run:
+          name: Deploy application
+          command: |
+            serverless deploy -s << parameters.stage_name >>
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: dependencies-cache
+      
+      - slack/notify:
+          event: fail
+          template: basic_fail_1
+      - slack/notify:
+          event: pass
+          template: basic_success_1
+
+workflows:
+  build-deploy:
+    jobs:
+      # deploys to qa
+      - deploy-service:
+          name: MAIN Deploy MagicPrivateCollector
+          stage_name: main
+          context: 
+            - MPCProduction
+            - Slack
+          filters:
+            branches:
+              only: main
+      - deploy-service:
+          name: QA Deploy MagicPrivateCollector
+          stage_name: qa
+          context: 
+            - MPCDevelopment
+            - Slack
+          filters:
+            branches:
+              only: qa
+

@@ -1,6 +1,6 @@
 # magicprivatecollector
 
-# Configure image upload
+## Configure image upload
 Make sure to create this file on your local:
 .env.local
 and put these variables in:
@@ -43,3 +43,17 @@ Make sure hardhat node is running!
 npx hardhat compile
 npx hardhat run --network localhost scripts/deploy.js
 ```
+
+Make sure to add the config in hardhat.config.js!!
+```
+npx hardhat run --network polygonTestnet scripts/deploy.js
+
+```
+## Magic Wizard Contract
+0x1D8793F7785fc2107bA1076fa8e23d13eeFFEa55
+
+Danielas address (contract was created with this):
+0xc093b5219CFb7572354B8907Cd0C9bF9735371ED
+
+Danielas second address
+0xF96733d133d987AC11d668E866842Fa47C57D5c7
