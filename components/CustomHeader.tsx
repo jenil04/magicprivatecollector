@@ -45,8 +45,6 @@ const features = [
 
 export default function CustomHeader(account: Account) {
   const {isConnected, address, connectWallet} = account;
-  console.log(isConnected);
-  console.log(address);
 
   return (
     <Popover className="relative">

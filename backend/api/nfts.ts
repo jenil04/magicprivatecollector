@@ -23,7 +23,7 @@ export const nftsApi = async (
     const allNFTs = await dynamodbScanCall(scanInput);
 
     const allNFTsArray = allNFTs && allNFTs.Items ? (allNFTs.Items as Array<NFT>) : [];
-    console.log(allNFTsArray);
+    
     
     // parse metadata
     const parsedNFTs = parseMetadata(allNFTsArray);
