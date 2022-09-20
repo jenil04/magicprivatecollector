@@ -3,17 +3,20 @@ import Image from "next/image";
 import { NFT, Metadata } from "../types/NFT";
 //import ReactPlayer from 'react-player';
 
-const NFTDetailPage = (props: { nft: NFT }) => {
-  const { nft } = props;
+const NFTDetailPage = (props: {
+  nft: NFT, isConnected: boolean;
+  account: string;
+  connectWallet: any;
+}) => {
+  const { nft, isConnected, account, connectWallet } = props;
   const metadata = nft.metadata as Metadata;
-  console.log(nft);
 
   return (
     <div className="">
 
       {/* Teaser section */}
       <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 p-4 rounded-lg border border-gray-200 bg-gray-800">
-
+        {account === nft.owner ? 'OWNS IT!' : "does not own it"}
         {/* Name & Price */}
         <div className="lg:col-span-7 lg:col-start-6">
           <h1 className="text-3xl font-semibold">{metadata.name}</h1>
@@ -42,17 +45,31 @@ const NFTDetailPage = (props: { nft: NFT }) => {
 
         {/* NFT details (floats below thumbnail on mobile) */}
         <div className="lg:col-span-5">
-          <div className="">
-            <p>
-              <span className="font-light uppercase">Description:</span> {metadata.description}
+          <div className="leading-10">
+            <p className="leading-6">
+              <span className="font-light uppercase">Description:</span> <span >{metadata.description}</span>
             </p>
-            {/* @TODO these supply numbers are usually for collections not copies of NFTs... */}
             <p>
               <span className="font-light uppercase">Available Supply:</span> {nft.availableSupply}
             </p>
             <p>
               <span className="font-light uppercase">Total Supply:</span> {nft.totalSupply}
             </p>
+            {/* <p>
+              <span className="font-light uppercase">Available until:</span> FAKE DATE
+            </p>
+            <p>
+              <span className="font-light uppercase">Expires:</span> FAKE DATE
+            </p>
+            <p>
+              <span className="font-light uppercase">Resaleable</span> YES/NO
+            </p>
+            <p>
+              <span className="font-light uppercase">Resell commission to creator</span> 99%
+            </p>
+            <p>
+              <span className="font-light uppercase">Number of views allowed</span> 4
+            </p> */}
             <p>
               <span className="font-light uppercase">Blockchain:</span> {nft.chainName}
             </p>
@@ -62,21 +79,28 @@ const NFTDetailPage = (props: { nft: NFT }) => {
 
 
       {/* Main Private NFT section */}
-      {/* @TODO talk about formats supported...mov is not */}
       <div className="mt-8 col-span-12">
-        <div className="relative">
-          <video 
-            controls
-            muted
-            src={metadata.private.url} 
-            //src="https://archive.org/download/ElephantsDream/ed_hd.avi"
-            //src="https://archive.org/download/ElephantsDream/ed_hd.ogv"
-            //src="https://file-examples.com/wp-content/uploads/2018/04/file_example_MOV_480_700kB.mov"
-          />
-        </div>
         <div className="mt-4">
+          <h2>
+            Here's your private content
+          </h2>
+          <p>
+            <span className="font-light uppercase">Private NFT Name:</span> {metadata.private.name}
+          </p>
           <span className="font-light uppercase">Private NFT Description:</span> {metadata.private.description}
         </div>
+        <div className="relative">
+          {/* how do we check for video vs. image vs. audio? */}
+          <video
+            controls
+            controlsList="nodownload"
+            muted
+            playsInline
+            preload="metadata"
+            src={metadata.private.url}
+          />
+        </div>
+
       </div>
     </div>
   );
