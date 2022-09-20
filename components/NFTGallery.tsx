@@ -14,34 +14,44 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
       {nfts.map((nft: any, index: number) => (
         <>
 
-          <div className="group relative flex flex-col overflow-hidden rounded-lg border border-gray-200 bg-white">
+          <div className="group relative overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-100">
             <Link key={index} href={`/nft/polygon/${nft.tokenAddress}/${nft.tokenId}`}>
               <a>
-                <div className="aspect-w-3 aspect-h-4 bg-gray-200 group-hover:opacity-75 sm:aspect-none sm:h-96">
+                {/* NFT thumbnail */}
+                <div className="relative h-60 group-hover:opacity-75">
                   <Image
                     src={nft.metadata.image}
                     alt={nft.metadata.name}
-                    className="h-full w-full object-fill object-center sm:h-full sm:w-full"
-                    layout='responsive'
-                    height={100}
-                    width={100}
+                    className=""
+                    layout='fill'
+                    objectFit="contain"
                   />
                 </div>
-                <div className="flex flex-1 flex-col space-y-2 p-4">
-                  <h3 className="text-sm font-medium text-gray-900">
-                    <span aria-hidden="true" className="absolute inset-0" />
-                    NFT Name: {nft.metadata.name}
-                  </h3>
-                  <p>
-                    <span className="font-light uppercase">Description:</span> {nft.metadata.description}
-                  </p>
-                  <div className="flex flex-col justify-end">
-                    <p className="text-base font-medium text-gray-900">PRICE</p>
+                {/* NFT info */}
+                <div className="rounded-lg bg-gray-800 mt-3">
+                  <div className="font-medium space-y-2 py-3 px-4">
+                    <h3>
+                      <span className="font-light uppercase">NFT Name:</span> {nft.metadata.name}
+                    </h3>
+                    <p>
+                      <span className="font-light uppercase">Description:</span> {nft.metadata.description}
+                    </p>
+                    <p>
+                      <span className="font-light uppercase">Price:</span> {nft.price} MATIC
+                    </p>
+                    <p>
+                      <span className="font-light uppercase">Blockchain:</span> {nft.chainName}
+                    </p>
                   </div>
                 </div>
               </a>
             </Link>
-            {isOwned ? '' : <Button buttonText={"BUY ME@!"} />}
+            {/* Buy NFT */}
+            {isOwned ? '' : 
+              <div className="text-center my-3">
+                <Button buttonText={"BUY ME@!"} />
+              </div>
+            }
           </div>
 
 

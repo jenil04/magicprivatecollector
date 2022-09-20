@@ -32,22 +32,25 @@ export default function Index(
         </button>
         <Link href="/mint">
           <a>
-          <Button buttonText={"Create Private NFTs"} />
+            <Button buttonText={"Create Private NFTs"} />
           </a>
         </Link>
       </div>  
 
-      <h2 className={isConnected ? "text-lg font-semibold text-white pb-4" : "text-lg font-semibold text-white mb-4 hidden"}>
+      <h2 className={isConnected ? "text-md text-white pb-4" : "text-lg font-semibold text-white mb-4 hidden"}>
         Connected Wallet Address: <span className="font-normal">{account}</span>
       </h2>
       
-      <h3>OWNED</h3>
+      <h3 className='mb-2 text-lg'>
+        MY COLLECTION
+      </h3>
       {nfts.owned && nfts.owned.length > 0 ?
         <NFTGallery nfts={nfts.owned} chainId="37" isOwned={true} />
       : '' }
 
-        <br /><br /><br /><br /><br /><br />
-      <h3>NOT OWNED</h3>
+      <h3 className='mb-2 mt-10 text-lg'>
+        FOR SALE
+      </h3>
       {nfts.notOwned && nfts.notOwned.length > 0 ?
         <NFTGallery nfts={nfts.notOwned} chainId="37" isOwned={false} />
       : '' }
