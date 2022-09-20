@@ -49,7 +49,7 @@ Make sure to add the config in hardhat.config.js!!
 npx hardhat run --network polygonTestnet scripts/deploy.js
 
 ```
-## Magic Wizard Contract
+## Magic Private Collector Contract - Polygon Mumbai Testnet
 0x1D8793F7785fc2107bA1076fa8e23d13eeFFEa55
 
 Danielas address (contract was created with this):

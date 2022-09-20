@@ -63,6 +63,7 @@ export default function Mint(
     const nft: NFT = {
       // this needs to be reconfigured when the mint actually happens
       tokenAddress,
+      // the owner is the person that is logged in with their metamask right now and this is the minter.
       owner: account,
       chainId: 37,
       chainName: "Polygon",
@@ -92,6 +93,7 @@ export default function Mint(
     if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
       const provider = new ethers.providers.Web3Provider(window.ethereum as any);
       const signer = provider.getSigner();
+      // the person that is currently logged into metamask
       const address = await signer.getAddress();
 
 
