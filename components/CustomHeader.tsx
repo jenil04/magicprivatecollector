@@ -15,13 +15,13 @@ import { Account } from "../types/Account";
 const features = [
   {
     name: "About",
-    href: "about",
+    href: "/about",
     description: "About Magic Wizard Tech",
     icon: InformationCircleIcon,
   },
   {
     name: "Create Private NFTs",
-    href: "mint",
+    href: "/mint",
     description: "Create Private NFTs",
     icon: SparklesIcon,
   }
