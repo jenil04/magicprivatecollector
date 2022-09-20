@@ -12,10 +12,10 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
 
     <div className="grid grid-cols-1 gap-y-4 sm:grid-cols-2 sm:gap-x-6 sm:gap-y-10 lg:grid-cols-3 lg:gap-x-8">
       {nfts.map((nft: any, index: number) => (
-        <>
+        <div key={index}>
 
           <div className="group relative overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-100">
-            <Link key={index} href={`/nft/polygon/${nft.tokenAddress}/${nft.tokenId}`}>
+            <Link  href={`/nft/polygon/${nft.tokenAddress}/${nft.tokenId}`}>
               <a>
                 {/* NFT thumbnail */}
                 <div className="relative h-60 group-hover:opacity-75">
@@ -56,7 +56,7 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
 
 
 
-        </>
+        </div>
 
       ))}
     </div>
