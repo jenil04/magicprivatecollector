@@ -3,9 +3,8 @@ import React from "react";
 import { Popover } from "@headlessui/react";
 import {
   WalletIcon,
-  ShoppingBagIcon,
+  InformationCircleIcon,
   SparklesIcon,
-  EyeIcon,
   Bars3Icon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
@@ -15,26 +14,14 @@ import { Account } from "../types/Account";
 
 const features = [
   {
-    name: "Connect Wallet",
-    href: "#", // @TODO need the link to pop the wallet hereS
-    description: "Connect Wallet",
-    icon: WalletIcon,
-  },
-  {
-    name: "View Private Collection",
-    href: "#",
-    description: "View Private Collection",
-    icon: EyeIcon,
-  },
-  {
-    name: "Buy Private NFTs",
-    href: "#",
-    description: "Buy Private NFTs",
-    icon: ShoppingBagIcon,
+    name: "About",
+    href: "about",
+    description: "About Magic Wizard Tech",
+    icon: InformationCircleIcon,
   },
   {
     name: "Create Private NFTs",
-    href: "#",
+    href: "mint",
     description: "Create Private NFTs",
     icon: SparklesIcon,
   }
