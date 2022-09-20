@@ -16,10 +16,6 @@ export default function Index(
   connectWallet: any;
   nfts: NFTLIST;
 }) {
-
-  
-  
-
   
   return (
     <>
@@ -35,11 +31,7 @@ export default function Index(
             <Button buttonText={"Create Private NFTs"} />
           </a>
         </Link>
-      </div>  
-
-      <h2 className={isConnected ? "text-md text-white pb-4" : "text-lg font-semibold text-white mb-4 hidden"}>
-        Connected Wallet Address: <span className="font-normal">{account}</span>
-      </h2>
+      </div> 
       
       <h3 className='mb-2 text-lg'>
         MY COLLECTION

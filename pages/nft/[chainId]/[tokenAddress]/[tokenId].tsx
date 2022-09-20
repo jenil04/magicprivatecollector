@@ -3,10 +3,14 @@ import axios from "axios";
 import NFTDetailPage from '../../../../components/NFTDetailPage';
 import { NFT } from "../../../../types/NFT";
 
-const DetailPage = (props: {nft: NFT}) => {
+
+
+const DetailPage = (props: {nft: NFT, isConnected: boolean;
+  account: string;
+  connectWallet: any;}) => {
 
   return (
-    <NFTDetailPage nft={props.nft} />
+    <NFTDetailPage nft={props.nft} isConnected={props.isConnected} account={props.account} connectWallet={props.connectWallet}/>
 
   )
 }
