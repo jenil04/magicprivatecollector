@@ -7,6 +7,10 @@ import { NFT } from "../types/NFT";
 const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean }) => {
   const { nfts, chainId, isOwned } = props;
   
+  const buyNFT = (tokenAddress: string, tokenId: string) => {
+    console.log(tokenId);
+    console.log(tokenAddress);
+  };
 
   return (
 
@@ -49,7 +53,8 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
             {/* Buy NFT */}
             {isOwned ? '' : 
               <div className="text-center my-3">
-                <Button buttonText={"BUY ME@!"} />
+                <button onClick={ev =>buyNFT(nft.tokenAddress,nft.tokenId)} className="text-black">BUY ME</button>
+                {/* <Button buttonText={"BUY ME@!"}  /> */}
               </div>
             }
           </div>

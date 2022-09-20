@@ -82,7 +82,7 @@ const NFTDetailPage = (props: {
       <div className="mt-8 col-span-12">
         <div className="mt-4">
           <h2>
-            Here's your private content
+            Here&apos;s your private content
           </h2>
           <p>
             <span className="font-light uppercase">Private NFT Name:</span> {metadata.private.name}
