@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import Button from '../components/Button';
+import { Button, ButtonDisabled } from '../components/Button';
 import { NFT } from "../types/NFT";
 
 const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean }) => {
@@ -19,7 +19,7 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
         <div key={index}>
 
           <div className="group relative overflow-hidden rounded-lg border-2 border-gray-200 bg-gray-100">
-            <Link  href={`/nft/polygon/${nft.tokenAddress}/${nft.tokenId}`}>
+            <Link href={`/nft/polygon/${nft.tokenAddress}/${nft.tokenId}`}>
               <a>
                 {/* NFT thumbnail */}
                 <div className="relative h-60 group-hover:opacity-75">
@@ -50,19 +50,18 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
                 </div>
               </a>
             </Link>
-            {/* Buy NFT */}
-            {isOwned ? '' : 
-              <div className="text-center my-3">
-                <button onClick={ev =>buyNFT(nft.tokenAddress,nft.tokenId)} className="text-black">BUY ME</button>
-                {/* <Button buttonText={"BUY ME@!"}  /> */}
-              </div>
+            {/* Buy NFT 
+              @TODO need to know if the user isConnected or not for disabled button <ButtonDisabled btnText={"BUY NOW"} />
+            */}
+            {isOwned ? '' :
+              <>
+                <div className="text-center my-3">
+                  <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="text-black">BUY NOW</button>
+                </div>
+              </>
             }
           </div>
-
-
-
         </div>
-
       ))}
     </div>
   );
