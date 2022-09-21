@@ -7,11 +7,10 @@ import { NFT } from "../types/NFT";
 
 const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean, isConnected: boolean }) => {
   const { nfts, chainId, isOwned, isConnected } = props;
-  
+
   const buyNFT = async (tokenAddress: string, tokenId: string) => {
     if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
 
-      
       console.log(tokenId);
       console.log(tokenAddress);
 
@@ -31,7 +30,7 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
       //       '0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675',
       //   },
       // ];
-      
+
       // window.ethereum
       //   .request({
       //     method: 'eth_sendTransaction',
@@ -51,7 +50,7 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
 
       // console.log('buy result: ', result);
     }
-    
+
   };
 
   return (
@@ -92,15 +91,19 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
                 </div>
               </a>
             </Link>
-            {/* Buy NFT 
-              if the user isConnected or not for disabled button <ButtonDisabled btnText={"BUY NOW"} />
-            */}
-            {isOwned ? '' :
-              <>
-                <div className="text-center my-3">
-                  <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="text-black">BUY NOW</button>
-                </div>
-              </>
+
+            {/* disabled buy button for not connected          */}
+            {isConnected == false ?
+              <div className="text-center my-3">
+                <ButtonDisabled btnText="BUY NOW!" />
+              </div>
+              : ''
+            }
+            {/* enabled buy button only if are connected and don't own it */}
+            {isOwned || isConnected == false ? '' :
+              <div className="text-center my-3">
+                <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">BUY NOW</button>
+              </div>
             }
           </div>
         </div>

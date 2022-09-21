@@ -1,16 +1,14 @@
-export function Button({ btnText = "button text here", btnClasses =  '', btnDisabled = false}) {
+export function Button({ btnText = "button text here", btnClasses =  ''}) {
   return (
     <button 
-      className="rounded-md shadow" disabled = {btnDisabled}>
+      className="rounded-md shadow">
       <p
-        className={`inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-700 hover:bg-gray-500 ${btnClasses}`}>
+        className={`inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800 ${btnClasses}`}>
         {btnText}
       </p>
     </button>
   )
 }
-
-// @TODO remove this and use above
 
 export function ButtonDisabled({ btnText = "button text here", btnClasses =  ''}) {
   return (
