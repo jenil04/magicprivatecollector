@@ -3,6 +3,7 @@ import React from "react";
 import { Popover } from "@headlessui/react";
 import {
   WalletIcon,
+  EyeIcon,
   InformationCircleIcon,
   SparklesIcon,
   Bars3Icon,
@@ -27,11 +28,8 @@ const features = [
   }
 ];
 
-
-
-
 export default function CustomHeader(account: Account) {
-  const {isConnected, address, connectWallet} = account;
+  const { isConnected, address, connectWallet } = account;
 
   return (
     <Popover className="relative">
@@ -53,21 +51,47 @@ export default function CustomHeader(account: Account) {
               </a>
             </Link>
           </div>
+
+          {/* Mobile Nav Open */}
           <div className="-mr-2 -my-2 md:hidden">
             <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
               <span className="sr-only">Open menu</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
             </Popover.Button>
           </div>
-          <Popover.Group as="nav" className="hidden md:flex space-x-10">
-            {features.map((item) => (
-              <Link href={item.href} key={item.name} >
-                <a onClick={connectWallet} title={item.description} className="font-medium text-white hover:text-mwt">
-                  {item.name}
-                </a>
-              </Link>
-            ))}
-          </Popover.Group>
+
+          {/* Desktop Nav Links */}
+          <div className="hidden md:flex space-x-10">
+            <nav className="flex font-medium text-white cursor-pointer">
+              {isConnected ? '' :
+                <a onClick={connectWallet} title="Connect MetaMask" className="flex items-center hover:text-mwt">
+                  <WalletIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                  <span className="ml-0.5">
+                    Connect MetaMask
+                  </span>
+                </a>}
+
+              <a href="/" title="View Collection" className="flex items-center hover:text-mwt ml-3">
+                <EyeIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                <span className="ml-0.5">
+                  Collection
+                </span>
+              </a>
+              <a href="/mint" title="Create Private NFTs" className="flex items-center hover:text-mwt ml-3">
+                <SparklesIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                <span className="ml-0.5">
+                  Create Private NFTs
+                </span>
+              </a>
+              <a href="/about" title="About MWT" className="flex items-center hover:text-mwt ml-3">
+                <InformationCircleIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                <span className="ml-0.5">
+                  About
+                </span>
+              </a>
+            </nav>
+          </div>
+
         </div>
       </div>
       <Popover.Panel
@@ -88,6 +112,8 @@ export default function CustomHeader(account: Account) {
                 />
 
               </div>
+
+              {/* Mobile Nav Close */}
               <div className="-mr-2">
                 <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
                   <span className="sr-only">Close menu</span>
@@ -95,6 +121,8 @@ export default function CustomHeader(account: Account) {
                 </Popover.Button>
               </div>
             </div>
+
+            {/* Mobile Nav Links */}
             <div className="mt-6">
               <nav className="grid gap-y-8">
                 {features.map((item) => (

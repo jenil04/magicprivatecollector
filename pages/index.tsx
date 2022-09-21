@@ -1,10 +1,8 @@
 import NFTGallery from '../components/NFTGallery';
 import Button from '../components/Button';
+import Link from 'next/link';
 import { NFTLIST } from "../types/NFT";
 
-
-
-import Link from 'next/link';
 
 // polygon quicknode
 // const provider = new ethers.providers.JsonRpcProvider('https://multi-necessary-morning.matic.quiknode.pro/9cebc8e52d41fb7a7cf25167b7f92f740a892623/');
@@ -24,7 +22,7 @@ export default function Index(
       </h1>
       <div className='mb-4'>
         <button onClick={connectWallet} className={isConnected ? "hidden" : "rounded-md shadow pr-5"}>
-          <p className="inline-flex items-center justify-center px-5 py-3 pr-5 border border-mwt text-base font-medium rounded-md text-white bg-gray-700 hover:bg-gray-500">{isConnected ? "Connected" : "Connect Wallet"}</p>
+          <p className="inline-flex items-center justify-center px-5 py-3 pr-5 border border-mwt text-base font-medium rounded-md text-white bg-gray-700 hover:bg-gray-500">{isConnected ? "Connected" : "Connect MetaMask"}</p>
         </button>
         <Link href="/mint">
           <a>
@@ -36,11 +34,26 @@ export default function Index(
       <h3 className='mb-2 text-lg'>
         MY COLLECTION
       </h3>
+      {/* not connected state */}
+      {isConnected ? '' :
+        <p>
+          <a onClick={connectWallet} title="Connect MetaMask" className="inline text-mwt">Connect your MetaMask Wallet</a> to browse your current collection or purchase some of the private NFTs on offer below!
+        </p>
+      }
+      
+      {/* connected but no assets @TODO this may be wrong... */}
+      {isConnected && nfts.owned && nfts.owned.length === 0 ?
+        <p>
+          You're connected! Now you can browse and purchase some of the private NFTs on offer below!
+        </p>
+      : '' }
+      
+      {/* connected with assets */}
       {nfts.owned && nfts.owned.length > 0 ?
         <NFTGallery nfts={nfts.owned} chainId="37" isOwned={true} />
       : '' }
 
-      <h3 className='mb-2 mt-10 text-lg'>
+      <h3 className='mb-2 mt-8 text-lg'>
         FOR SALE
       </h3>
       {nfts.notOwned && nfts.notOwned.length > 0 ?
@@ -48,7 +61,7 @@ export default function Index(
       : '' }
 
       <h3 className="text-lg text-mwt font-medium">
-        About Magic Wizard Collector
+        About Magic Private Collector
       </h3>
       <p>
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aenean tempor velit dolor, non ornare eros posuere non. Pellentesque vitae sodales enim. Donec nec tellus lacinia, dapibus ligula id, tempor dui. Cras dapibus nisi at gravida venenatis. Sed augue ante, accumsan sit amet placerat quis, feugiat et diam. Praesent feugiat lorem dignissim imperdiet lacinia. Aliquam libero tortor, hendrerit nec dapibus quis, sollicitudin id eros.
