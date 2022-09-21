@@ -8,6 +8,8 @@ export default function Footer(account: Account) {
 
   return (
     <footer className="bg-gray-900 text-gray-400" aria-labelledby="footer-heading">
+      <div className="border-dashed border-t border-gray-700 mb-8 sm:max-w-xl max-w-md mx-auto">
+      </div>
       <div className="text-center">
         <span className="mr-3">Contact us:</span>
         <a
