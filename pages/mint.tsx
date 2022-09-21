@@ -154,15 +154,22 @@ export default function Mint(
             <label htmlFor="price" className="block font-medium">
               Price
             </label>
-            <div className="mt-1">
-              <input
-                type="text"
-                id="price"
-                name="price"
-                className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
-                value={price}
-                onChange={ev => setPrice(ev.target.value)}
-              />
+            <div className="relative rounded-md shadow-sm">
+              <div className="mt-1">
+                <input
+                  type="text"
+                  id="price"
+                  name="price"
+                  className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+                  value={price}
+                  onChange={ev => setPrice(ev.target.value)}
+                />
+                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center pr-3">
+                  <span className="text-gray-500 sm:text-sm" id="price-currency">
+                    MATIC
+                  </span>
+                </div>
+              </div>
             </div>
           </div>
 
