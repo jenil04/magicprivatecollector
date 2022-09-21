@@ -9,7 +9,7 @@ export default function Footer(account: Account) {
   return (
     <footer className="bg-gray-900 text-gray-400" aria-labelledby="footer-heading">
       <div className="text-center">
-        <span className="mr-3">Email us:</span>
+        <span className="mr-3">Contact us:</span>
         <a
           href="mailto:info@magicwizardtech.com"
           className="inline-flex items-center justify-center px-5 py-3 border border-transparent text-base font-medium rounded-md text-gray-900 bg-white hover:bg-gray-50"

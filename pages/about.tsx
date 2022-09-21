@@ -1,11 +1,4 @@
-
-
-export default function About(
-  { isConnected, account, connectWallet, nfts }: {
-    isConnected: boolean;
-    account: string;
-    connectWallet: any;
-  }) {
+export default function About() {
 
   return (
     <>
