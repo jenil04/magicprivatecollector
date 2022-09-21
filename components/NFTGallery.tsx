@@ -1,15 +1,57 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { ethers } from "ethers";
 import { Button, ButtonDisabled } from '../components/Button';
 import { NFT } from "../types/NFT";
 
-const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean }) => {
-  const { nfts, chainId, isOwned } = props;
+const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean, isConnected: boolean }) => {
+  const { nfts, chainId, isOwned, isConnected } = props;
   
-  const buyNFT = (tokenAddress: string, tokenId: string) => {
-    console.log(tokenId);
-    console.log(tokenAddress);
+  const buyNFT = async (tokenAddress: string, tokenId: string) => {
+    if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
+
+      
+      console.log(tokenId);
+      console.log(tokenAddress);
+
+      const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+      const signer = provider.getSigner();
+      // the person that is currently logged into metamask
+      const address = await signer.getAddress();
+
+      // params: [
+      //   {
+      //     from: '0xb60e8dd61c5d32be8058bb8eb970870f07233155',
+      //     to: '0xd46e8dd67c5d32be8058bb8eb970870f07244567',
+      //     gas: '0x76c0', // 30400
+      //     gasPrice: '0x9184e72a000', // 10000000000000
+      //     value: '0x9184e72a', // 2441406250
+      //     data:
+      //       '0xd46e8dd67c5d32be8d46e8dd67c5d32be8058bb8eb970870f072445675058bb8eb970870f072445675',
+      //   },
+      // ];
+      
+      // window.ethereum
+      //   .request({
+      //     method: 'eth_sendTransaction',
+      //     params,
+      //   })
+      //   .then((result) => {
+      //     // The result varies by RPC method.
+      //     // For example, this method will return a transaction hash hexadecimal string on success.
+      //   })
+      //   .catch((error) => {
+      //     // If the request fails, the Promise will reject with an error.
+      //   });
+
+      // const contract = new ethers.Contract(tokenAddress, abi, signer);
+
+      // const result = await contract.mint(address, tokenId, Number(totalSupply), '0x');
+
+      // console.log('buy result: ', result);
+    }
+    
   };
 
   return (
@@ -51,7 +93,7 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
               </a>
             </Link>
             {/* Buy NFT 
-              @TODO need to know if the user isConnected or not for disabled button <ButtonDisabled btnText={"BUY NOW"} />
+              if the user isConnected or not for disabled button <ButtonDisabled btnText={"BUY NOW"} />
             */}
             {isOwned ? '' :
               <>
