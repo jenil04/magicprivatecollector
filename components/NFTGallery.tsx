@@ -75,12 +75,12 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
                 </div>
                 {/* NFT info */}
                 <div className="rounded-lg bg-gray-800 mt-3">
-                  <div className="font-medium space-y-2 py-3 px-4">
-                    <h3>
-                      <span className="font-light uppercase">NFT Name:</span> {nft.metadata.name}
+                  <div className="space-y-2 py-3 px-4">
+                    <h3 className="text-xl font-medium">
+                      {nft.metadata.name}
                     </h3>
                     <p>
-                      <span className="font-light uppercase">Description:</span> {nft.metadata.description}
+                      {nft.metadata.description}
                     </p>
                     <p>
                       <span className="font-light uppercase">Price:</span> {nft.price} MATIC

@@ -100,9 +100,6 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   }
 
-
-
-
   return (
     <>
       <Head>
@@ -120,7 +117,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
         {/* Section: Header w/ Nav */}
         <CustomHeader isConnected={isConnected} address={account} connectWallet={connectWallet} />
         
-        <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8 text-gray-100">
+        <main className="mx-auto max-w-2xl pb-16 px-4 sm:px-6 lg:max-w-7xl text-gray-100">
 
           <Component {...pageProps} nfts={nfts} isConnected={isConnected} account={account} connectWallet={connectWallet} />
 
