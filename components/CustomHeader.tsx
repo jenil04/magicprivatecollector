@@ -36,7 +36,7 @@ export default function CustomHeader(account: Account) {
       <div className="max-w-7xl mx-auto px-6">
         <div className="flex justify-between items-center py-6 lg:justify-start md:space-x-10">
           <div className="flex justify-start lg:w-0 lg:flex-1 items-center">
-            <Link href={`/`}>
+            <Link href="/">
               <a>
                 <span className="sr-only">Magic Private Collector</span>
                 <Image
@@ -49,7 +49,9 @@ export default function CustomHeader(account: Account) {
 
               </a>
             </Link>
-            <a href="/" title="Magic Private Collector" className="flex items-center text-2xl text-mwt ml-3">MWT&apos;s Magic Private Collector</a>
+            <Link href="/">
+              <a title="Magic Private Collector" className="flex items-center text-2xl text-mwt ml-3">MWT&apos;s Magic Private Collector</a>
+            </Link>
           </div>
 
           {/* Mobile Nav Open */}
@@ -70,25 +72,30 @@ export default function CustomHeader(account: Account) {
                     Connect MetaMask
                   </span>
                 </a>}
-
-              <a href="/" title="View Collection" className="flex items-center hover:text-mwt ml-3">
-                <EyeIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
-                <span className="ml-0.5">
-                  Collection
-                </span>
-              </a>
-              <a href="/mint" title="Create Private NFTs" className="flex items-center hover:text-mwt ml-3">
-                <SparklesIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
-                <span className="ml-0.5">
-                  Create Private NFTs
-                </span>
-              </a>
-              <a href="/about" title="About MWT" className="flex items-center hover:text-mwt ml-3">
-                <InformationCircleIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
-                <span className="ml-0.5">
-                  About
-                </span>
-              </a>
+              <Link href="/">
+                <a title="View Collection" className="flex items-center hover:text-mwt ml-3">
+                  <EyeIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                  <span className="ml-0.5">
+                    Collection
+                  </span>
+                </a>
+              </Link>
+              <Link href="/mint">
+                <a title="Create Private NFTs" className="flex items-center hover:text-mwt ml-3">
+                  <SparklesIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                  <span className="ml-0.5">
+                    Create Private NFTs
+                  </span>
+                </a>
+              </Link>
+              <Link href="/about">
+                <a title="About MWT" className="flex items-center hover:text-mwt ml-3">
+                  <InformationCircleIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                  <span className="ml-0.5">
+                    About
+                  </span>
+                </a>{/*  */}
+              </Link>
             </nav>
           </div>
 
@@ -115,7 +122,9 @@ export default function CustomHeader(account: Account) {
 
                   </a>
                 </Link>
-                <a href="/" title="Magic Private Collector" className="flex items-center text-2xl text-mwt ml-3">MWT&apos;s Magic Private Collector</a>
+                <Link href="/">
+                  <a title="Magic Private Collector" className="flex items-center text-2xl text-mwt ml-3">MWT&apos;s Magic Private Collector</a>
+                </Link>
               </div>
 
               {/* Mobile Nav Close */}

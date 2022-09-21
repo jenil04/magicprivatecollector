@@ -16,9 +16,14 @@ export default function Mint(
     account: string;
     connectWallet: any;
   }) {
+  
+  
 
-  const [totalSupply, setTotalSupply] = useState('1000');
-  const [price, setPrice] = useState('0.001');
+  const [totalSupply, setTotalSupply] = useState('');
+  const [totalSupplyError, setTotalSupplyError] = useState(false);
+  const [price, setPrice] = useState('');
+  const [priceError, setPriceError]  = useState(false);
+
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [privateContentTitle, setPrivateContentTitle] = useState('');
@@ -28,8 +33,8 @@ export default function Mint(
   const [imageUrl, setImageUrl] = useState('');
   const [privateContentUrl, setPrivateContentUrl] = useState('');
 
-  let { uploadToS3 } = useS3Upload();
-
+  let { uploadToS3, files, resetFiles } = useS3Upload();
+  
 
   // these two functions need to be combined into one!
   async function handleFileChange(event: any) {
@@ -37,7 +42,7 @@ export default function Mint(
     let { url } = await uploadToS3(file);
 
     setImageUrl(url);
-
+    resetFiles();
   };
 
 
@@ -46,12 +51,27 @@ export default function Mint(
     let { url } = await uploadToS3(file);
 
     setPrivateContentUrl(url);
+    resetFiles();
 
   };
 
 
   async function handleSubmit(event: any) {
     event.preventDefault();
+    let isSubmitReady = true;
+
+    if(!price || price === '' ) {
+      setPriceError(true);
+      isSubmitReady = false;
+    }
+    if(!totalSupply || totalSupply === '' ) {
+      setTotalSupplyError(true);
+      isSubmitReady = false;
+    }
+
+
+
+    if(isSubmitReady) {
 
     // needs to be a number!
     const tokenId = Date.now().toString();
@@ -121,12 +141,15 @@ export default function Mint(
 
   }
 
+  }
+
   return (
 
     <div className="rounded-lg border border-gray-200 bg-gray-800 p-4">
       <div>
         <h3 className="text-2xl font-medium">Create a Private NFT</h3>
         <p className="mt-1 text-base text-gray-200">
+
           Enter the details for your private NFT below. Please bear in mind the information in the teaser section will be publicly viewable. The private section is will only be viewable to a purchaser of the NFT!
         </p>
       </div>
@@ -138,11 +161,16 @@ export default function Mint(
             <label htmlFor="totalSupply" className="block font-medium">
               Total Supply
             </label>
+            {totalSupplyError ?  
+              <div>You some supply, you fool!!</div>
+              : ''
+            }
             <div className="mt-1">
               <input
                 type="text"
                 id="totalSupply"
                 name="totalSupply"
+                placeholder="1000"
                 className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
                 value={totalSupply}
                 onChange={ev => setTotalSupply(ev.target.value)}
@@ -154,6 +182,10 @@ export default function Mint(
             <label htmlFor="price" className="block font-medium">
               Price
             </label>
+            {priceError ?  
+              <div>You need a price!</div>
+              : ''
+            }
             <div className="relative rounded-md shadow-sm">
               <div className="mt-1">
                 <input
@@ -161,6 +193,7 @@ export default function Mint(
                   id="price"
                   name="price"
                   className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+                  placeholder="0.001"
                   value={price}
                   onChange={ev => setPrice(ev.target.value)}
                 />
@@ -210,7 +243,14 @@ export default function Mint(
               Teaser Image
             </label>
 
-            <img src={imageUrl} />
+            <img src={imageUrl} width={100} />
+            <div className="pt-8">
+              {files.map((file, index) => (
+                <div key={index}>
+                  File #{index} progress: {file.progress}%
+                </div>
+              ))}
+            </div>
             <div className="mt-1">
               <div className="flex text-sm text-gray-600">
                 <label
@@ -233,7 +273,7 @@ export default function Mint(
         </fieldset>
 
         <fieldset className="rounded-lg border border-gray-200 p-4">
-          <legend className="m-2 px-2 text-red-600">Private NFT Info</legend>
+          <legend className="m-2 px-2 text-red-500">Private NFT Info</legend>
           <div className="">
             <label htmlFor="privateContentTitle" className="font-medium">
               Private Content Title
@@ -269,14 +309,14 @@ export default function Mint(
             <label htmlFor="image" className="block font-medium">
               Private Content Image
             </label>
-            {/* @TODO are we doing image only or a mov file thing? */}
-            {privateContentUrl.includes('.mov') ?
-              <video controls>
-                <source src={privateContentUrl} type="video/mov" />
-              </video>
-              :
-              <img src={privateContentUrl} />
-            }
+            <div className="pt-8">
+              {files.map((file, index) => (
+                <div key={index}>
+                  File #{index} progress: {file.progress}%
+                </div>
+              ))}
+            </div>
+            <img src={privateContentUrl} width={100} />
 
             <div className="mt-1">
               <div className="flex text-sm text-gray-600">

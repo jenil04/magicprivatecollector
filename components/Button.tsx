@@ -1,7 +1,7 @@
-export function Button({ btnText = "button text here", btnClasses =  ''}) {
+export function Button({ btnText = "button text here", btnClasses =  '', btnDisabled = false}) {
   return (
     <button 
-      className="rounded-md shadow">
+      className="rounded-md shadow" disabled = {btnDisabled}>
       <p
         className={`inline-flex items-center justify-center px-5 py-3 border border-mwt text-base font-medium rounded-md text-white bg-gray-700 hover:bg-gray-500 ${btnClasses}`}>
         {btnText}
@@ -10,7 +10,7 @@ export function Button({ btnText = "button text here", btnClasses =  ''}) {
   )
 }
 
-// @TODO how do I place the below word "disabled" via a function param?
+// @TODO remove this and use above
 
 export function ButtonDisabled({ btnText = "button text here", btnClasses =  ''}) {
   return (
