@@ -5,7 +5,8 @@ import { ethers, FixedNumber } from "ethers";
 import { Button, ButtonDisabled } from '../components/Button';
 import { NFT } from "../types/NFT";
 import { abi } from '../data/abi';
-
+import axios from "axios";
+import { useRouter } from 'next/router';
 
 const NFTGallery = (props: { nfts: Array<NFT>, 
   chainId: string, 
@@ -16,12 +17,14 @@ const NFTGallery = (props: { nfts: Array<NFT>,
 
   const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
   
+  const router = useRouter();
 
-  const buyNFT = async (tokenAddress: string, tokenId: string) => {
+  const buyNFT = async (tokenAddress: string, tokenId: string, owner: string) => {
     if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
 
       console.log(tokenId);
       console.log(tokenAddress);
+      console.log(owner);
 
       const provider = new ethers.providers.Web3Provider(window.ethereum as any);
       const signer = provider.getSigner();
@@ -30,9 +33,34 @@ const NFTGallery = (props: { nfts: Array<NFT>,
 
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      const result = await contract.executeSale(1, Number(tokenId), { gasLimit: 10152132 });
+      
+      const result = await contract.executeSale(owner, address,Number(tokenId), { gasLimit: 10152132 });
+
+      // when the sale is done, update our database
 
       console.log('transfer result: ', result);
+
+      const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/sale',
+          {
+            tokenAddressTokenId: `${tokenAddress}_${tokenId}`,
+            chainId: 37,
+            buyer: address
+          },
+          {
+            headers: {
+              'Accept': 'application/json',
+            }
+          });
+
+        console.log(backendResult);
+        // handleNewAccounts(account);
+
+        result.wait().then(function (receipt: any) {
+          console.log('sale result: ', receipt);
+
+          router.push('/');
+
+        });
 
     }
 
@@ -83,7 +111,7 @@ const NFTGallery = (props: { nfts: Array<NFT>,
             {/* enabled buy button only if are connected and don't own it */}
             {isConnected && !isOwned ?
               <div className="text-center my-3">
-                <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">
+                <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId, nft.owner)} className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">
                   BUY NOW
                 </button>
               </div>
