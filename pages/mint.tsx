@@ -1,6 +1,7 @@
-import { useState } from 'react';
+import { useState, useRef } from 'react';
 import { useS3Upload } from "next-s3-upload";
 import axios from "axios";
+import { useRouter } from 'next/router';
 
 import { NFT, Metadata } from '../types/NFT';
 import { abi } from '../data/abi';
@@ -10,32 +11,35 @@ import { ethers } from 'ethers';
 
 
 export default function Mint(
-  { isConnected, account, connectWallet }: {
+  { isConnected, account, connectWallet, handleNewAccounts }: {
     isConnected: boolean;
     account: string;
     connectWallet: any;
+    handleNewAccounts: any;
   }) {
-  
-  
+
+  const router = useRouter();
 
   const [totalSupply, setTotalSupply] = useState('');
   const [totalSupplyError, setTotalSupplyError] = useState(false);
   const [price, setPrice] = useState('');
-  const [priceError, setPriceError]  = useState(false);
+  const [priceError, setPriceError] = useState(false);
 
   const [name, setName] = useState('');
   const [description, setDescription] = useState('');
   const [privateContentTitle, setPrivateContentTitle] = useState('');
   const [privateContentDescription, setPrivateContentDescription] = useState('');
 
+  const [isMintInProgress, setIsMintInProgress] = useState(false);
+
   const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
-  
+
   // preview content files
   const [imageUrl, setImageUrl] = useState('');
   const [privateContentUrl, setPrivateContentUrl] = useState('');
 
   let { uploadToS3, files, resetFiles } = useS3Upload();
-  
+
 
   // these two functions need to be combined into one!
   async function handleFileChange(event: any) {
@@ -60,92 +64,105 @@ export default function Mint(
     event.preventDefault();
     let isSubmitReady = true;
 
-    if(!price || price === '' ) {
+    if (!price || price === '') {
       setPriceError(true);
       isSubmitReady = false;
     }
-    if(!totalSupply || totalSupply === '' ) {
+    if (!totalSupply || totalSupply === '') {
       setTotalSupplyError(true);
       isSubmitReady = false;
     }
 
 
 
-    if(isSubmitReady) {
+    if (isSubmitReady) {
 
-    // needs to be a number!
-    const tokenId = Date.now().toString();
-
-    
-
-
-    // create the form data
-    const nft: NFT = {
-      // this needs to be reconfigured when the mint actually happens
-      tokenAddress: contractAddress,
-      // the owner is the person that is logged in with their metamask right now and this is the minter.
-      owner: account,
-      chainId: 37,
-      chainName: "Polygon",
-
-      contractType: "ERC1155",
-      name: "MagicPrivateCollector - Secret NFTs",
-      uri: `https://magicprivatecollector.com/nft/37/${contractAddress}/${tokenId}`,
-
-      tokenId,
-      totalSupply: Number(totalSupply),
-      availableSupply: Number(totalSupply),
-      price: Number(price),
-      metadata: {
-        "image": imageUrl,
-        "name": name,
-        "description": description,
-        "private": {
-          "url": privateContentUrl,
-          "name": privateContentTitle,
-          "description": privateContentDescription
-        }
-      } as Metadata
-    };
+      // needs to be a number!
+      const tokenId = Date.now().toString();
 
 
 
-    if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
-      const provider = new ethers.providers.Web3Provider(window.ethereum as any);
-      const signer = provider.getSigner();
-      // the person that is currently logged into metamask
-      const address = await signer.getAddress();
+
+      // create the form data
+      const nft: NFT = {
+        // this needs to be reconfigured when the mint actually happens
+        tokenAddress: contractAddress,
+        // the owner is the person that is logged in with their metamask right now and this is the minter.
+        owner: account,
+        chainId: 37,
+        chainName: "Polygon",
+
+        contractType: "ERC1155",
+        name: "MagicPrivateCollector - Secret NFTs",
+        uri: `https://magicprivatecollector.com/nft/37/${contractAddress}/${tokenId}`,
+
+        tokenId,
+        totalSupply: Number(totalSupply),
+        availableSupply: Number(totalSupply),
+        price: Number(price),
+        metadata: {
+          "image": imageUrl,
+          "name": name,
+          "description": description,
+          "private": {
+            "url": privateContentUrl,
+            "name": privateContentTitle,
+            "description": privateContentDescription
+          }
+        } as Metadata
+      };
 
 
-      const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      const result = await contract.mint(address, tokenId, Number(totalSupply), '0x');
+      if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
+        const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+        const signer = provider.getSigner();
+        // the person that is currently logged into metamask
+        const address = await signer.getAddress();
 
-      console.log('mint result: ', result);
+        console.log(contractAddress);
+        const contract = new ethers.Contract(contractAddress, abi, signer);
+
+        const result = await contract.mint(address, tokenId, Number(totalSupply), '0x');
+        setIsMintInProgress(true);
 
 
-    } else {
-      console.log('user must connect wallet');
+        console.log('mint result: ', result);
+
+        const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/mint',
+          nft,
+          {
+            headers: {
+              'Accept': 'application/json',
+            }
+          });
+
+        console.log(backendResult);
+        handleNewAccounts(account);
+
+        result.wait().then(function (receipt: any) {
+          console.log('mint result: ', receipt);
+
+          setIsMintInProgress(false);
+
+          router.push('/');
+
+        });
+
+
+
+      } else {
+        console.log('user must connect wallet');
+      }
+
     }
-
-
-    const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/mint',
-      nft,
-      {
-        headers: {
-          'Accept': 'application/json',
-        }
-      });
-
-    console.log(backendResult);
-
-  }
 
   }
 
   return (
 
     <div className="rounded-lg border border-gray-200 bg-gray-800 p-4">
+
       <div>
         <h3 className="text-2xl font-medium">Create a Private NFT</h3>
         <p className="mt-1 text-base text-gray-200">
@@ -161,7 +178,7 @@ export default function Mint(
             <label htmlFor="totalSupply" className="block font-medium">
               Total Supply
             </label>
-            {totalSupplyError ?  
+            {totalSupplyError ?
               <div>You some supply, you fool!!</div>
               : ''
             }
@@ -182,7 +199,7 @@ export default function Mint(
             <label htmlFor="price" className="block font-medium">
               Price
             </label>
-            {priceError ?  
+            {priceError ?
               <div>You need a price!</div>
               : ''
             }
@@ -338,6 +355,7 @@ export default function Mint(
             </div>
           </div>
         </fieldset>
+        {isMintInProgress ? <div className='text-mwt text-2xl'>Transaction is waiting to finish on the blockchain. Please stay put you will be redirected when its ready!</div> : ''}
         <div className="text-right mt-4">
 
           {isConnected ? <Button btnText="Create Private NFT" />

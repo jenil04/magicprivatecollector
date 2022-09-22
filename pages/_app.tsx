@@ -136,7 +136,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
         <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8 text-gray-100">
 
-          <Component {...pageProps} nfts={nfts} isConnected={isConnected} account={account} connectWallet={connectWallet} />
+          <Component {...pageProps} handleNewAccounts={handleNewAccounts} nfts={nfts} isConnected={isConnected} account={account} connectWallet={connectWallet} />
 
         </main>
         {/* Section: Footer */}
