@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import Link from "next/link";
-import { ethers } from "ethers";
+import { ethers, FixedNumber } from "ethers";
 import { Button, ButtonDisabled } from '../components/Button';
 import { NFT } from "../types/NFT";
 import { abi } from '../data/abi';
@@ -30,7 +30,7 @@ const NFTGallery = (props: { nfts: Array<NFT>,
 
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      const result = await contract.executeSale(0.001, Number(tokenId));
+      const result = await contract.executeSale(1, Number(tokenId), { gasLimit: 10152132 });
 
       console.log('transfer result: ', result);
 
