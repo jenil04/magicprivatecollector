@@ -324,7 +324,11 @@ export default function Mint(
               <p className='text-red-600'>Please upload the Teaser Image</p>
               : ''
             }
-            <img src={imageUrl} width={100} />
+            <img 
+              src={imageUrl} 
+              alt={name}
+              width={100} 
+              />
             <div className="pt-8">
               {files.map((file, index) => (
                 <div key={index}>
@@ -409,7 +413,10 @@ export default function Mint(
                 </div>
               ))}
             </div>
-            <img src={privateContentUrl} width={100} />
+            <img 
+              src={privateContentUrl} 
+              alt={privateContentTitle}
+              width={100} />
 
             <div className="mt-1">
               <div className="flex text-sm text-gray-600">
