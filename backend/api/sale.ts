@@ -30,6 +30,7 @@ export const saleApi = async (
 
             const item: NFT = {
                 ...nft,
+                metadata: JSON.stringify(nft.metadata),
                 availableSupply: nft.availableSupply - 1,
             };
 
