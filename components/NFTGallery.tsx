@@ -63,17 +63,15 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
             <Link href={`/nft/polygon/${nft.tokenAddress}/${nft.tokenId}`}>
               <a>
                 {/* NFT thumbnail */}
-                <div className="relative h-60 group-hover:opacity-75">
-                  <Image
+                <div className="relative group-hover:opacity-75 m-1">
+                  <img
                     src={nft.metadata.image}
                     alt={nft.metadata.name}
-                    className=""
-                    layout='fill'
-                    objectFit="contain"
+                    className='rounded-lg max-h-64 mx-auto'
                   />
                 </div>
                 {/* NFT info */}
-                <div className="rounded-lg bg-gray-800 mt-3">
+                <div className="rounded-lg bg-gray-800 mx-1">
                   <div className="space-y-2 py-3 px-4">
                     <h3 className="text-xl font-medium">
                       {nft.metadata.name}

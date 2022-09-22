@@ -273,7 +273,7 @@ export default function Mint(
         </fieldset>
 
         <fieldset className="rounded-lg border border-gray-200 p-4">
-          <legend className="m-2 px-2 text-red-500">Private NFT Info</legend>
+          <legend className="m-2 px-2 text-rose-600">Private NFT Info</legend>
           <div className="">
             <label htmlFor="privateContentTitle" className="font-medium">
               Private Content Title

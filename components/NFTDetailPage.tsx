@@ -32,19 +32,12 @@ const NFTDetailPage = (props: {
 
         {/* Thumbnail / Teaser Image */}
         <div className="mt-8 lg:col-span-5 lg:col-start-1 lg:row-span-3 lg:row-start-1 lg:mt-0">
-          <div className="relative h-60 lg:col-span-2 lg:row-span-2">
-            <Image
+          <div className="relative lg:col-span-2 lg:row-span-2">
+            <img
               src={metadata.image}
               alt={metadata.name}
-              className="rounded-lg"
-              layout='fill'
-              objectFit="contain"
+              className='rounded-lg max-h-72'
             />
-            {/* <img
-              src={metadata.image}
-              alt={metadata.name}
-              className='rounded-lg object-contain'
-            /> */}
           </div>
         </div>
 
@@ -111,26 +104,52 @@ const NFTDetailPage = (props: {
 
       {/* Main Private NFT section */}
       <div className="mt-8 col-span-12">
-        <div className="mt-4">
-          <h2>
-            Here&apos;s your private content
-          </h2>
-          <p>
-            <span className="font-light uppercase">Private NFT Name:</span> {metadata.private.name}
-          </p>
-          <span className="font-light uppercase">Private NFT Description:</span> {metadata.private.description}
-        </div>
-        <div className="relative">
-          {/* how do we check for video vs. image vs. audio? */}
-          <video
-            controls
-            controlsList="nodownload"
-            muted
-            playsInline
-            preload="metadata"
-            src={metadata.private.url}
-          />
-        </div>
+        <fieldset className="rounded-lg border border-gray-200 my-4 p-4">
+          <legend className="m-2 px-2 text-rose-600">Private NFT</legend>
+
+          {isOwned ?
+
+            /* display private NFT if isOwned */
+            <>
+              <div className="-mt-4">
+                <p className="text-3xl font-semibold">
+                  {metadata.private.name}
+                </p>
+                <p className="my-2 leading-7">
+                  {metadata.private.description}
+                </p>
+              </div>
+              <div className="relative">
+                <img
+                  src={metadata.private.url}
+                  alt={metadata.private.name}
+                  className='rounded-lg'
+                />
+              </div>
+            </>
+            /* display blurred dummy if is not owned */
+            :
+            <>
+            {/* @TODO text is real blurred with css; image is direct from unsplash and then additionally blurred */}
+              <div className="-mt-4 " style={{color: 'transparent', textShadow: 'rgba(255, 255, 255, 0.95) 0px 0px 20px'}}>
+                <p className="text-3xl font-semibold">
+                  Lorem ipsum dolor sit amet.
+                </p>
+                <p className="my-2 leading-7">
+                  Donec ut fermentum erat. Aenean sed turpis molestie est pulvinar mollis. Integer scelerisque eros a tortor porttitor eleifend. Suspendisse placerat mattis metus, ac euismod leo egestas eu. Class aptent taciti sociosqu ad litora torquent per conubia nostra, per inceptos himenaeos.
+                </p>
+              </div>
+              <div className="relative">
+                <img
+                  src="https://images.unsplash.com/photo-1529686159790-3246c5082afb?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1470&q=80"
+                  alt="It's private! You wanna see it? Buy it!"
+                  className='rounded-lg'
+                  style={{filter: 'blur(1rem)'}}
+                />
+              </div>
+            </>
+          }
+        </fieldset>
 
       </div>
     </div>
