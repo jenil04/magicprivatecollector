@@ -30,6 +30,7 @@ export interface NFT {
     name: string;
     uri: string;
     metadata: Metadata | string;
+    isOwner?:boolean;
 }
 
 export interface NFTLIST {
