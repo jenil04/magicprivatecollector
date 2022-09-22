@@ -36,7 +36,7 @@ const NFTDetailPage = (props: {
             <img
               src={metadata.image}
               alt={metadata.name}
-              className='rounded-lg max-h-72'
+              className='rounded-lg max-h-72 mx-auto'
             />
           </div>
         </div>
