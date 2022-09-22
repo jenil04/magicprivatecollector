@@ -1,7 +1,7 @@
 import React from "react";
 import Image from "next/image";
 import { NFT, Metadata } from "../types/NFT";
-//import ReactPlayer from 'react-player';
+import { Button, ButtonDisabled } from '../components/Button';
 
 const NFTDetailPage = (props: {
   nft: NFT, isConnected: boolean;
@@ -10,19 +10,24 @@ const NFTDetailPage = (props: {
 }) => {
   const { nft, isConnected, account, connectWallet } = props;
   const metadata = nft.metadata as Metadata;
+  // nft.owner comes from the endpoint call in the backend, we can not know this from the parent elements
+  // when the page gets loaded from scratch. So this should do it
+  // we still have this problem here that nft.owner is the person that minted it. But I will fix this tomorrow.
+  const isOwned = account === nft.owner;
 
   return (
     <div className="">
 
       {/* Teaser section */}
       <div className="lg:grid lg:grid-cols-12 lg:gap-x-8 p-4 rounded-lg border border-gray-200 bg-gray-800">
-        {account === nft.owner ? 'OWNS IT!' : "does not own it"}
-        {/* Name & Price */}
+        
+        {/* Name & Description */}
         <div className="lg:col-span-7 lg:col-start-6">
           <h1 className="text-3xl font-semibold">{metadata.name}</h1>
-          <div>
-            <span className="font-light uppercase">Price:</span> {nft.price} MATIC
-          </div>
+          <p className="mt-3 leading-7">
+            {metadata.description}
+          </p>
+          
         </div>
 
         {/* Thumbnail / Teaser Image */}
@@ -45,15 +50,35 @@ const NFTDetailPage = (props: {
 
         {/* NFT details (floats below thumbnail on mobile) */}
         <div className="lg:col-span-5">
-          <div className="leading-10">
-            <p className="leading-6">
-              <span className="font-light uppercase">Description:</span> <span >{metadata.description}</span>
+          <div className="mt-4">
+            <p className="text-xl">
+              <span className="font-light uppercase">Price:</span> {nft.price} MATIC
             </p>
+
+            {/* BUY NOW button section */}
+            {/* show nothing if are connected and don't own it */}
+            {isConnected && isOwned ? <div className="my-4"></div> : ''}
+
+            {/* enabled buy button only if are connected and don't own it */}
+            {isConnected && !isOwned ? <div className="my-4">
+              <button 
+                // onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} 
+                className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">BUY NOW</button>
+            </div> : ''}
+
+            {/* disabled buy button for not connected */}
+            {!isConnected ? <div className="my-4">
+              <ButtonDisabled btnText="BUY NOW" />
+            </div> : ''}
+            
             <p>
               <span className="font-light uppercase">Available Supply:</span> {nft.availableSupply}
             </p>
             <p>
               <span className="font-light uppercase">Total Supply:</span> {nft.totalSupply}
+            </p>
+            <p>
+              <span className="font-light uppercase">Blockchain:</span> {nft.chainName}
             </p>
             {/* <p>
               <span className="font-light uppercase">Available until:</span> FAKE DATE
@@ -70,9 +95,6 @@ const NFTDetailPage = (props: {
             <p>
               <span className="font-light uppercase">Number of views allowed</span> 4
             </p> */}
-            <p>
-              <span className="font-light uppercase">Blockchain:</span> {nft.chainName}
-            </p>
           </div>
         </div>
       </div>

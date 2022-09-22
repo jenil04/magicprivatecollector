@@ -92,19 +92,20 @@ const NFTGallery = (props: { nfts: Array<NFT>, chainId: string, isOwned: boolean
               </a>
             </Link>
 
-            {/* disabled buy button for not connected          */}
-            {isConnected == false ?
-              <div className="text-center my-3">
-                <ButtonDisabled btnText="BUY NOW!" />
-              </div>
-              : ''
-            }
+            {/* BUY NOW button section */}
+            {/* show nothing if are connected and don't own it */}
+            {isConnected && isOwned ? '' : ''}
+
             {/* enabled buy button only if are connected and don't own it */}
-            {isOwned || isConnected == false ? '' :
-              <div className="text-center my-3">
-                <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">BUY NOW</button>
-              </div>
-            }
+            {isConnected && !isOwned ? <div className="text-center my-3">
+              <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">BUY NOW</button>
+            </div> : ''}
+
+            {/* disabled buy button for not connected */}
+            {!isConnected ? <div className="text-center my-3">
+              <ButtonDisabled btnText="BUY NOW" />
+            </div> : ''}
+      
           </div>
         </div>
       ))}
