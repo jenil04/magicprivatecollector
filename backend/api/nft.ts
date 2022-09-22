@@ -47,7 +47,7 @@ export const getNFTById = async (
     TableName: process.env.MPC_NFT_TABLE as string,
     KeyConditionExpression: "tokenAddressTokenId = :tokenAddressTokenId AND chainId = :chainId",
     ExpressionAttributeValues: {
-      ":tokenAddressTokenId": tokenAddressTokenId,
+      ":tokenAddressTokenId": tokenAddressTokenId.toLowerCase(),
       ":chainId": chainId,
     },
   };

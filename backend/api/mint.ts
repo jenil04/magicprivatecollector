@@ -19,9 +19,12 @@ export const mintApi = async (
 
     const item: NFT = {
       ...mintObj, 
+      tokenId: mintObj.tokenId.toLowerCase(),
+      tokenAddress: mintObj.tokenAddress.toLowerCase(),
+      owner: mintObj.owner.toLowerCase(),
       chainId: mintObj.chainId.toString(),
       metadata: JSON.stringify(mintObj.metadata),
-      tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`
+      tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`.toLowerCase()
     };
 
     const nftParams: DynamoDB.DocumentClient.PutItemInput = {
@@ -33,8 +36,8 @@ export const mintApi = async (
     await dynamodbPut(nftParams);
 
     const addressItem = {
-      tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`,
-      address: mintObj.owner,
+      tokenAddressTokenId: `${mintObj.tokenAddress}_${mintObj.tokenId}`.toLowerCase(),
+      address: mintObj.owner.toLowerCase(),
       amount: mintObj.totalSupply
     }
 

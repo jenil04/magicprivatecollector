@@ -43,8 +43,8 @@ export const saleApi = async (
             await dynamodbPut(nftParams);
 
             const addressItem = {
-                tokenAddressTokenId: nft.tokenAddressTokenId,
-                address: saleObj.buyer,
+                tokenAddressTokenId: nft.tokenAddressTokenId?.toLowerCase(),
+                address: saleObj.buyer.toLowerCase(),
                 amount: 1
             }
 
