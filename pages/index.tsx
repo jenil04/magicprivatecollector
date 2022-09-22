@@ -8,11 +8,12 @@ import { NFTLIST } from "../types/NFT";
 // const provider = new ethers.providers.JsonRpcProvider('https://multi-necessary-morning.matic.quiknode.pro/9cebc8e52d41fb7a7cf25167b7f92f740a892623/');
 
 export default function Index(
-  { isConnected, account, connectWallet, nfts }: {
+  { isConnected, account, connectWallet, nfts, handleNewAccounts }: {
     isConnected: boolean;
     account: string;
     connectWallet: any;
     nfts: NFTLIST;
+    handleNewAccounts: any;
   }) {
 
   return (
@@ -51,7 +52,7 @@ export default function Index(
       {/* connected with assets */}
       {nfts.owned && nfts.owned.length > 0 ?
 
-        <NFTGallery nfts={nfts.owned} chainId="37" account={account} isOwned={true} isConnected={isConnected} />
+        <NFTGallery handleNewAccounts={handleNewAccounts} nfts={nfts.owned} chainId="37" account={account} isOwned={true} isConnected={isConnected} />
       : '' }
 
       <h3 className='mb-2 mt-8 text-xl' id="for-sale">
@@ -59,7 +60,7 @@ export default function Index(
       </h3>
       {nfts.notOwned && nfts.notOwned.length > 0 ?
 
-        <NFTGallery nfts={nfts.notOwned} chainId="37" account={account} isOwned={false} isConnected={isConnected} />
+        <NFTGallery handleNewAccounts={handleNewAccounts} nfts={nfts.notOwned} chainId="37" account={account} isOwned={false} isConnected={isConnected} />
       : '' }
 
     </>
