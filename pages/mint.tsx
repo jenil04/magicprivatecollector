@@ -1,7 +1,6 @@
 import { useState } from 'react';
 import { useS3Upload } from "next-s3-upload";
 import axios from "axios";
-import { v4 as uuidv4 } from 'uuid';
 
 import { NFT, Metadata } from '../types/NFT';
 import { abi } from '../data/abi';
@@ -29,6 +28,8 @@ export default function Mint(
   const [privateContentTitle, setPrivateContentTitle] = useState('');
   const [privateContentDescription, setPrivateContentDescription] = useState('');
 
+  const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
+  
   // preview content files
   const [imageUrl, setImageUrl] = useState('');
   const [privateContentUrl, setPrivateContentUrl] = useState('');
@@ -55,7 +56,6 @@ export default function Mint(
 
   };
 
-
   async function handleSubmit(event: any) {
     event.preventDefault();
     let isSubmitReady = true;
@@ -76,13 +76,13 @@ export default function Mint(
     // needs to be a number!
     const tokenId = Date.now().toString();
 
-    const tokenAddress = '0x1D8793F7785fc2107bA1076fa8e23d13eeFFEa55';
+    
 
 
     // create the form data
     const nft: NFT = {
       // this needs to be reconfigured when the mint actually happens
-      tokenAddress,
+      tokenAddress: contractAddress,
       // the owner is the person that is logged in with their metamask right now and this is the minter.
       owner: account,
       chainId: 37,
@@ -90,7 +90,7 @@ export default function Mint(
 
       contractType: "ERC1155",
       name: "MagicPrivateCollector - Secret NFTs",
-      uri: `https://magicprivatecollector.com/nft/37/${tokenAddress}/${tokenId}`,
+      uri: `https://magicprivatecollector.com/nft/37/${contractAddress}/${tokenId}`,
 
       tokenId,
       totalSupply: Number(totalSupply),
@@ -117,7 +117,7 @@ export default function Mint(
       const address = await signer.getAddress();
 
 
-      const contract = new ethers.Contract(tokenAddress, abi, signer);
+      const contract = new ethers.Contract(contractAddress, abi, signer);
 
       const result = await contract.mint(address, tokenId, Number(totalSupply), '0x');
 

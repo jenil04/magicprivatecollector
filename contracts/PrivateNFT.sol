@@ -3,13 +3,18 @@
 pragma solidity ^0.8.9;
 
 import "@openzeppelin/contracts/token/ERC1155/extensions/ERC1155Supply.sol";
-// import "@openzeppelin/contracts/access/Ownable.sol";
+//import "@openzeppelin/contracts/access/Ownable.sol";
 
 
 contract PrivateNFT is ERC1155Supply {
     // string private _privateTokenURILocation;
 
-    constructor() ERC1155("https://magicprivatecollector.com/metadata/polygon/mpc/{id}.json") {}
+    address payable deployerAddress;
+
+    constructor() ERC1155("https://magicprivatecollector.com/metadata/polygon/mpc/{id}.json") {
+
+        deployerAddress = payable(msg.sender);
+    }
 
     function mint(address account, uint256 id, uint256 amount, bytes memory data)
         public
@@ -17,6 +22,14 @@ contract PrivateNFT is ERC1155Supply {
         _mint(account, id, amount, data);
     }
 
+
+    function executeSale(uint256 price, uint256 tokenId) public payable {
+
+        //Actually transfer the token to the new owner
+        _safeTransferFrom(deployerAddress, msg.sender, tokenId, 1, '0x');
+       
+        payable(deployerAddress).transfer(price);
+    }
     
 
 //     // Emitted when the stored value changes

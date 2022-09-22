@@ -44,14 +44,14 @@ export default function Index(
       
       {/* connected with assets */}
       {nfts.owned && nfts.owned.length > 0 ?
-        <NFTGallery nfts={nfts.owned} chainId="37" isOwned={true} isConnected={isConnected} />
+        <NFTGallery nfts={nfts.owned} chainId="37" account={account} isOwned={true} isConnected={isConnected} />
       : '' }
 
       <h3 className='mb-2 mt-8 text-lg'>
         FOR SALE
       </h3>
       {nfts.notOwned && nfts.notOwned.length > 0 ?
-        <NFTGallery nfts={nfts.notOwned} chainId="37" isOwned={false} isConnected={isConnected} />
+        <NFTGallery nfts={nfts.notOwned} chainId="37" account={account} isOwned={false} isConnected={isConnected} />
       : '' }
     </>
   )
