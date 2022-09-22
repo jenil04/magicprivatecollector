@@ -242,7 +242,7 @@ export default function Mint(
 
       <div>
         <h3 className="text-2xl font-medium">Create a Private NFT</h3>
-        <p className="mt-1 text-base text-gray-200">
+        <div className="mt-1 text-base text-gray-200">
           {isConnected ?
             <p>
               Enter the details for your private NFT below. Please bear in mind the information in the teaser section will be publicly viewable. The private section is will only be viewable to a purchaser of the NFT!
@@ -252,7 +252,7 @@ export default function Mint(
               <a onClick={connectWallet} title='Connect MetaMask' className='inline text-mwt cursor-pointer'> Connect your MetaMask Wallet to get started.</a> <span>Once you&apos;re connected you&apos;ll be able to create private NFTs right here!</span>
             </p>
           }
-        </p>
+        </div>
       </div>
       <form className="text-gray-200 text-base" onSubmit={handleSubmit}>
 
@@ -474,6 +474,7 @@ export default function Mint(
           </div>
         </fieldset>
         {isMintInProgress ? <div className='text-mwt text-2xl'>Transaction is waiting to finish on the blockchain. Please stay put you will be redirected when its ready!</div> : ''}
+       
         <div className="text-right mt-4">
 
           {isConnected ? <Button btnText="Create Private NFT" />

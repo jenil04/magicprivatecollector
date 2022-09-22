@@ -51,6 +51,7 @@ npx hardhat run --network polygonTestnet scripts/deploy.js
 ```
 ## Magic Private Collector Contract - Polygon Mumbai Testnet
 0x1D8793F7785fc2107bA1076fa8e23d13eeFFEa55
+0x08923D7BD65357B99C44663F887418d5eDc59C63
 
 Danielas address (contract was created with this):
 0xc093b5219CFb7572354B8907Cd0C9bF9735371ED
