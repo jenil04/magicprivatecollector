@@ -59,6 +59,14 @@ functions:
       - httpApi:
           method: post
           path: /api/mint
+  sale:
+    handler: backend/api/sale.saleApi
+    description: Transfer NFT
+    timeout: 10
+    events:
+      - httpApi:
+          method: post
+          path: /api/sale
   nfts:
     handler: backend/api/nfts.nftsApi
     description: Get all private NFTs minted on our platform and if they belong to an address
