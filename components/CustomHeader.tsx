@@ -5,6 +5,7 @@ import {
   WalletIcon,
   EyeIcon,
   InformationCircleIcon,
+  ShoppingBagIcon,
   SparklesIcon,
   Bars3Icon,
   XMarkIcon,
@@ -80,6 +81,14 @@ export default function CustomHeader(account: Account) {
                   </span>
                 </a>
               </Link>
+              <Link href="/#for-sale">
+                <a title="NFTs For Sale" className="flex items-center hover:text-mwt ml-3">
+                  <ShoppingBagIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                  <span className="ml-0.5">
+                    For Sale
+                  </span>
+                </a>
+              </Link>
               <Link href="/mint">
                 <a title="Create Private NFTs" className="flex items-center hover:text-mwt ml-3">
                   <SparklesIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
@@ -94,7 +103,7 @@ export default function CustomHeader(account: Account) {
                   <span className="ml-0.5">
                     About
                   </span>
-                </a>{/*  */}
+                </a>
               </Link>
             </nav>
           </div>

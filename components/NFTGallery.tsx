@@ -6,6 +6,7 @@ import { Button, ButtonDisabled } from '../components/Button';
 import { NFT } from "../types/NFT";
 import { abi } from '../data/abi';
 
+
 const NFTGallery = (props: { nfts: Array<NFT>, 
   chainId: string, 
   isOwned: boolean, 
@@ -15,10 +16,10 @@ const NFTGallery = (props: { nfts: Array<NFT>,
 
   const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
   
+
   const buyNFT = async (tokenAddress: string, tokenId: string) => {
     if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
 
-      
       console.log(tokenId);
       console.log(tokenAddress);
 
@@ -27,7 +28,6 @@ const NFTGallery = (props: { nfts: Array<NFT>,
       // the person that is currently logged into metamask
       const address = await signer.getAddress();
 
-
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
       const result = await contract.executeSale(0.001, Number(tokenId));
@@ -35,8 +35,9 @@ const NFTGallery = (props: { nfts: Array<NFT>,
       console.log('transfer result: ', result);
 
     }
-    };
- 
+
+
+  };
 
   return (
 
@@ -48,23 +49,21 @@ const NFTGallery = (props: { nfts: Array<NFT>,
             <Link href={`/nft/polygon/${nft.tokenAddress}/${nft.tokenId}`}>
               <a>
                 {/* NFT thumbnail */}
-                <div className="relative h-60 group-hover:opacity-75">
-                  <Image
+                <div className="relative group-hover:opacity-75 m-1">
+                  <img
                     src={nft.metadata.image}
                     alt={nft.metadata.name}
-                    className=""
-                    layout='fill'
-                    objectFit="contain"
+                    className='rounded-lg max-h-64 mx-auto'
                   />
                 </div>
                 {/* NFT info */}
-                <div className="rounded-lg bg-gray-800 mt-3">
-                  <div className="font-medium space-y-2 py-3 px-4">
-                    <h3>
-                      <span className="font-light uppercase">NFT Name:</span> {nft.metadata.name}
+                <div className="rounded-lg bg-gray-800 mx-1">
+                  <div className="space-y-2 py-3 px-4">
+                    <h3 className="text-xl font-medium">
+                      {nft.metadata.name}
                     </h3>
                     <p>
-                      <span className="font-light uppercase">Description:</span> {nft.metadata.description}
+                      {nft.metadata.description}
                     </p>
                     <p>
                       <span className="font-light uppercase">Price:</span> {nft.price} MATIC
@@ -76,16 +75,27 @@ const NFTGallery = (props: { nfts: Array<NFT>,
                 </div>
               </a>
             </Link>
-            {/* Buy NFT 
-              if the user isConnected or not for disabled button <ButtonDisabled btnText={"BUY NOW"} />
-            */}
-            {isOwned ? '' :
-              <>
-                <div className="text-center my-3">
-                  <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="text-black">BUY NOW</button>
-                </div>
-              </>
-            }
+
+            {/* BUY NOW button section */}
+            {/* show nothing if are connected and don't own it */}
+            {isConnected && isOwned ? '' : ''}
+
+            {/* enabled buy button only if are connected and don't own it */}
+            {isConnected && !isOwned ?
+              <div className="text-center my-3">
+                <button onClick={ev => buyNFT(nft.tokenAddress, nft.tokenId)} className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">
+                  BUY NOW
+                </button>
+              </div>
+              : ''}
+
+            {/* disabled buy button for not connected */}
+            {!isConnected ?
+              <div className="text-center my-3">
+                <ButtonDisabled btnText="BUY NOW" />
+              </div>
+              : ''}
+
           </div>
         </div>
       ))}

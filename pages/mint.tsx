@@ -19,16 +19,20 @@ export default function Mint(
   }) {
 
   const router = useRouter();
-
+  
   const [totalSupply, setTotalSupply] = useState('');
   const [totalSupplyError, setTotalSupplyError] = useState(false);
   const [price, setPrice] = useState('');
   const [priceError, setPriceError] = useState(false);
 
   const [name, setName] = useState('');
+  const [nameError, setNameError] = useState(false);
   const [description, setDescription] = useState('');
+  const [descriptionError, setDescriptionError] = useState(false);
   const [privateContentTitle, setPrivateContentTitle] = useState('');
+  const [privateContentTitleError, setPrivateContentTitleError] = useState(false);
   const [privateContentDescription, setPrivateContentDescription] = useState('');
+  const [privateContentDescriptionError, setPrivateContentDescriptionError] = useState(false);
 
   const [isMintInProgress, setIsMintInProgress] = useState(false);
 
@@ -36,7 +40,9 @@ export default function Mint(
 
   // preview content files
   const [imageUrl, setImageUrl] = useState('');
+  const [imageUrlError, setImageUrlError] = useState(false);
   const [privateContentUrl, setPrivateContentUrl] = useState('');
+  const [privateContentUrlError, setPrivateContentUrlError] = useState(false);
 
   let { uploadToS3, files, resetFiles } = useS3Upload();
 
@@ -64,24 +70,81 @@ export default function Mint(
     event.preventDefault();
     let isSubmitReady = true;
 
-    if (!price || price === '') {
-      setPriceError(true);
-      isSubmitReady = false;
-    }
+
+    // @TODO had to add else on all of these to clear the error when it is fixed by the user
     if (!totalSupply || totalSupply === '') {
       setTotalSupplyError(true);
       isSubmitReady = false;
     }
+    else {
+      setTotalSupplyError(false);
+    }
 
 
+
+    if (!price || price === '') {
+      setPriceError(true);
+      isSubmitReady = false;
+    }
+
+    else {
+      setPriceError(false);
+    }
+    
+    if (!name || name === '') {
+      setNameError(true);
+      isSubmitReady = false;
+    }
+    else {
+      setNameError(false);
+    }
+
+    if (!description || description === '') {
+      setDescriptionError(true);
+      isSubmitReady = false;
+    }
+    else {
+      setDescriptionError(false);
+    }
+
+    if (!imageUrl || imageUrl === '') {
+      setImageUrlError(true);
+      isSubmitReady = false;
+    }
+    else {
+      setImageUrlError(false);
+    }
+
+
+    if (!privateContentTitle || privateContentTitle === '') {
+      setPrivateContentTitleError(true);
+      isSubmitReady = false;
+    }
+    else {
+      setPrivateContentTitleError(false);
+    }
+
+    if (!privateContentDescription || privateContentDescription === '') {
+      setPrivateContentDescriptionError(true);
+      isSubmitReady = false;
+    }
+    else { 
+      setPrivateContentDescriptionError(false);
+    }
+
+    if (!privateContentUrl || privateContentUrl === '') {
+      setPrivateContentUrlError(true);
+      isSubmitReady = false;
+    }
+    else {
+      setPrivateContentUrlError(false);
+    }
+   
 
     if (isSubmitReady) {
 
       // needs to be a number!
       const tokenId = Date.now().toString();
-
-
-
 
       // create the form data
       const nft: NFT = {
@@ -151,9 +214,23 @@ export default function Mint(
 
 
 
+
       } else {
         console.log('user must connect wallet');
       }
+
+
+
+      const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/mint',
+        nft,
+        {
+          headers: {
+            'Accept': 'application/json',
+          }
+        });
+
+      console.log(backendResult);
+
 
     }
 
@@ -166,20 +243,29 @@ export default function Mint(
       <div>
         <h3 className="text-2xl font-medium">Create a Private NFT</h3>
         <p className="mt-1 text-base text-gray-200">
-
-          Enter the details for your private NFT below. Please bear in mind the information in the teaser section will be publicly viewable. The private section is will only be viewable to a purchaser of the NFT!
+          {isConnected ?
+            <p>
+              Enter the details for your private NFT below. Please bear in mind the information in the teaser section will be publicly viewable. The private section is will only be viewable to a purchaser of the NFT!
+            </p>
+            :
+            <p>
+              <a onClick={connectWallet} title='Connect MetaMask' className='inline text-mwt cursor-pointer'> Connect your MetaMask Wallet to get started.</a> <span>Once you&apos;re connected you&apos;ll be able to create private NFTs right here!</span>
+            </p>
+          }
         </p>
       </div>
       <form className="text-gray-200 text-base" onSubmit={handleSubmit}>
 
-        <fieldset className="rounded-lg border border-gray-200 my-4 p-4">
+        <fieldset className="rounded-lg border border-gray-200 my-4 p-4" disabled={isConnected ? false : true}>
           <legend className="m-2 px-2">Public NFT Info</legend>
           <div>
             <label htmlFor="totalSupply" className="block font-medium">
               Total Supply
             </label>
             {totalSupplyError ?
-              <div>You some supply, you fool!!</div>
+
+              <p className='text-red-600'>Please enter the Total Supply</p>
+
               : ''
             }
             <div className="mt-1">
@@ -188,7 +274,7 @@ export default function Mint(
                 id="totalSupply"
                 name="totalSupply"
                 placeholder="1000"
-                className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+                className={`${totalSupplyError ? "border-red-600 border-2" : ""} block w-full rounded-md text-gray-900 p-2 `}
                 value={totalSupply}
                 onChange={ev => setTotalSupply(ev.target.value)}
               />
@@ -200,7 +286,9 @@ export default function Mint(
               Price
             </label>
             {priceError ?
-              <div>You need a price!</div>
+
+              <p className='text-red-600'>Please enter the Price</p>
+
               : ''
             }
             <div className="relative rounded-md shadow-sm">
@@ -209,7 +297,7 @@ export default function Mint(
                   type="text"
                   id="price"
                   name="price"
-                  className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+                  className={`${priceError ? "border-red-600 border-2" : ""} block w-full rounded-md text-gray-900 p-2 `}
                   placeholder="0.001"
                   value={price}
                   onChange={ev => setPrice(ev.target.value)}
@@ -225,14 +313,18 @@ export default function Mint(
 
           <div className="mt-4">
             <label htmlFor="name" className="block font-medium">
-              Teaser Name
+              Teaser Title
             </label>
+            {nameError ?
+              <p className='text-red-600'>Please enter the Teaser Title</p>
+              : ''
+            }
             <div className="mt-1">
               <input
                 type="text"
                 id="name"
                 name="name"
-                className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+                className={`${nameError ? "border-red-600 border-2" : ""} block w-full rounded-md text-gray-900 p-2 `}
                 value={name}
                 onChange={ev => setName(ev.target.value)}
               />
@@ -243,11 +335,15 @@ export default function Mint(
             <label htmlFor="description" className="block font-medium">
               Teaser Description
             </label>
+            {descriptionError ?
+              <p className='text-red-600'>Please enter the Teaser Description</p>
+              : ''
+            }
             <div className="mt-1">
               <textarea
                 id="description"
                 name="description"
-                className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+                className={`${descriptionError ? "border-red-600 border-2" : ""} block w-full rounded-md text-gray-900 p-2 `}
                 rows={3}
                 value={description}
                 onChange={ev => setDescription(ev.target.value)}
@@ -259,8 +355,15 @@ export default function Mint(
             <label htmlFor="image" className="block font-medium">
               Teaser Image
             </label>
-
-            <img src={imageUrl} width={100} />
+            {imageUrlError ?
+              <p className='text-red-600'>Please upload the Teaser Image</p>
+              : ''
+            }
+            <img 
+              src={imageUrl} 
+              alt={name}
+              width={100} 
+              />
             <div className="pt-8">
               {files.map((file, index) => (
                 <div key={index}>
@@ -272,7 +375,7 @@ export default function Mint(
               <div className="flex text-sm text-gray-600">
                 <label
                   htmlFor="file-upload"
-                  className="relative cursor-pointer bg-gray-50 rounded-md border-gray-300 text-gray-900 p-2"
+                  className={`${imageUrlError ? "border-red-600 border-2" : ""} relative cursor-pointer bg-gray-50 rounded-md border-gray-300 text-gray-900 p-2`}
                 >
                   <span>Upload an image</span>
                   <input
@@ -284,23 +387,27 @@ export default function Mint(
                   />
                 </label>
               </div>
-              <p className="text-xs text-gray-300 mt-2">Please upload your teaser image as a PNG, JPG, GIF, or WEBP</p>
+              <p className="text-xs text-gray-300 mt-2">Please upload the teaser image as a PNG, JPG, GIF, or WEBP</p>
             </div>
           </div>
         </fieldset>
 
-        <fieldset className="rounded-lg border border-gray-200 p-4">
-          <legend className="m-2 px-2 text-red-500">Private NFT Info</legend>
+        <fieldset className="rounded-lg border border-gray-200 p-4" disabled={isConnected ? false : true}>
+          <legend className="m-2 px-2 text-rose-600">Private NFT Info</legend>
           <div className="">
             <label htmlFor="privateContentTitle" className="font-medium">
               Private Content Title
             </label>
+            {privateContentTitleError ?
+              <p className='text-red-600'>Please enter the Private Content Title</p>
+              : ''
+            }
             <div className="mt-1">
               <input
                 type="text"
                 id="privateContentTitle"
                 name="privateContentTitle"
-                className="w-full rounded-md border-gray-300 text-gray-900 p-2"
+                className={`${privateContentTitleError ? "border-red-600 border-2" : ""} block w-full rounded-md text-gray-900 p-2 `}
                 value={privateContentTitle}
                 onChange={ev => setPrivateContentTitle(ev.target.value)}
               />
@@ -311,11 +418,15 @@ export default function Mint(
             <label htmlFor="privateContentDescription" className="block font-medium">
               Private Content Description
             </label>
+            {privateContentDescriptionError ?
+              <p className='text-red-600'>Please enter the Private Content Description</p>
+              : ''
+            }
             <div className="mt-1">
               <textarea
                 id="privateContentDescription"
                 name="privateContentDescription"
-                className="block w-full rounded-md border-gray-300 text-gray-900 p-2"
+                className={`${privateContentDescriptionError ? "border-red-600 border-2" : ""} block w-full rounded-md text-gray-900 p-2 `}
                 rows={3}
                 value={privateContentDescription}
                 onChange={ev => setPrivateContentDescription(ev.target.value)}
@@ -326,6 +437,10 @@ export default function Mint(
             <label htmlFor="image" className="block font-medium">
               Private Content Image
             </label>
+            {privateContentUrlError ?
+              <p className='text-red-600'>Please upload the Private Content Image</p>
+              : ''
+            }
             <div className="pt-8">
               {files.map((file, index) => (
                 <div key={index}>
@@ -333,13 +448,16 @@ export default function Mint(
                 </div>
               ))}
             </div>
-            <img src={privateContentUrl} width={100} />
+            <img 
+              src={privateContentUrl} 
+              alt={privateContentTitle}
+              width={100} />
 
             <div className="mt-1">
               <div className="flex text-sm text-gray-600">
                 <label
                   htmlFor="pc-file-upload"
-                  className="relative cursor-pointer bg-gray-50 rounded-md border-gray-300 text-gray-900 p-2"
+                  className={`${imageUrlError ? "border-red-600 border-2" : ""} relative cursor-pointer bg-gray-50 rounded-md border-gray-300 text-gray-900 p-2`}
                 >
                   <span>Upload an image</span>
                   <input
