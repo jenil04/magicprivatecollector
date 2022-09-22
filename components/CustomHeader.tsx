@@ -56,7 +56,7 @@ export default function CustomHeader(account: Account) {
           </div>
 
           {/* Mobile Nav Open */}
-          <div className="-mr-2 -my-2 lg:hidden">
+          <div className="-my-2 lg:hidden">
             <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
               <span className="sr-only">Open menu</span>
               <Bars3Icon className="h-6 w-6" aria-hidden="true" />
@@ -137,7 +137,7 @@ export default function CustomHeader(account: Account) {
               </div>
 
               {/* Mobile Nav Close */}
-              <div className="-mr-2">
+              <div>
                 <Popover.Button className="bg-gray-900 rounded-md p-2 inline-flex items-center justify-center text-white hover:text-white border-white border focus:outline-none">
                   <span className="sr-only">Close menu</span>
                   <XMarkIcon className="h-6 w-6" aria-hidden="true" />
@@ -147,22 +147,46 @@ export default function CustomHeader(account: Account) {
 
             {/* Mobile Nav Links */}
             <div className="mt-6">
-              <nav className="grid gap-y-8">
-                {features.map((item) => (
-                  <a
-                    key={item.name}
-                    href={item.href}
-                    className="-m-3 p-3 flex items-center rounded-md"
-                  >
-                    <item.icon
-                      className="flex-shrink-0 h-6 w-6 text-white"
-                      aria-hidden="true"
-                    />
-                    <span className="ml-3 text-base font-medium text-white">
-                      {item.name}
+              <nav className="grid gap-y-8 font-medium text-white cursor-pointer">
+                {isConnected ? '' :
+                  <a onClick={connectWallet} title="Connect MetaMask" className="flex items-center hover:text-mwt -m-3 p-3">
+                    <WalletIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                    <span className="ml-1.5">
+                      Connect MetaMask
+                    </span>
+                  </a>}
+                <Link href="/">
+                  <a title="View Collection" className="flex items-center hover:text-mwt -m-3 p-3">
+                    <EyeIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                    <span className="ml-1.5">
+                      Collection
                     </span>
                   </a>
-                ))}
+                </Link>
+                <Link href="/#for-sale">
+                  <a title="NFTs For Sale" className="flex items-center hover:text-mwt -m-3 p-3">
+                    <ShoppingBagIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                    <span className="ml-1.5">
+                      For Sale
+                    </span>
+                  </a>
+                </Link>
+                <Link href="/mint">
+                  <a title="Create Private NFTs" className="flex items-center hover:text-mwt -m-3 p-3">
+                    <SparklesIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                    <span className="ml-1.5">
+                      Create Private NFTs
+                    </span>
+                  </a>
+                </Link>
+                <Link href="/about">
+                  <a title="About MWT" className="flex items-center hover:text-mwt -m-3 p-3">
+                    <InformationCircleIcon className="flex-shrink-0 h-6 w-6" aria-hidden="true" />
+                    <span className="ml-1.5">
+                      About
+                    </span>
+                  </a>
+                </Link>
               </nav>
             </div>
           </div>
