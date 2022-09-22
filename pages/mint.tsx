@@ -448,15 +448,15 @@ export default function Mint(
               <p className='text-red-600'>Please upload the Private Content Image</p>
               : ''
             }
-            <div className="h-40 mt-2 mb-4">
+            <div className="h-52 mt-2 mb-4">
               {privateContentUrl ?
                 <img
                   src={privateContentUrl}
                   alt=''
-                  className="h-40"
+                  className="h-52"
                 />
                 :
-                <PhotoIcon className="h-40 w-48 text-gray-600 border-dashed border-gray-600 border " aria-hidden="true" />
+                <PhotoIcon className="h-52 w-60 text-gray-600 border-dashed border-gray-600 border " aria-hidden="true" />
               }
             </div>
             <div className="mt-3">
