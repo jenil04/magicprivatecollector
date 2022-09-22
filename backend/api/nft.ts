@@ -19,9 +19,12 @@ export const nftApi = async (
       const tokenAddressTokenId = `${event.queryStringParameters?.tokenAddress}_${event.queryStringParameters?.tokenId}`;
       const chainId = event.queryStringParameters.chainId;
 
+      console.log(tokenAddressTokenId);
+      console.log(chainId);
       const nft = await getNFTById(tokenAddressTokenId, chainId);
+      console.log(nft);
 
-      if(!nft === null) {
+      if (nft !== null) {
         return apiReturn(200, nft);
       }
       else {

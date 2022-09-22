@@ -12,8 +12,9 @@ const NFTGallery = (props: { nfts: Array<NFT>,
   chainId: string, 
   isOwned: boolean, 
   isConnected: boolean, 
-  account: string }) => {
-  const { nfts, chainId, isOwned, isConnected, account } = props;
+  account: string,
+  handleNewAccounts: any }) => {
+  const { nfts, chainId, isOwned, isConnected, account, handleNewAccounts } = props;
 
   const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
   
@@ -43,7 +44,7 @@ const NFTGallery = (props: { nfts: Array<NFT>,
       const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/sale',
           {
             tokenAddressTokenId: `${tokenAddress}_${tokenId}`,
-            chainId: 37,
+            chainId: "37",
             buyer: address
           },
           {
@@ -53,7 +54,7 @@ const NFTGallery = (props: { nfts: Array<NFT>,
           });
 
         console.log(backendResult);
-        // handleNewAccounts(account);
+        handleNewAccounts(account);
 
         result.wait().then(function (receipt: any) {
           console.log('sale result: ', receipt);
