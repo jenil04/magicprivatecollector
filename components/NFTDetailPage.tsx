@@ -10,10 +10,7 @@ const NFTDetailPage = (props: {
 }) => {
   const { nft, isConnected, account, connectWallet } = props;
   const metadata = nft.metadata as Metadata;
-  // @TODO nft.owner comes from the endpoint call in the backend, we can not know this from the parent elements
-  // when the page gets loaded from scratch. So this should do it
-  // we still have this problem here that nft.owner is the person that minted it. But I will fix this tomorrow.
-  const isOwned = account === nft.owner;
+  const isOwned = nft.isOwner;
 
   return (
     <div className="">
