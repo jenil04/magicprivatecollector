@@ -24,22 +24,25 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const onboarding = useRef<MetaMaskOnboarding>();
   const [nfts, setNFTs] = useState({} as NFTLIST);
 
+  const clearAccount = () => {
 
-  useEffect(() => {
-    if (!onboarding.current) {
-      onboarding.current = new MetaMaskOnboarding();
+    if (!window.ethereum || !window.ethereum.selectedAddress || window.ethereum.selectedAddress === '') {
+
+      setIsConnected(false);
+      setAccount('');
+      handleNewAccounts('');
+
     }
-  }, []);
+  }
 
   useEffect(() => {
     if (MetaMaskOnboarding.isMetaMaskInstalled()) {
-      if (account !== '' && onboarding.current) {
-        
-        
+      if (window.ethereum?.selectedAddress || (account !== '' && onboarding.current)) {
+
         setIsConnected(true);
-        onboarding.current.stopOnboarding();
+
       } else {
-        
+
         handleNewAccounts('');
         setIsConnected(false);
       }
@@ -48,27 +51,38 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
   useEffect(() => {
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
-     
-      if(window.ethereum.selectedAddress && window.ethereum.selectedAddress !== '' ) {
+
+      if (window.ethereum.selectedAddress && window.ethereum.selectedAddress !== '') {
         setAccount(window.ethereum.selectedAddress);
-      
+
         setIsConnected(true);
+
         handleNewAccounts(window.ethereum.selectedAddress);
+
+
+        window.ethereum.on('accountsChanged', clearAccount);
       }
     }
   }, []);
+
+  
 
   const connectWallet = () => {
     if (MetaMaskOnboarding.isMetaMaskInstalled() && window.ethereum) {
       window.ethereum
         .request({ method: 'eth_requestAccounts' })
         .then(async (newAccounts: any) => {
-          if(newAccounts && newAccounts.length > 0 && newAccounts[0] !== '' ) {
-          setAccount(newAccounts[0]);
-          handleNewAccounts(newAccounts[0]);
-        
+          if (newAccounts && newAccounts.length > 0 && newAccounts[0] !== '') {
+            setAccount(newAccounts[0]);
+
+            handleNewAccounts(newAccounts[0]);
+
+
+
           }
         });
+
+
 
     } else {
       if (onboarding.current) {
@@ -80,23 +94,23 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
 
 
-  async function handleNewAccounts(account: string ) {
-    
-      // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
+  async function handleNewAccounts(account: string) {
 
-      let url = 'https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nfts';
+    // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
 
-      if(account && account !== '') {
-        url = `${url}?address=${account}`;
+    let url = 'https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nfts';
+
+    if (account && account !== '') {
+      url = `${url}?address=${account}`;
+    }
+
+    const result = await axios.get(url, {
+      headers: {
+        'Accept': 'application/json',
       }
+    });
 
-      const result = await axios.get(url, {
-        headers: {
-          'Accept': 'application/json',
-        }
-      });
-
-      setNFTs(result.data);
+    setNFTs(result.data);
 
   }
 
@@ -119,10 +133,10 @@ export default function MyApp({ Component, pageProps }: AppProps) {
       <div className="bg-gray-900">
         {/* Section: Header w/ Nav */}
         <CustomHeader isConnected={isConnected} address={account} connectWallet={connectWallet} />
-        
+
         <main className="mx-auto max-w-2xl pb-16 px-4 sm:pb-24 sm:px-6 lg:max-w-7xl lg:pb-8 text-gray-100">
 
-          <Component {...pageProps} nfts={nfts} isConnected={isConnected} account={account} connectWallet={connectWallet} />
+          <Component {...pageProps} handleNewAccounts={handleNewAccounts} nfts={nfts} isConnected={isConnected} account={account} connectWallet={connectWallet} />
 
         </main>
         {/* Section: Footer */}
