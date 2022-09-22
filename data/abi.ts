@@ -174,9 +174,14 @@ export const abi = [
   {
     "inputs": [
       {
-        "internalType": "uint256",
-        "name": "price",
-        "type": "uint256"
+        "internalType": "address",
+        "name": "from",
+        "type": "address"
+      },
+      {
+        "internalType": "address",
+        "name": "to",
+        "type": "address"
       },
       {
         "internalType": "uint256",
