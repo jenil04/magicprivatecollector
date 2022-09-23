@@ -189,7 +189,7 @@ export default function Mint(
 
         console.log('mint result: ', result);
 
-        const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/mint',
+        const backendResult = await axios.post(`https://${process.env.NEXT_PUBLIC_MPC_AWS_ENDPOINT}.execute-api.us-east-1.amazonaws.com/api/mint`,
           nft,
           {
             headers: {
@@ -218,7 +218,7 @@ export default function Mint(
 
 
 
-      const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/mint',
+      const backendResult = await axios.post(`https://${process.env.NEXT_PUBLIC_MPC_AWS_ENDPOINT}.execute-api.us-east-1.amazonaws.com/api/mint`,
         nft,
         {
           headers: {

@@ -1,6 +1,6 @@
 import React from "react";
 import Link from "next/link";
-import { ethers, FixedNumber } from "ethers";
+import { ethers } from "ethers";
 import { ButtonDisabled } from '../components/Button';
 import { NFT } from "../types/NFT";
 import { abi } from '../data/abi';
@@ -40,7 +40,9 @@ const NFTGallery = (props: { nfts: Array<NFT>,
 
       console.log('transfer result: ', result);
 
-      const backendResult = await axios.post('https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/sale',
+
+
+      const backendResult = await axios.post(`https://${process.env.NEXT_PUBLIC_MPC_AWS_ENDPOINT}.execute-api.us-east-1.amazonaws.com/api/sale`,
           {
             tokenAddressTokenId: `${tokenAddress}_${tokenId}`,
             chainId: "37",
