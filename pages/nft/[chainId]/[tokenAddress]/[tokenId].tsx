@@ -19,7 +19,7 @@ const DetailPage = (props: {
       const fetchData = async () => {
 
         if (window.ethereum && window.ethereum.selectedAddress) {
-        const url = `https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nft?chainId=37&tokenAddress=${props.nft.tokenAddress}&tokenId=${props.nft.tokenId}&address=${window.ethereum.selectedAddress}`;
+        const url = `https://${process.env.NEXT_PUBLIC_MPC_AWS_ENDPOINT}.execute-api.us-east-1.amazonaws.com/api/nft?chainId=37&tokenAddress=${props.nft.tokenAddress}&tokenId=${props.nft.tokenId}&address=${window.ethereum.selectedAddress}`;
 
 
         const result = await axios.get(url, {
@@ -52,7 +52,7 @@ export const getServerSideProps = async (context: any) => {
 
   const { chainId, tokenAddress, tokenId } = context.query;
 
-  const url = `https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nft?chainId=37&tokenAddress=${tokenAddress}&tokenId=${tokenId}`;
+  const url = `https://${process.env.NEXT_PUBLIC_MPC_AWS_ENDPOINT}.execute-api.us-east-1.amazonaws.com/api/nft?chainId=37&tokenAddress=${tokenAddress}&tokenId=${tokenId}`;
 
 
   const result = await axios.get(url, {
