@@ -27,7 +27,7 @@ export default function Index(
           <p>Now you&apos;re able to view all of the private NFTs you&apos;ve purchased, create your very own to sell, and browse and buy the private NFTs on offer below.</p> 
           :
           <p>
-            <a onClick={connectWallet} title='Connect MetaMask' className='inline text-mwt cursor-pointer'> Connect your MetaMask Wallet to get started.</a><span>Once you&apos;re connected you&apos;ll be able to view all of the private NFTs you&apos;ve purchased, create your very own to sell, and browse and buy the private NFTs on offer below.</span>
+            <a onClick={connectWallet} title='Connect MetaMask' className='inline text-mwt cursor-pointer'> Connect your MetaMask Wallet to get started.</a> <span>Once you&apos;re connected you&apos;ll be able to view all of the private NFTs you&apos;ve purchased, create your very own to sell, and browse and buy the private NFTs on offer below.</span>
           </p>
         }
         
