@@ -30,7 +30,7 @@ export const nftsApi = async (
     
     // get all nfts this user owns
     if (event.queryStringParameters?.address) {
-      const address = event.queryStringParameters?.address;
+      const address = event.queryStringParameters?.address.toLowerCase();
 
       const queryInput: DynamoDB.DocumentClient.QueryInput = {
         TableName: process.env.MPC_ADDRESS_TABLE as string,
