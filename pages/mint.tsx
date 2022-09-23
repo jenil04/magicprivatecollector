@@ -74,7 +74,6 @@ export default function Mint(
     event.preventDefault();
     let isSubmitReady = true;
 
-    // @TODO had to add else on all of these to clear the error when it is fixed by the user
     if (!totalSupply || totalSupply === '') {
       setTotalSupplyError(true);
       isSubmitReady = false;
@@ -240,7 +239,7 @@ export default function Mint(
 
       <div>
         <h3 className="text-2xl font-medium">Create a Private NFT</h3>
-        <div className="mt-1 text-base text-gray-200">
+        <div className="mt-1 text-lg text-gray-200">
           {isConnected ?
             <p>
               Enter the details for your private NFT below. Please bear in mind the information in the teaser section will be publicly viewable. The private section is will only be viewable to a purchaser of the NFT!
