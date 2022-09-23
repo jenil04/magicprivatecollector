@@ -1,8 +1,7 @@
 import React from "react";
-import Image from "next/image";
 import Link from "next/link";
 import { ethers, FixedNumber } from "ethers";
-import { Button, ButtonDisabled } from '../components/Button';
+import { ButtonDisabled } from '../components/Button';
 import { NFT } from "../types/NFT";
 import { abi } from '../data/abi';
 import axios from "axios";

@@ -7,6 +7,10 @@ import { NFT, Metadata } from '../types/NFT';
 import { abi } from '../data/abi';
 
 import { Button, ButtonDisabled } from '../components/Button';
+import {
+  PhotoIcon,
+} from "@heroicons/react/24/outline";
+
 import { ethers } from 'ethers';
 
 
@@ -19,7 +23,7 @@ export default function Mint(
   }) {
 
   const router = useRouter();
-  
+
   const [totalSupply, setTotalSupply] = useState('');
   const [totalSupplyError, setTotalSupplyError] = useState(false);
   const [price, setPrice] = useState('');
@@ -70,7 +74,6 @@ export default function Mint(
     event.preventDefault();
     let isSubmitReady = true;
 
-
     // @TODO had to add else on all of these to clear the error when it is fixed by the user
     if (!totalSupply || totalSupply === '') {
       setTotalSupplyError(true);
@@ -80,17 +83,14 @@ export default function Mint(
       setTotalSupplyError(false);
     }
 
-
-
     if (!price || price === '') {
       setPriceError(true);
       isSubmitReady = false;
     }
-
     else {
       setPriceError(false);
     }
-    
+
     if (!name || name === '') {
       setNameError(true);
       isSubmitReady = false;
@@ -115,7 +115,6 @@ export default function Mint(
       setImageUrlError(false);
     }
 
-
     if (!privateContentTitle || privateContentTitle === '') {
       setPrivateContentTitleError(true);
       isSubmitReady = false;
@@ -128,7 +127,7 @@ export default function Mint(
       setPrivateContentDescriptionError(true);
       isSubmitReady = false;
     }
-    else { 
+    else {
       setPrivateContentDescriptionError(false);
     }
 
@@ -139,7 +138,6 @@ export default function Mint(
     else {
       setPrivateContentUrlError(false);
     }
-   
 
     if (isSubmitReady) {
 
@@ -258,7 +256,7 @@ export default function Mint(
 
         <fieldset className="rounded-lg border border-gray-200 my-4 p-4" disabled={isConnected ? false : true}>
           <legend className="m-2 px-2">Public NFT Info</legend>
-          <div>
+          <div className='-mt-3'>
             <label htmlFor="totalSupply" className="block font-medium">
               Total Supply
             </label>
@@ -359,25 +357,29 @@ export default function Mint(
               <p className='text-red-600'>Please upload the Teaser Image</p>
               : ''
             }
-            <img 
-              src={imageUrl} 
-              alt={name}
-              width={100} 
-              />
-            <div className="pt-8">
-              {files.map((file, index) => (
-                <div key={index}>
-                  File #{index} progress: {file.progress}%
-                </div>
-              ))}
+            <div className="h-40 mt-2 mb-4">
+              {imageUrl ?
+                <img
+                  src={imageUrl}
+                  alt=''
+                  className="h-40"
+                />
+                :
+                <PhotoIcon className="h-40 w-48 text-gray-600 border-dashed border-gray-600 border " aria-hidden="true" />
+              }
             </div>
-            <div className="mt-1">
+            <div className="mt-3">
               <div className="flex text-sm text-gray-600">
                 <label
                   htmlFor="file-upload"
                   className={`${imageUrlError ? "border-red-600 border-2" : ""} relative cursor-pointer bg-gray-50 rounded-md border-gray-300 text-gray-900 p-2`}
                 >
-                  <span>Upload an image</span>
+                  {imageUrl ?
+                    <span>Replace Teaser Image</span>
+                    :
+                    <span>Upload Teaser Image</span>
+                  }
+
                   <input
                     type="file"
                     id="file-upload"
@@ -386,6 +388,11 @@ export default function Mint(
                     onChange={handleFileChange}
                   />
                 </label>
+                {files.map((file, index) => (
+                  <div className="ml-4 mt-2 text-white" key={index}>
+                    Upload progress: {file.progress}%
+                  </div>
+                ))}
               </div>
               <p className="text-xs text-gray-300 mt-2">Please upload the teaser image as a PNG, JPG, GIF, or WEBP</p>
             </div>
@@ -394,7 +401,7 @@ export default function Mint(
 
         <fieldset className="rounded-lg border border-gray-200 p-4" disabled={isConnected ? false : true}>
           <legend className="m-2 px-2 text-rose-600">Private NFT Info</legend>
-          <div className="">
+          <div className='-mt-4'>
             <label htmlFor="privateContentTitle" className="font-medium">
               Private Content Title
             </label>
@@ -441,25 +448,29 @@ export default function Mint(
               <p className='text-red-600'>Please upload the Private Content Image</p>
               : ''
             }
-            <div className="pt-8">
-              {files.map((file, index) => (
-                <div key={index}>
-                  File #{index} progress: {file.progress}%
-                </div>
-              ))}
+            <div className="h-52 mt-2 mb-4">
+              {privateContentUrl ?
+                <img
+                  src={privateContentUrl}
+                  alt=''
+                  className="h-52"
+                />
+                :
+                <PhotoIcon className="h-52 w-60 text-gray-600 border-dashed border-gray-600 border " aria-hidden="true" />
+              }
             </div>
-            <img 
-              src={privateContentUrl} 
-              alt={privateContentTitle}
-              width={100} />
-
-            <div className="mt-1">
+            <div className="mt-3">
               <div className="flex text-sm text-gray-600">
                 <label
                   htmlFor="pc-file-upload"
-                  className={`${imageUrlError ? "border-red-600 border-2" : ""} relative cursor-pointer bg-gray-50 rounded-md border-gray-300 text-gray-900 p-2`}
+                  className={`${privateContentUrlError ? "border-red-600 border-2" : ""} relative cursor-pointer bg-gray-50 rounded-md border-gray-300 text-gray-900 p-2`}
                 >
-                  <span>Upload an image</span>
+                  {privateContentUrl ?
+                    <span>Replace Private Content Image</span>
+                    :
+                    <span>Upload Private Content Image</span>
+                  }
+
                   <input
                     type="file"
                     id="pc-file-upload"
@@ -468,13 +479,18 @@ export default function Mint(
                     onChange={handlePrivateContentFile}
                   />
                 </label>
+                {files.map((file, index) => (
+                  <div className="ml-4 mt-2 text-white" key={index}>
+                    Upload progress: {file.progress}%
+                  </div>
+                ))}
               </div>
               <p className="text-xs text-gray-300 mt-2">Please upload your <span className='font-semibold'>PRIVATE</span> image as a PNG, JPG, GIF, or WEBP</p>
             </div>
           </div>
         </fieldset>
-        {isMintInProgress ? <div className='text-mwt text-2xl'>Transaction is waiting to finish on the blockchain. Please stay put you will be redirected when its ready!</div> : ''}
-       
+        {isMintInProgress ? <div className='text-mwt text-2xl'>Transaction is deploying to the blockchain. Please stay put, you will be redirected when it&apos;s ready!</div> : ''}
+
         <div className="text-right mt-4">
 
           {isConnected ? <Button btnText="Create Private NFT" />
