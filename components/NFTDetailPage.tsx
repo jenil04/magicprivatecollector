@@ -127,7 +127,6 @@ const NFTDetailPage = (props: {
             /* display blurred dummy if is not owned */
             :
             <>
-            {/* @TODO text is real blurred with css; image is direct from unsplash and then additionally blurred */}
               <div className="-mt-4 select-none" style={{color: 'transparent', textShadow: 'rgba(255, 255, 255, 0.95) 0px 0px 20px'}}>
                 <p className="text-3xl font-semibold">
                   Lorem ipsum dolor sit amet.
