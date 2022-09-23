@@ -98,7 +98,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
 
     // const chainId = await window.ethereum?.request({ method: 'eth_chainId' });
 
-    let url = 'https://ap4ic1f999.execute-api.us-east-1.amazonaws.com/api/nfts';
+    let url = `https://${process.env.NEXT_PUBLIC_MPC_AWS_ENDPOINT}.execute-api.us-east-1.amazonaws.com/api/nfts`;
 
     if (account && account !== '') {
       url = `${url}?address=${account}`;
