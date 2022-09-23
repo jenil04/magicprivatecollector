@@ -12,7 +12,7 @@ contract PrivateNFT is ERC1155Supply {
     // address payable deployerAddress;
 
     constructor() ERC1155("https://magicprivatecollector.com/metadata/polygon/mpc/{id}.json") {
-
+        
         // deployerAddress = payable(msg.sender);
     }
 
@@ -27,6 +27,8 @@ contract PrivateNFT is ERC1155Supply {
         // the person that minted, needs to approve the sale
     }
 
+    
+
     // function getDeployerAddress() public view returns (address){
     //     return deployerAddress;
     // }
@@ -36,11 +38,11 @@ contract PrivateNFT is ERC1155Supply {
     // }
 
 
-    function executeSale(address from, address to, uint256 tokenId) public payable {
-       // payable(from).transfer(price);
+    function executeSale(address seller, address buyer, uint256 tokenId) public payable {
+      // payable(seller).transfer(price);
 
         //Actually transfer the token to the new owner
-        _safeTransferFrom(from, to, tokenId, 1, '0x');
+        _safeTransferFrom(seller, buyer, tokenId, 1, '0x');
       
     }
     
