@@ -30,6 +30,8 @@ provider:
     MPC_NFT_TABLE: ${env:MPC_NFT_TABLE}-${opt:stage, self:provider.stage}
     MPC_ADDRESS_TABLE: ${env:MPC_ADDRESS_TABLE}-${opt:stage, self:provider.stage}
     APIKEY: ${env:APIKEY}-${opt:stage, self:provider.stage}
+    QUICKNODE_PROVIDER: ${env:QUICKNODE_PROVIDER}-${opt:stage, self:provider.stage}
+    QUICKNODE_APIKEY: ${env:QUICKNODE_APIKEY}-${opt:stage, self:provider.stage}
 
   apiGateway:
     shouldStartNameWithService: true
@@ -67,6 +69,14 @@ functions:
       - httpApi:
           method: post
           path: /api/sale
+  private:
+    handler: backend/api/private.privateApi
+    description: Show Private Content NFT
+    timeout: 10
+    events:
+      - httpApi:
+          method: post
+          path: /api/private
   nfts:
     handler: backend/api/nfts.nftsApi
     description: Get all private NFTs minted on our platform and if they belong to an address

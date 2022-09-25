@@ -18,6 +18,11 @@ S3_UPLOAD_SECRET=AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA
 S3_UPLOAD_BUCKET=name-of-s3-bucket
 S3_UPLOAD_REGION=bucket-region-us-east-1
 
+## Configure Quicknode
+QUICKNODE_PROVIDER=
+QUICKNODE_APIKEY=
+
+
 ## Smart contract folders
 We would prefer to move all the smart contract development files to it's own repository but for this hackathon we will keep it all in here.
 This is a list of folders and files used for smart contract and should be ignored by frontend:
