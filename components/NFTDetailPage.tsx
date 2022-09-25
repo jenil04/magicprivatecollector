@@ -5,8 +5,7 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { abi } from '../data/abi';
 import { useRouter } from 'next/router';
-import { hashMessage } from "ethers/lib/utils";
-import { ownerOfNFT } from "../backend/api/nft";
+
 
 const NFTDetailPage = (props: {
   nft: NFT, isConnected: boolean;
@@ -39,7 +38,7 @@ const NFTDetailPage = (props: {
       const result = await contract.showPrivateContent(Number(tokenId), { gasLimit: 10152132 });
 
       result.wait().then(async function  (receipt: any) {
-        console.log('sale result: ', receipt);
+        console.log('private result: ', receipt);
 
         // this call still needs to be secured of course! To make sure that the person calling
         // really is the address logged in right now.
@@ -59,8 +58,6 @@ const NFTDetailPage = (props: {
           });
 
         console.log(backendResult);
-
-
 
       });
 
@@ -149,10 +146,15 @@ const NFTDetailPage = (props: {
             </p>
 
             {/* BUY NOW button section */}
-            {/* show nothing if are connected and don't own it */}
+            {/* show private content  */}
             {isConnected && isOwned ?
               <div className="my-4"></div>
-              : ''}
+              : <div className="my-4">
+              <button onClick={ev => showPrivateContent(nft.tokenId)} 
+              className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">
+                SHOW PRIVATE CONTENT
+              </button>
+            </div>}
 
             {/* enabled buy button only if are connected and don't own it */}
             {isConnected && !isOwned ?
