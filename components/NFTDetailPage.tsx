@@ -5,8 +5,7 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { abi } from '../data/abi';
 import { useRouter } from 'next/router';
-import { hashMessage } from "ethers/lib/utils";
-import { ownerOfNFT } from "../backend/api/nft";
+
 
 const NFTDetailPage = (props: {
   nft: NFT, isConnected: boolean;
@@ -22,7 +21,7 @@ const NFTDetailPage = (props: {
 
   const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
 
-  const showPrivateContent = async (tokenId: string) => {
+  const showPrivateContent = async (tokenId: string, tokenAddress: string) => {
     if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
       // in order to see the private content we make a request to the smart contract
       // and get a transaction hash. The smart contract makes sure this address still owns the NFT.
@@ -36,10 +35,10 @@ const NFTDetailPage = (props: {
 
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      const result = await contract.showPrivateContent(Number(tokenId), { gasLimit: 10152132 });
-
+      const result = await contract.showPrivateContent( { gasLimit: 10152132 });
+      
       result.wait().then(async function  (receipt: any) {
-        console.log('sale result: ', receipt);
+        console.log('private result: ', receipt);
 
         // this call still needs to be secured of course! To make sure that the person calling
         // really is the address logged in right now.
@@ -50,6 +49,8 @@ const NFTDetailPage = (props: {
           {
             tx: receipt.hash,
             address,
+            tokenId,
+            tokenAddress
 
           },
           {
@@ -59,8 +60,6 @@ const NFTDetailPage = (props: {
           });
 
         console.log(backendResult);
-
-
 
       });
 
@@ -149,7 +148,7 @@ const NFTDetailPage = (props: {
             </p>
 
             {/* BUY NOW button section */}
-            {/* show nothing if are connected and don't own it */}
+            {/* show private content  */}
             {isConnected && isOwned ?
               <div className="my-4"></div>
               : ''}

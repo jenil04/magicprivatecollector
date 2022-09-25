@@ -21,8 +21,10 @@ contract PrivateNFT is ERC1155Supply {
     }
 
     
-    function showPrivateContent(uint256 tokenId) public {
+    // function showPrivateContent(uint256 tokenId) public pure returns (bool){
+    function showPrivateContent() public pure returns (bool){
         // make sure caller is owner of this token
+        // TODO
         // return true or false
         return true;
     }
@@ -34,4 +36,4 @@ contract PrivateNFT is ERC1155Supply {
         _safeTransferFrom(seller, buyer, tokenId, 1, '0x');
       
     }
-    
+}   
