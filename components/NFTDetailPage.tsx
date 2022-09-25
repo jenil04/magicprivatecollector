@@ -5,6 +5,8 @@ import { ethers } from "ethers";
 import axios from "axios";
 import { abi } from '../data/abi';
 import { useRouter } from 'next/router';
+import { hashMessage } from "ethers/lib/utils";
+import { ownerOfNFT } from "../backend/api/nft";
 
 const NFTDetailPage = (props: {
   nft: NFT, isConnected: boolean;
@@ -16,8 +18,55 @@ const NFTDetailPage = (props: {
   const isOwned = nft.isOwner;
 
   const router = useRouter();
+  
 
   const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
+
+  const showPrivateContent = async (tokenId: string) => {
+    if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
+      // in order to see the private content we make a request to the smart contract
+      // and get a transaction hash. The smart contract makes sure this address still owns the NFT.
+      // Once the transaction is confirmed we sent this to the backend. The backend will also check if the transaction was done by the owner
+      // and was successful we are using the transaction hash for this because it is upredictable and unique
+      // the call is also necessary to ensure that this address still owns the NFT!
+      const provider = new ethers.providers.Web3Provider(window.ethereum as any);
+      const signer = provider.getSigner();
+      // the person that is currently logged into metamask
+      const address = await signer.getAddress();
+
+      const contract = new ethers.Contract(contractAddress, abi, signer);
+
+      const result = await contract.showPrivateContent(Number(tokenId), { gasLimit: 10152132 });
+
+      result.wait().then(async function  (receipt: any) {
+        console.log('sale result: ', receipt);
+
+        // this call still needs to be secured of course! To make sure that the person calling
+        // really is the address logged in right now.
+        // the private content is now sent back. This call only works once!
+        // if you want to see the content again, you will need to make another request
+
+        const backendResult = await axios.post(`https://${process.env.NEXT_PUBLIC_MPC_AWS_ENDPOINT}.execute-api.us-east-1.amazonaws.com/api/private`,
+          {
+            tx: receipt.hash,
+            address,
+
+          },
+          {
+            headers: {
+              'Accept': 'application/json',
+            }
+          });
+
+        console.log(backendResult);
+
+
+
+      });
+
+    }
+    // send to smart contract and get tx
+  }
 
   const buyNFT = async (tokenAddress: string, tokenId: string, owner: string) => {
     if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
