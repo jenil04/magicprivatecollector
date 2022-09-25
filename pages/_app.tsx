@@ -24,6 +24,8 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   const onboarding = useRef<MetaMaskOnboarding>();
   const [nfts, setNFTs] = useState({} as NFTLIST);
 
+  
+
   const clearAccount = () => {
 
     if (!window.ethereum || !window.ethereum.selectedAddress || window.ethereum.selectedAddress === '') {
@@ -36,6 +38,7 @@ export default function MyApp({ Component, pageProps }: AppProps) {
   }
 
   useEffect(() => {
+    handleNewAccounts('');
     if (MetaMaskOnboarding.isMetaMaskInstalled()) {
       if (window.ethereum?.selectedAddress || (account !== '' && onboarding.current)) {
 

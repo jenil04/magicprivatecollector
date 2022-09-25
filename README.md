@@ -1,4 +1,13 @@
 # magicprivatecollector
+We are enabling users to create NFTs with private content.
+This private content can only be accessed by the owner(s) of the NFT.
+We are accomplishing this by:
+1. A user buys an NFT with private content. The NFT is then transferred to her wallet.
+2. Whenever she wants to see the private content, she needs to log into Metamask and sign a transaction. This transaction is calling a function in our smart contract called showPrivateContent(tokenId)
+3. The smart contract verifies that this NFT is still owned by this address and sends back true or false.
+4. The frontend receives the transaction hash and the information if the address still owns the NFT. It then waits until the transaction is confirmed on the blockchain.
+5. It then sends a request to our backend with the transaction hash, tokenId and address. The backend verifies individually that this transaction has been made, was successful, is valid and has been performed in a timely manner (seconds ago). It then sends the private content and one time private content url to the frontend. This content is now visible in the current frontend session. Once the frontend session is destroyed, the content is gone. The post request can only be used once. The backend keeps track of expired transaction hashes in order to prevent from delivering the content multiple times (this might not be necessary, because the timestamp might be enough for this).
+
 
 ## Configure image upload
 Make sure to create this file on your local:
