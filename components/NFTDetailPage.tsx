@@ -21,7 +21,7 @@ const NFTDetailPage = (props: {
 
   const contractAddress = process.env.NEXT_PUBLIC_MPC_CONTRACT_ADDRESS as string | '';
 
-  const showPrivateContent = async (tokenId: string) => {
+  const showPrivateContent = async (tokenId: string, tokenAddress: string) => {
     if (window.ethereum && await window.ethereum.request({ method: 'eth_requestAccounts' })) {
       // in order to see the private content we make a request to the smart contract
       // and get a transaction hash. The smart contract makes sure this address still owns the NFT.
@@ -35,8 +35,8 @@ const NFTDetailPage = (props: {
 
       const contract = new ethers.Contract(contractAddress, abi, signer);
 
-      const result = await contract.showPrivateContent(Number(tokenId), { gasLimit: 10152132 });
-
+      const result = await contract.showPrivateContent( { gasLimit: 10152132 });
+      
       result.wait().then(async function  (receipt: any) {
         console.log('private result: ', receipt);
 
@@ -49,6 +49,8 @@ const NFTDetailPage = (props: {
           {
             tx: receipt.hash,
             address,
+            tokenId,
+            tokenAddress
 
           },
           {
@@ -149,12 +151,7 @@ const NFTDetailPage = (props: {
             {/* show private content  */}
             {isConnected && isOwned ?
               <div className="my-4"></div>
-              : <div className="my-4">
-              <button onClick={ev => showPrivateContent(nft.tokenId)} 
-              className="inline-flex items-center justify-center px-5 py-3 border-2 border-mwt text-base font-medium rounded-md text-white bg-mwt hover:border-gray-800">
-                SHOW PRIVATE CONTENT
-              </button>
-            </div>}
+              : ''}
 
             {/* enabled buy button only if are connected and don't own it */}
             {isConnected && !isOwned ?
